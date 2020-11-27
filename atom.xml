@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-CN">
     <title type="text">懒癌正患者</title>
     <subtitle type="html">MemE 是一个强大且可高度定制的 GoHugo 博客主题，专为个人博客设计。</subtitle>
-    <updated>2020-11-28T00:46:47&#43;08:00</updated>
+    <updated>2020-11-28T00:57:35&#43;08:00</updated>
     <id>http://example.org/</id>
     <link rel="alternate" type="text/html" href="http://example.org/" />
     <link rel="self" type="application/atom&#43;xml" href="http://example.org/atom.xml" />
@@ -16,6 +16,423 @@
             </author>
     <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights>
     <generator uri="https://gohugo.io/" version="0.76.4">Hugo</generator>
+        <entry>
+            <title type="text">上下文无关语法</title>
+            <link rel="alternate" type="text/html" href="http://example.org/posts/%E4%B8%8A%E4%B8%8B%E6%96%87%E6%97%A0%E5%85%B3%E8%AF%AD%E6%B3%95/" />
+            <id>http://example.org/posts/%E4%B8%8A%E4%B8%8B%E6%96%87%E6%97%A0%E5%85%B3%E8%AF%AD%E6%B3%95/</id>
+            <updated>2020-11-28T00:54:41&#43;08:00</updated>
+            <published>2020-11-28T00:51:39&#43;08:00</published>
+            
+            <summary type="html">最近打算静下心来看Go 语言设计与实现，刚看到语法分析时被上下文无关文法给迷惑了，于是有了这篇文章 上下文无关语 一个程序就是一个句子（字符串），语言就是一个句子集合。那么如何准确的表示这个集合？用枚举法？显然不行，这个集合可能包含了无限多个元素。用特性法？那应该如何精确的描述这个集合的特性？ 编译的第一个任务就是判断给定的句子是否属于这个集合，因此必须提供一个精确的、可操作的描述来表示这集合。如 ” C 语言就是所有能编译成功的源程序的集合” 这样的描述是无法操作的，对任意的源程序显然无法用这个描述来判断其是……</summary>
+            
+                <content type="html">&lt;p&gt;最近打算静下心来看&lt;a href=&#34;https://draveness.me/golang/&#34;&gt;Go 语言设计与实现&lt;/a&gt;，刚看到语法分析时被&lt;a href=&#34;https://en.wikipedia.org/wiki/Context-free_grammar&#34;&gt;上下文无关文法&lt;/a&gt;给迷惑了，于是有了这篇文章&lt;/p&gt;
+&lt;h3 id=&#34;上下文无关语&#34;&gt;上下文无关语&lt;/h3&gt;
+&lt;p&gt;一个程序就是一个句子（字符串），语言就是一个句子集合。那么如何准确的表示这个集合？用枚举法？显然不行，这个集合可能包含了无限多个元素。用特性法？那应该如何精确的描述这个集合的特性？&lt;/p&gt;
+&lt;p&gt;编译的第一个任务就是判断给定的句子是否属于这个集合，因此必须提供一个精确的、可操作的描述来表示这集合。如 ” C 语言就是所有能编译成功的源程序的集合” 这样的描述是无法操作的，对任意的源程序显然无法用这个描述来判断其是否属于 C 语言这个句子集合。&lt;/p&gt;
+&lt;p&gt;一个正则表达式可以用来表示一个句子集合（正则语言），且每个正则表达式都可以构造出有限状态自动机来判断任意的句子是否属于这个句子集合。因此，用正则表达式来表示正则语言是精确的、可操作的。&lt;/p&gt;
+&lt;p&gt;那么，可以用正则表达式来表示程序语言（比如 C 语言）所代表的句子集合吗？&lt;/p&gt;
+&lt;p&gt;很遗憾，答案是否定的。正则表达式毕竟太简单了，无法来表示程序语言这样复杂级别的句子集合。&lt;/p&gt;
+&lt;p&gt;为了表示程序语言的句子集合，需要采用表达能力更强大的工具 —— &lt;strong&gt;上下文无关语法（context-free grammar）&lt;/strong&gt; 。&lt;/p&gt;
+&lt;p&gt;下面以一个简单的例子来说明什么是上下文无关语法，假设有一种非常非常原始的语言，我们把它成为 X 语言，它的句子只有： &lt;strong&gt;主语&lt;/strong&gt; &lt;strong&gt;谓语&lt;/strong&gt; &lt;strong&gt;宾语&lt;/strong&gt; 这样一种结构， &lt;strong&gt;主语&lt;/strong&gt; 中只有 &lt;strong&gt;我、 你、 他&lt;/strong&gt; 三个词， &lt;strong&gt;谓语&lt;/strong&gt; 中只有 &lt;strong&gt;吃&lt;/strong&gt; 一个词， &lt;strong&gt;宾语&lt;/strong&gt; 中只有 &lt;strong&gt;饭、菜&lt;/strong&gt; 两个词。我们把它的语法写出下面这样的形式：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;语句 -&amp;gt; 主语 谓语 宾语
+主语 -&amp;gt; 我
+主语 -&amp;gt; 你
+主语 -&amp;gt; 他
+谓语 -&amp;gt; 吃
+宾语 -&amp;gt; 饭
+宾语 -&amp;gt; 菜
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;可以看出， X 语言总共只有 6 个句子： { 我吃饭, 我吃菜, ..., 他吃菜 }。也就是说，我们可以用上面这个语法来表示 X 语言这个集合，我们可以从第一行的 “语句 -&amp;gt; 主语 谓语 宾语” 开始，分别将主、谓、宾替换成可用的词，从而将所有满足语法的句子都推导出来。对于任意一个句子，我们也可以将句子和此语法来对比，判断它是否属于满足 X 语言。&lt;/p&gt;
+&lt;p&gt;上面这个语法中的每一行形如 “语句 -&amp;gt; 主语 谓语 宾语” 的式子称为 &lt;strong&gt;产生式（production）&lt;/strong&gt; 。&lt;/p&gt;
+&lt;p&gt;产生式左侧的符号（语句、主语、谓语和宾语）称为 &lt;strong&gt;非终结符（nonterminal）&lt;/strong&gt; ，代表可以继续扩展或产生的符号，也就是说，当在某条产生式的右边遇到了此非终结符的时候，总是可以用本产生式的右边来替换这个非终结符。&lt;/p&gt;
+&lt;p&gt;而 “我、你、他、吃、饭、菜” 这些符号是 X 语言中的词，无法再产生新的符号了，称为 &lt;strong&gt;终结符（terminal）&lt;/strong&gt; 。终结符只能出现在产生式的右边，非终结符则左边和右边都可以出现。&lt;/p&gt;
+&lt;p&gt;上述产生式中有一个特别的非终结符： “语句” ， X 语言中的所有句子都以它为起点产生，这个符号被称为 &lt;strong&gt;起始符号（start&lt;/strong&gt; &lt;strong&gt;symbol）&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;通常把同一个非终结符的产生式写在一起，用 &lt;strong&gt;“|”&lt;/strong&gt; 隔开，如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;语句 -&amp;gt; 主语 谓语 宾语
+主语 -&amp;gt; 我 | 你 | 他
+谓语 -&amp;gt; 吃
+宾语 -&amp;gt; 饭 | 菜
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;注意，上面的第二行中有 3 个产生式，第四行中有 2 个产生式。&lt;/p&gt;
+&lt;p&gt;一个上下文无关语法 G 就是由一个终结符集合 T ，一个非终结符集合 N （ N 和 T 不相交），一个产生式集合 P ，以及一个起始符号 S （S ∈ N）组成。由语法 G 推导（产生）出来的所有的句子的集合称为 G 语言。因此一个语法可以代表一个句子集合，也就是一个语言。&lt;/p&gt;
+&lt;p&gt;终结符和非终结符统称为符号，符号一般用字母 A, B, X, Y, a, b 表示，符号串一般用小写字母 u, v 表示。产生式的形式为 A -&amp;gt; u ，其中 A 为非终结符， u 为一个符号串。&lt;/p&gt;
+&lt;p&gt;下面再来看一个例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;S –&amp;gt; AB
+A –&amp;gt; aA | ε
+B –&amp;gt; b | bB
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这里面的第二行中的 &lt;strong&gt;ε&lt;/strong&gt; 表示一个空句子，表示 A 可以用一个空句子来代替。&lt;/p&gt;
+&lt;p&gt;经过观察可知，这个语法所能推导出的所有句子的集合为：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;A : { ε, a, aa, aaa, ... }
+B : { b, bb, bbb, ... }
+S : { b, bb, bbb, ..., ab, abb, ..., aab, aabb, ... }
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;因此 S 相当于正则表达式 &lt;strong&gt;a*b+&lt;/strong&gt; 。&lt;/p&gt;
+&lt;p&gt;再来看一个稍微复杂的例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Expr -&amp;gt; Expr op Expr | (Expr) | number
+op   -&amp;gt; + - * /
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;其中的 number 是词法分析得到的一个 token ，它在词法分析中用正则表达式 &lt;strong&gt;[0-9]+&lt;/strong&gt; 表示。&lt;/p&gt;
+&lt;p&gt;经过观察可知，此语法可以推导出所有的整数算术表达式：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Expr : { 123, 25 + 24, 78 - 34, 12 * ( 23 + 9 ), ... }
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;可以看出，上下文无关文法可以采用递归的形式推导，比正则表达式的表达能力要强大的多。&lt;/p&gt;
+&lt;p&gt;下面给出上下文本无关语法及相关术语的正式定义：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;终结符集合 T （terminal set）&lt;/strong&gt; ： 一个有限集合，其元素称为 &lt;strong&gt;终结符（terminal）&lt;/strong&gt; 。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;非终结符集合 N （non-terminal set)&lt;/strong&gt; ： 一个有限集合，与 T 无公共元素，其元素称为 &lt;strong&gt;非终结符（non-terminal）&lt;/strong&gt; 。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;符号集合 V （alphabet）&lt;/strong&gt; ： T 和 N 的并集，其元素称为 &lt;strong&gt;符号（symbol）&lt;/strong&gt; 。因此终结符和非终结符都是符号。符号可用字母：A, B, C, X, Y, Z, a, b, c 等表示。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;符号串（a string of symbols）&lt;/strong&gt; ： 一串符号，如 X1 X2 ... Xn 。只有终结符的符号串称为 &lt;strong&gt;句子（sentence）&lt;/strong&gt;。 &lt;strong&gt;空串&lt;/strong&gt; （不含任何符号）也是一个符号串，用 &lt;strong&gt;ε&lt;/strong&gt; 表示。符号串一般用小写字母 u, v, w 表示。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;产生式（production）&lt;/strong&gt; ： 一个描述符号串如何转换的规则。对于上下文本无关语法，其固定形式为： A -&amp;gt; u ，其中 A 为非终结符， u 为一个符号串。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;产生式集合 P （production set）&lt;/strong&gt; ： 一个由有限个产生式组成的集合。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;展开（expand）&lt;/strong&gt; ： 一个动作：将一个产生式 A -&amp;gt; u 应用到一个含有 A 的符号串 vAw 上，用 u 代替该符号串中的 A ，得到一个新的符号串 vuw 。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;折叠（reduce）&lt;/strong&gt; ： 一个动作：将一个产生式 A -&amp;gt; u 应用到一个含有 u 的符号串 vuw 上，用 A 代替该符号串中的 u ，得到一个新的符号串 vAw 。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;起始符号 S （start symbol）&lt;/strong&gt; ： N 中的一个特定的元素。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推导（derivate）&lt;/strong&gt; ： 一个过程：从一个符号串 u 开始，应用一系列的产生式，展开到另一个的符号串 v。若 v 可以由 u 推导得到，则可写成： u =&amp;gt; v 。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;上下文本无关语法 G （context-free grammar, CFG）&lt;/strong&gt; ： 一个 4 元组： (T, N, P, S) ，其中 T 为终结符集合， N 为非终结符集合， P 为产生式集合， S 为起始符号。一个句子如果能从语法 G 的 S 推导得到，可以直接称此句子由语法 G 推导得到，也可称此句子符合这个语法，或者说此句子属于 G 语言。 &lt;strong&gt;G 语言（ G language）&lt;/strong&gt; 就是语法 G 推导出来的所有句子的集合，有时也用 G 代表这个集合。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;解析（parse）&lt;/strong&gt; ： 也称为分析，是一个过程：给定一个句子 s 和语法 G ，判断 s 是否属于 G ，如果是，则找出从起始符号推导得到 s 的全过程。推导过程中的任何符号串（包括起始符号和最终的句子）都称为 &lt;strong&gt;中间句子（working string）&lt;/strong&gt; 。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;为什么要把这种语法称为上下文本无关语法呢？这是由其产生式的固定形式 A -&amp;gt; u 所决定的，事实上，还有所谓的上下文有关语法，其产生式的形式为 v A w -&amp;gt; v u w ，也就是说只有 A 的上下文分别为 v 和 w 时，才能应用该产生式。上下文本无关语法其实是上下文有关语法中的一种特例，也就是 v 和 w 分别为空串时的特例。&lt;/p&gt;
+&lt;h3 id=&#34;分析树和抽象语法树&#34;&gt;分析树和抽象语法树&lt;/h3&gt;
+&lt;p&gt;语法分析不但要判断给定的句子是否符合语法结构，而且还要分析出该句子符合哪些结构，也就是说，要分析出这个句子是怎么从起始符号开始产生出来的，并根据产生过程生成语法树。如，对于 “我吃饭” 这句话，只有我们知道了 主语、谓语和宾语 分别对应的是那个词，我们才能真正理解这句话的含义。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://example.org/%E4%B8%8A%E4%B8%8B%E6%96%87%E6%97%A0%E5%85%B3%E8%AF%AD%E6%B3%95/syntax_1.png&#34; alt=&#34;img&#34;&gt;&lt;/p&gt;
+&lt;p&gt;以上一节表达式语法为例，给定一个句子 12 + 53 ，经过观察，发现此句子可以按以下方式被推导出来：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Expr ==&amp;gt; Expr + Expr ==&amp;gt; number + Expr ==&amp;gt; number + number ==&amp;gt; 12 + 53
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;以上推导过程可以用分析树来表示：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://example.org/%E4%B8%8A%E4%B8%8B%E6%96%87%E6%97%A0%E5%85%B3%E8%AF%AD%E6%B3%95/syntax_2.png&#34; alt=&#34;images/syntax_2.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;再看一个稍微长的句子： 12 + ( 53 - 7 ) ，其分析树如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://example.org/%E4%B8%8A%E4%B8%8B%E6%96%87%E6%97%A0%E5%85%B3%E8%AF%AD%E6%B3%95/syntax_3.png&#34; alt=&#34;images/syntax_3.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;可以去掉此分析树中一些多余的节点，并进一步浓缩，得到抽象语法树：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://example.org/%E4%B8%8A%E4%B8%8B%E6%96%87%E6%97%A0%E5%85%B3%E8%AF%AD%E6%B3%95/syntax_4.png&#34; alt=&#34;images/syntax_4.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;对于这种树状结构，可以采用递归的方式加以分析，从而生成目标代码。&lt;/p&gt;
+&lt;p&gt;再看一个句子： 12 + 53 * 7 ，这时候问题来了，我们发现它可以由两种不同的方式推导出来：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://example.org/%E4%B8%8A%E4%B8%8B%E6%96%87%E6%97%A0%E5%85%B3%E8%AF%AD%E6%B3%95/syntax_5.png&#34; alt=&#34;images/syntax_5.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;这就是语法的歧义性，所谓 &lt;strong&gt;歧义（ambiguity）&lt;/strong&gt;，就是指对于一个符合语法结构的句子，它可以由两种不同的方式被推导出来。如果一个语法中，任何一个句子的推导方式都是唯一的，那这个语法就被称为是 &lt;strong&gt;没有歧义&lt;/strong&gt; 的。显然，程序语言必须是没有歧义的，对于上面的表达式，我们肯定希望它只能按后一种方式被推导。&lt;/p&gt;
+&lt;p&gt;消除歧义的方法之一是改写语法，将有歧义的产生式改写成无歧义的，这种改写非常困难，而且改写后的产生式往往和原产生式相差很大，可读性非常差。另一种方法就是引入 &lt;strong&gt;优先级&lt;/strong&gt; ，不需要改写语法，当推导过程中出现歧义的时候（也就是出现两种不同的推导方式的时候），利用符号的优先级来选择需要的推导方式&lt;/p&gt;
+&lt;h3 id=&#34;分析方法简介&#34;&gt;分析方法简介&lt;/h3&gt;
+&lt;p&gt;对于一个给定的语法 G ，从中推导出一个任意的句子是比较简单和直接的，但需要推导出指定的句子（或者说给定一个句子、要分析出它是怎么从起始符号开始推导得到的）就没那么简单了，这就是语法分析的任务。分析可以采用 &lt;strong&gt;自顶向下分析&lt;/strong&gt; 或 &lt;strong&gt;自底向上分析&lt;/strong&gt; 两种方法，以下先简单介绍这两种方法的思路，之后在下一章和下下一章分别详细介绍它们的具体实现步骤。&lt;/p&gt;
+&lt;h4 id=&#34;自顶向下分析&#34;&gt;自顶向下分析&lt;/h4&gt;
+&lt;p&gt;自顶向下分析就是从起始符号开始，不断的挑选出合适的产生式，将中间句子中的非终结符的展开，最终展开到给定的句子。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;S –&amp;gt; AB
+A –&amp;gt; aA | ε
+B –&amp;gt; b | bB
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;假设要分析的句子为： aaab ，首先从起始符号 S 开始。&lt;/p&gt;
+&lt;p&gt;第 1 步，起始符号只有一个产生式： S -&amp;gt; AB ，所以只能选择这个产生式，用这个产生式的右边代替 S ，于是得到一个中间句子 AB ，将选择的产生式和得到中间句子（working-string）写成列表的形式，如下：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;Working-string&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;Production&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;S&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;S –&amp;gt; AB&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;AB&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;第 2 步，从 AB 开始，首先展开 A ， A 有两个产生式： A -&amp;gt; aA, A -&amp;gt; ε ，我们对比一下最终句子 aaab 和 目前得到的中间句子 AB ，发现只能选择 A -&amp;gt; aA ，否则将无法推导出 aaab 。因此选择这个产生式，将其右边替换掉中间句子 AB 中的 A ，于是得到中间句子 aAB ：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;Working-string&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;Production&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;S&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;S –&amp;gt; AB&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;AB&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;A –&amp;gt; aA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;aAB&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;继续尝试展开 aAB 中的 A ，再次对比发现，还是只能选择产生式 A -&amp;gt; aA ，得到：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;Working-string&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;Production&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;S&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;S –&amp;gt; AB&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;AB&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;A –&amp;gt; aA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;aAB&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;A –&amp;gt; aA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;aaAB&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;再次应用产生式 A -&amp;gt; aA ，得到：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;Working-string&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;Production&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;S&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;S –&amp;gt; AB&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;AB&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;A –&amp;gt; aA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;aAB&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;A –&amp;gt; aA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;aaAB&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;A –&amp;gt; aA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;aaaAB&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;到了这里，可以发现只能使用 A -&amp;gt; ε （否则无法得到 aaab ），应用此产生式后得到：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;Working-string&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;Production&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;S&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;S –&amp;gt; AB&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;AB&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;A –&amp;gt; aA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;aAB&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;A –&amp;gt; aA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;aaAB&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;A –&amp;gt; aA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;aaaAB&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;A -&amp;gt; ε&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;aaaB&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;第 3 步，从 aaaB 开始，按上面同样的原则尝试展开 B ，最终得到：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;Working-string&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;Production&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;S&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;S –&amp;gt; AB&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;AB&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;A –&amp;gt; aA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;aAB&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;A –&amp;gt; aA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;aaAB&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;A –&amp;gt; aA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;aaaAB&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;A -&amp;gt; ε&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;aaaB&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;B -&amp;gt; b&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;aaab&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;strong&gt;ACCEPT&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;自底向上分析&#34;&gt;自底向上分析&lt;/h4&gt;
+&lt;p&gt;自底向上分析的顺序和自顶向下分析的顺序刚好相反，从给定的句子开始，不断的挑选出合适的产生式，将中间句子中的子串折叠为非终结符，最终折叠到起始符号。&lt;/p&gt;
+&lt;p&gt;还是以上面的语法为例，分析的句子还是： aaab 。但先将这个语法改写一下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;S –&amp;gt; AB
+A –&amp;gt; Aa | ε
+B –&amp;gt; b | bB
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;首先从最终句子 aaab 开始。从左边第一个字符 a 开始，对比语法中的所有产生式，发现没有一个产生式的右边可以完全匹配。但经过仔细观察和思考发现：可以尝试在 aaab 的最前面插入一个空句子 ε ，接下来可以应用 A -&amp;gt; ε ，之后再应用 A -&amp;gt; Aa， ... 。因此先插入空句子，得到中间句子 εaaab ，如下：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;Working-string&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;Production&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;aaab&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;insert(ε)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;εaaab&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;此时，中间句子的最左边 ε 可以和 A -&amp;gt; ε 匹配了，因此，我们应用这个产生式，将 ε 折叠为 A ，得到 Aaaab ：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;Working-string&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;Production&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;aaab&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;insert(ε)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;εaaab&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;A -&amp;gt; ε&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Aaaab&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;再观察中间句子 Aaaab ，发现它的最前面的 Aa 可以和 A -&amp;gt; Aa 匹配上，且只能和这个产生式匹配上，因此应用此产生式，将 Aa 折叠为 A ，得到 Aaab ：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;Working-string&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;Production&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;aaab&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;insert(ε)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;εaaab&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;A -&amp;gt; ε&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Aaaab&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;A -&amp;gt; Aa&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Aaab&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;按以上原则，一步一步的将中间句子的子串折叠为非终结符，最终折叠到起始符号 S ，过程如下：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;Working-string&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;Production&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;aaab&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;insert(ε)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;εaaab&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;A -&amp;gt; ε&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Aaaab&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;A -&amp;gt; Aa&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Aaab&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;A -&amp;gt; Aa&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Aab&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;A -&amp;gt; Aa&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Ab&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;B -&amp;gt; b&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;AB&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;S -&amp;gt; AB&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;S&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;strong&gt;ACCEPT&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="http://example.org/categories/golang/" term="Golang" label="Golang" />
+                            
+                        
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="http://example.org/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" term="编译原理" label="编译原理" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
         <entry>
             <title type="text">计数器设计</title>
             <link rel="alternate" type="text/html" href="http://example.org/posts/%E8%AE%A1%E6%95%B0%E5%99%A8%E8%AE%BE%E8%AE%A1/" />
