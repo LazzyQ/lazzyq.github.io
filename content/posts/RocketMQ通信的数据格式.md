@@ -2,7 +2,6 @@
 title: "RocketMQ通信的数据格式"
 date: 2020-11-27T22:17:01+08:00
 draft: false
-original: true
 categories: 
   - "中间件"
 tags: 

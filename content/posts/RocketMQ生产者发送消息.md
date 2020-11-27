@@ -2,7 +2,6 @@
 title: "RocketMQ生产者发送消息"
 date: 2020-11-27T22:31:12+08:00
 draft: false
-original: true
 categories: 
   - "中间件"
 tags: 

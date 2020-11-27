@@ -2,7 +2,6 @@
 title: "RocketMQ Broker启动流程"
 date: 2020-11-27T22:38:54+08:00
 draft: false
-original: true
 categories: 
   - "中间件"
 tags: 

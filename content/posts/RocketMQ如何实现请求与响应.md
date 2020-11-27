@@ -2,7 +2,6 @@
 title: "RocketMQ如何实现请求与响应"
 date: 2020-11-27T22:35:02+08:00
 draft: false
-original: true
 categories: 
   - "中间件"
 tags: 
