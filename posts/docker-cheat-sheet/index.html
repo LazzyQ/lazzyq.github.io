@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
+    <meta charset="UTF-8" />
+
+    <meta name="generator" content="Hugo 0.76.4" /><meta name="theme-color" content="#fff" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <title>Docker Cheat Sheet | 懒癌正患者</title>
+
+    <link rel="stylesheet" href="/css/meme.min.5ffbac76661fdb45be02a32d3531a643384f1f44f9a3e37558aeed5fd98a3b1f.css"/>
+
+    
+    
+        <script src="/js/meme.min.434274bb2302fe029f98d3d29ae57dab1566be565436f52a6dd93089085533c4.js"></script>
+
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB&#43;Garamond:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Noto&#43;Serif&#43;SC:wght@400;500;700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" media="print" onload="this.media='all'" />
+        <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB&#43;Garamond:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Noto&#43;Serif&#43;SC:wght@400;500;700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" /></noscript>
+
+    <meta name="author" content="懒癌正患者" /><meta name="description" content="为何使用 Docker 「通过 Docker，开发者可以使用任何语言任何工具创建任何应用。“Dockerized” 的应用是完全可移植的，能在任何地方运行 - 不管是同事的 OS X 和 Windows 笔记本，或是在云端运行的 Ubuntu QA 服务，还是在虚拟机运行的 Red Hat 产品数据中心。
+Docker Hub 上有 13000&#43; 的应用，开发者可以从中选取一个进行快速扩展开发。Docker 跟踪管理变更和依赖关系，让系统管理员能更容易理解开发人员是如何让应用运转起来的。而开发者可以通过 Docker Hub 的共有/私有仓库，构建他们的自动化编译，与其他合作者共享成果。
+Docker 帮助开发者更快地构建和发布高质量的应用。」—— 什么是 Docker
+……" />
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#2a6df4" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="懒癌正患者" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="懒癌正患者" />
+    <meta name="msapplication-starturl" content="../../" />
+    <meta name="msapplication-TileColor" content="#fff" />
+    <meta name="msapplication-TileImage" content="../../icons/mstile-150x150.png" />
+    <link rel="manifest" href="/manifest.json" />
+
+    
+    
+
+    
+    <link rel="canonical" href="http://www.wemeng.top/posts/docker-cheat-sheet/" />
+    
+
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "datePublished": "2020-11-29T00:51:00+08:00",
+        "dateModified": "2020-11-29T00:53:19+08:00",
+        "url": "http://www.wemeng.top/posts/docker-cheat-sheet/",
+        "headline": "Docker Cheat Sheet",
+        "description": "为何使用 Docker 「通过 Docker，开发者可以使用任何语言任何工具创建任何应用。“Dockerized” 的应用是完全可移植的，能在任何地方运行 - 不管是同事的 OS X 和 Windows 笔记本，或是在云端运行的 Ubuntu QA 服务，还是在虚拟机运行的 Red Hat 产品数据中心。\nDocker Hub 上有 13000+ 的应用，开发者可以从中选取一个进行快速扩展开发。Docker 跟踪管理变更和依赖关系，让系统管理员能更容易理解开发人员是如何让应用运转起来的。而开发者可以通过 Docker Hub 的共有/私有仓库，构建他们的自动化编译，与其他合作者共享成果。\nDocker 帮助开发者更快地构建和发布高质量的应用。」—— 什么是 Docker\n……",
+        "inLanguage" : "zh-CN",
+        "articleSection": "posts",
+        "wordCount":  6580 ,
+        "image": "http://www.wemeng.top/icons/apple-touch-icon.png",
+        "publisher": {
+            "@type": "Organization",
+            "name": "懒癌正患者",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "http://www.wemeng.top/icons/apple-touch-icon.png"
+            },
+            "url": "http://www.wemeng.top/"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebSite",
+            "@id": "http://www.wemeng.top/"
+        }
+    }
+</script>
+
+    
+
+<meta name="twitter:card" content="summary" />
+
+<meta name="twitter:site" content="@懒癌正患者" />
+
+    
+
+
+
+<meta property="og:title" content="Docker Cheat Sheet" />
+<meta property="og:description" content="为何使用 Docker 「通过 Docker，开发者可以使用任何语言任何工具创建任何应用。“Dockerized” 的应用是完全可移植的，能在任何地方运行 - 不管是同事的 OS X 和 Windows 笔记本，或是在云端运行的 Ubuntu QA 服务，还是在虚拟机运行的 Red Hat 产品数据中心。
+Docker Hub 上有 13000&#43; 的应用，开发者可以从中选取一个进行快速扩展开发。Docker 跟踪管理变更和依赖关系，让系统管理员能更容易理解开发人员是如何让应用运转起来的。而开发者可以通过 Docker Hub 的共有/私有仓库，构建他们的自动化编译，与其他合作者共享成果。
+Docker 帮助开发者更快地构建和发布高质量的应用。」—— 什么是 Docker
+……" />
+<meta property="og:url" content="http://www.wemeng.top/posts/docker-cheat-sheet/" />
+<meta property="og:site_name" content="懒癌正患者" />
+<meta property="og:locale" content="zh" /><meta property="og:image" content="http://www.wemeng.top/icons/apple-touch-icon.png" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2020-11-29T00:51:00&#43;08:00" />
+    <meta property="article:modified_time" content="2020-11-29T00:53:19&#43;08:00" />
+    
+    <meta property="article:section" content="posts" />
+
+
+
+    
+</head>
+
+    <body>
+        <div class="container">
+            
+    <header class="header">
+        
+            <div class="header-wrapper">
+                <div class="header-inner single">
+                    
+    <div class="site-brand">
+        
+            <a href="/" class="brand">懒癌正患者</a>
+        
+    </div>
+
+                    <nav class="nav">
+    <ul class="menu" id="menu">
+        
+            
+        
+        
+        
+        
+            
+                <li class="menu-item"><a href="/posts/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon archive"><path d="M32 448c0 17.7 14.3 32 32 32h384c17.7 0 32-14.3 32-32V160H32v288zm160-212c0-6.6 5.4-12 12-12h104c6.6 0 12 5.4 12 12v8c0 6.6-5.4 12-12 12H204c-6.6 0-12-5.4-12-12v-8zM480 32H32C14.3 32 0 46.3 0 64v48c0 8.8 7.2 16 16 16h480c8.8 0 16-7.2 16-16V64c0-17.7-14.3-32-32-32z"/></svg><span class="menu-item-name">文章</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/categories/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon th"><path d="M149.333 56v80c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V56c0-13.255 10.745-24 24-24h101.333c13.255 0 24 10.745 24 24zm181.334 240v-80c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.256 0 24.001-10.745 24.001-24zm32-240v80c0 13.255 10.745 24 24 24H488c13.255 0 24-10.745 24-24V56c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24zm-32 80V56c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.256 0 24.001-10.745 24.001-24zm-205.334 56H24c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24zM0 376v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H24c-13.255 0-24 10.745-24 24zm386.667-56H488c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24zm0 160H488c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24zM181.333 376v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24z"/></svg><span class="menu-item-name">分类</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/tags/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" class="icon tags"><path d="M497.941 225.941L286.059 14.059A48 48 0 0 0 252.118 0H48C21.49 0 0 21.49 0 48v204.118a48 48 0 0 0 14.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882 0l204.118-204.118c18.745-18.745 18.745-49.137 0-67.882zM112 160c-26.51 0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882 0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397 0h48.721a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882z"/></svg><span class="menu-item-name">标签</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/about/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon user-circle"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"/></svg><span class="menu-item-name">关于</span></a>
+                </li>
+            
+        
+            
+                
+                    
+                    
+                        <li class="menu-item">
+                            <a id="theme-switcher" href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon theme-icon-light"><path d="M193.2 104.5l48.8-97.5a18 18 0 0128 0l48.8 97.5 103.4 -34.5a18 18 0 0119.8 19.8l-34.5 103.4l97.5 48.8a18 18 0 010 28l-97.5 48.8 34.5 103.4a18 18 0 01-19.8 19.8l-103.4-34.5-48.8 97.5a18 18 0 01-28 0l-48.8-97.5l-103.4 34.5a18 18 0 01-19.8-19.8l34.5-103.4-97.5-48.8a18 18 0 010-28l97.5-48.8-34.5-103.4a18 18 0 0119.8-19.8zM256 128a128 128 0 10.01 0M256 160a96 96 0 10.01 0"/></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon theme-icon-dark"><path d="M27 412a256 256 0 10154-407a11.5 11.5 0 00-5 20a201.5 201.5 0 01-134 374a11.5 11.5 0 00-15 13"/></svg></a>
+                        </li>
+                    
+                
+            
+        
+            
+                
+            
+        
+            
+                
+            
+        
+    </ul>
+</nav>
+
+                    
+                </div>
+            </div>
+            
+    <input type="checkbox" id="nav-toggle" aria-hidden="true" />
+    <label for="nav-toggle" class="nav-toggle"></label>
+    <label for="nav-toggle" class="nav-curtain"></label>
+
+
+        
+    </header>
+
+
+
+
+            
+            
+    <main class="main single" id="main">
+    <div class="main-inner">
+
+        
+
+        <article class="content post h-entry" data-align="justify" data-type="posts">
+
+            <h1 class="post-title p-name">Docker Cheat Sheet</h1>
+
+            
+
+            
+                
+            
+
+            
+                
+
+<div class="post-meta">
+    
+        
+        <time datetime="2020-11-29T00:51:00&#43;08:00" class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z"/></svg>&nbsp;2020.11.29</time>
+    
+    
+        
+        <time datetime="2020-11-29T00:53:19&#43;08:00" class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M400 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 400H54a6 6 0 0 1-6-6V160h352v298a6 6 0 0 1-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;2020.11.29</time>
+    
+    
+    
+        
+        
+        
+            
+                <span class="post-meta-item category"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M464 128H272l-54.63-54.63c-6-6-14.14-9.37-22.63-9.37H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V176c0-26.51-21.49-48-48-48zm0 272H48V112h140.12l54.63 54.63c6 6 14.14 9.37 22.63 9.37H464v224z"/></svg>&nbsp;<a href="/categories/docker/" class="category-link p-category">Docker</a></span>
+            
+        
+    
+    
+        
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;6580</span>
+    
+    
+        
+        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;14&nbsp;分钟</span>
+    
+    
+    
+</div>
+
+            
+
+            <nav class="contents">
+  <h2 id="contents" class="contents-title">目录</h2><ol class="toc">
+    <li>
+      <ol>
+        <li><a id="contents:为何使用-docker" href="#为何使用-docker">为何使用 Docker</a></li>
+        <li><a id="contents:系统环境" href="#系统环境">系统环境</a>
+          <ol>
+            <li><a id="contents:linux" href="#linux">Linux</a></li>
+            <li><a id="contents:检查版本" href="#检查版本">检查版本</a></li>
+          </ol>
+        </li>
+        <li><a id="contents:安装" href="#安装">安装</a>
+          <ol>
+            <li><a id="contents:linux-1" href="#linux-1">Linux</a></li>
+            <li><a id="contents:macos" href="#macos">macOS</a></li>
+          </ol>
+        </li>
+        <li><a id="contents:容器container" href="#容器container">容器(Container)</a>
+          <ol>
+            <li><a id="contents:生命周期" href="#生命周期">生命周期</a></li>
+            <li><a id="contents:启动和停止" href="#启动和停止">启动和停止</a></li>
+            <li><a id="contents:cpu-限制" href="#cpu-限制">CPU 限制</a></li>
+            <li><a id="contents:内存限制" href="#内存限制">内存限制</a></li>
+            <li><a id="contents:能力capabilities" href="#能力capabilities">能力(Capabilities)</a></li>
+          </ol>
+        </li>
+        <li><a id="contents:信息" href="#信息">信息</a>
+          <ol>
+            <li><a id="contents:导入--导出" href="#导入--导出">导入 / 导出</a></li>
+            <li><a id="contents:执行命令" href="#执行命令">执行命令</a></li>
+          </ol>
+        </li>
+        <li><a id="contents:镜像images" href="#镜像images">镜像(Images)</a>
+          <ol>
+            <li><a id="contents:生命周期-1" href="#生命周期-1">生命周期</a></li>
+            <li><a id="contents:其它信息" href="#其它信息">其它信息</a></li>
+            <li><a id="contents:清理" href="#清理">清理</a></li>
+            <li><a id="contents:加载--保存镜像" href="#加载--保存镜像">加载 / 保存镜像</a></li>
+            <li><a id="contents:导入--导出容器" href="#导入--导出容器">导入 / 导出容器</a></li>
+            <li><a id="contents:加载已保存的镜像-与-导入已导出为镜像的容器-的不同" href="#加载已保存的镜像-与-导入已导出为镜像的容器-的不同">加载已保存的镜像 与 导入已导出为镜像的容器 的不同</a></li>
+          </ol>
+        </li>
+        <li><a id="contents:网络networks" href="#网络networks">网络(Networks)</a></li>
+        <li><a id="contents:生命周期-2" href="#生命周期-2">生命周期</a></li>
+        <li><a id="contents:其它信息-1" href="#其它信息-1">其它信息</a></li>
+        <li><a id="contents:建立连接" href="#建立连接">建立连接</a></li>
+        <li><a id="contents:仓管中心和仓库registry--repository" href="#仓管中心和仓库registry--repository">仓管中心和仓库(Registry &amp; Repository)</a>
+          <ol>
+            <li><a id="contents:本地仓管中心" href="#本地仓管中心">本地仓管中心</a></li>
+            <li><a id="contents:dockerfile" href="#dockerfile">Dockerfile</a></li>
+            <li><a id="contents:指令" href="#指令">指令</a></li>
+            <li><a id="contents:教程" href="#教程">教程</a></li>
+            <li><a id="contents:例子" href="#例子">例子</a></li>
+            <li><a id="contents:层layers" href="#层layers">层(Layers)</a></li>
+            <li><a id="contents:链接links" href="#链接links">链接(Links)</a></li>
+          </ol>
+        </li>
+        <li><a id="contents:卷标volumes" href="#卷标volumes">卷标(Volumes)</a>
+          <ol>
+            <li><a id="contents:生命周期-3" href="#生命周期-3">生命周期</a></li>
+            <li><a id="contents:信息-1" href="#信息-1">信息</a></li>
+          </ol>
+        </li>
+        <li><a id="contents:暴露端口exposing-ports" href="#暴露端口exposing-ports">暴露端口(Exposing ports)</a></li>
+        <li><a id="contents:最佳实践" href="#最佳实践">最佳实践</a>
+          <ol>
+            <li><a id="contents:安全security" href="#安全security">安全(Security)</a></li>
+            <li><a id="contents:安全提示" href="#安全提示">安全提示</a></li>
+            <li><a id="contents:用户命名空间user-namespaces" href="#用户命名空间user-namespaces">用户命名空间(User Namespaces)</a></li>
+            <li><a id="contents:安全相关视频" href="#安全相关视频">安全相关视频</a></li>
+            <li><a id="contents:安全路线图" href="#安全路线图">安全路线图</a></li>
+          </ol>
+        </li>
+        <li><a id="contents:小贴士" href="#小贴士">小贴士</a>
+          <ol>
+            <li><a id="contents:清理-1" href="#清理-1">清理</a></li>
+            <li><a id="contents:df-命令" href="#df-命令">df 命令</a></li>
+            <li><a id="contents:heredoc-声明-docker-容器" href="#heredoc-声明-docker-容器">Heredoc 声明 Docker 容器</a></li>
+            <li><a id="contents:最近一次的容器-id" href="#最近一次的容器-id">最近一次的容器 ID</a></li>
+            <li><a id="contents:带命令的提交需要-dockerfile" href="#带命令的提交需要-dockerfile">带命令的提交（需要 Dockerfile）</a></li>
+            <li><a id="contents:获取-ip-地址" href="#获取-ip-地址">获取 IP 地址</a></li>
+            <li><a id="contents:获取端口映射" href="#获取端口映射">获取端口映射</a></li>
+            <li><a id="contents:通过正则匹配容器" href="#通过正则匹配容器">通过正则匹配容器</a></li>
+            <li><a id="contents:获取环境变量配置" href="#获取环境变量配置">获取环境变量配置</a></li>
+            <li><a id="contents:强行终止运行中的容器" href="#强行终止运行中的容器">强行终止运行中的容器</a></li>
+            <li><a id="contents:删除所有容器强行删除无论容器运行或停止" href="#删除所有容器强行删除无论容器运行或停止">删除所有容器（强行删除！无论容器运行或停止）</a></li>
+            <li><a id="contents:删除旧容器" href="#删除旧容器">删除旧容器</a></li>
+            <li><a id="contents:删除已停止的容器" href="#删除已停止的容器">删除已停止的容器</a></li>
+            <li><a id="contents:停止并删除容器" href="#停止并删除容器">停止并删除容器</a></li>
+            <li><a id="contents:删除无用-dangling-的镜像" href="#删除无用-dangling-的镜像">删除无用 (dangling) 的镜像</a></li>
+            <li><a id="contents:删除所有镜像" href="#删除所有镜像">删除所有镜像</a></li>
+            <li><a id="contents:删除无用-dangling-的卷标" href="#删除无用-dangling-的卷标">删除无用 (dangling) 的卷标</a></li>
+            <li><a id="contents:查看镜像依赖" href="#查看镜像依赖">查看镜像依赖</a></li>
+            <li><a id="contents:docker-容器瘦身" href="#docker-容器瘦身">Docker 容器瘦身</a></li>
+            <li><a id="contents:监视运行中容器的系统资源利用率" href="#监视运行中容器的系统资源利用率">监视运行中容器的系统资源利用率</a></li>
+            <li><a id="contents:将文件挂载为卷标" href="#将文件挂载为卷标">将文件挂载为卷标</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+  </ol>
+</nav><div class="post-body e-content">
+              <h3 id="为何使用-docker"><a href="#为何使用-docker" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:为何使用-docker" class="headings">为何使用 Docker</a></h3>
+<p>「通过 Docker，开发者可以使用任何语言任何工具创建任何应用。“Dockerized” 的应用是完全可移植的，能在任何地方运行 - 不管是同事的 OS X 和 Windows 笔记本，或是在云端运行的 Ubuntu QA 服务，还是在虚拟机运行的 Red Hat 产品数据中心。</p>
+<p>Docker Hub 上有 13000+ 的应用，开发者可以从中选取一个进行快速扩展开发。Docker 跟踪管理变更和依赖关系，让系统管理员能更容易理解开发人员是如何让应用运转起来的。而开发者可以通过 Docker Hub 的共有/私有仓库，构建他们的自动化编译，与其他合作者共享成果。</p>
+<p>Docker 帮助开发者更快地构建和发布高质量的应用。」—— <a href="https://www.docker.com/what-docker/#copy1" target="_blank" rel="noopener">什么是 Docker</a></p>
+<h3 id="系统环境"><a href="#系统环境" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:系统环境" class="headings">系统环境</a></h3>
+<p>我用的是 <a href="https://github.com/robbyrussell/oh-my-zsh" target="_blank" rel="noopener">Oh My Zsh</a> 和 <a href="https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins#docker" target="_blank" rel="noopener">Docker 插件</a>，它可以自动补全 Docker 命令。你的环境可能有所不同。</p>
+<h4 id="linux"><a href="#linux" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:linux" class="headings">Linux</a></h4>
+<p>Docker 对于 Linux 内核版本的 <a href="https://docs.docker.com/engine/installation/binaries/#check-kernel-dependencies" target="_blank" rel="noopener">最低要求</a> 为 <code>3.10.x</code>。</p>
+<p>####MacOS</p>
+<p>10.8 「Mountain Lion」或更新版本。</p>
+<h4 id="检查版本"><a href="#检查版本" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:检查版本" class="headings">检查版本</a></h4>
+<p>时刻关注你当前正在使用的 Docker 版本是十分重要的，这能够帮助你了解可用的特性。同时，可以让你在查找镜像时选择使用的版本。接下来让我们看看如何操作。</p>
+<ul>
+<li><a href="https://docs.docker.com/engine/reference/commandline/version/" target="_blank" rel="noopener"><code>docker version</code></a> 查看你正在运行的 Docker 版本。</li>
+</ul>
+<p>获取 Docker 服务版本：</p>
+<pre><code>$ docker version --format '{{.Server.Version}}'
+
+1.8.0
+</code></pre><p>你也可以输出原始的 JSON 数据：</p>
+<pre><code>$ docker version --format '{{json .}}'
+
+{&quot;Client&quot;:{&quot;Version&quot;:&quot;1.8.0&quot;,&quot;ApiVersion&quot;:&quot;1.20&quot;,&quot;GitCommit&quot;:&quot;f5bae0a&quot;,&quot;GoVersion&quot;:&quot;go1.4.2&quot;,&quot;Os&quot;:&quot;linux&quot;,&quot;Arch&quot;:&quot;am&quot;}
+</code></pre><h3 id="安装"><a href="#安装" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:安装" class="headings">安装</a></h3>
+<h4 id="linux-1"><a href="#linux-1" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:linux-1" class="headings">Linux</a></h4>
+<p>Docker 官方提供了快速、易用的安装脚本：</p>
+<pre><code>curl -sSL https://get.docker.com/ | sh
+</code></pre><p>如果你不想执行一个不明不白的 Shell 脚本，那么请看 <a href="https://docs.docker.com/engine/installation/linux/" target="_blank" rel="noopener">安装说明</a>，选择你在用的发行版本。</p>
+<p>如果你是一个 Docker 超新手，那么你应当先去看看 <a href="https://docs.docker.com/engine/getstarted/" target="_blank" rel="noopener">系列教程</a>。</p>
+<h4 id="macos"><a href="#macos" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:macos" class="headings">macOS</a></h4>
+<p>下载并安装 <a href="https://www.docker.com/community-edition" target="_blank" rel="noopener">Docker Community Edition</a>。如果你在使用 Homebrew-Cask，只需在命令行输入 <code>brew cask install docker</code> 即可。下载安装 <a href="https://docs.docker.com/toolbox/overview/" target="_blank" rel="noopener">Docker Toolbox</a> 亦可。<a href="https://docs.docker.com/docker-for-mac/" target="_blank" rel="noopener">Docker For Mac</a> 很赞，但是它的安装过程与 VirtualBox 不太一样。详情请查阅 <a href="https://docs.docker.com/docker-for-mac/docker-toolbox/" target="_blank" rel="noopener">比较</a>。</p>
+<blockquote>
+<p><strong>注意</strong>：Docker Toolbox 已经过时。你应当使用 Docker Community Edition，详见 <a href="https://docs.docker.com/toolbox/overview/" target="_blank" rel="noopener">Docker Toolbox</a></p>
+</blockquote>
+<p>安装好 Docker Community Edition 后，点击 Launchpad 内的 Docker 图标。接着即可启动容器了：</p>
+<pre><code>docker run hello-world
+</code></pre><p>好了，现在你有了一个运行中的 Docker 容器了。</p>
+<h3 id="容器container"><a href="#容器container" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:容器container" class="headings">容器(Container)</a></h3>
+<p><a href="http://etherealmind.com/basics-docker-containers-hypervisors-coreos/" target="_blank" rel="noopener">关于 Docker 进程隔离的基础</a>。容器 (Container) 之于虚拟机 (Virtual Machine) 就好比线程之于进程。或者你可以把他们想成是「吃了类固醇的 chroots」。</p>
+<h4 id="生命周期"><a href="#生命周期" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:生命周期" class="headings">生命周期</a></h4>
+<ul>
+<li><a href="https://docs.docker.com/engine/reference/commandline/create" target="_blank" rel="noopener"><code>docker create</code></a> 创建容器但不启动它。</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/rename/" target="_blank" rel="noopener"><code>docker rename</code></a> 用于重命名容器。</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/run" target="_blank" rel="noopener"><code>docker run</code></a> 一键创建并同时启动该容器。</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/rm" target="_blank" rel="noopener"><code>docker rm</code></a> 删除容器。</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/update/" target="_blank" rel="noopener"><code>docker update</code></a> 调整容器的资源限制。</li>
+</ul>
+<p>通常情况下，不使用任何命令行选项启动一个容器，该容器将会立即启动并停止。若需保持其运行，你可以使用 <code>docker run -td container_id</code> 命令。选项 <code>-t</code> 表示分配一个 pseudo-TTY 会话，<code>-d</code> 表示自动将容器与终端分离（也就是说在后台运行容器，并输出容器 ID）。</p>
+<p>如果你需要一个临时容器，可使用 <code>docker run --rm</code> 会在容器停止之后删除它。</p>
+<p>如果你需要映射宿主机 (host) 的目录到 Docker 容器内，可使用 <code>docker run -v $HOSTDIR:$DOCKERDIR</code>。详见 <a href="#%E5%8D%B7%E6%A0%87volumes">卷标(Volumes)</a> 一节。</p>
+<p>如果你想同时删除与容器相关联的卷标，那么在删除容器的时候必须包含 <code>-v</code> 选项，像这样 <code>docker rm -v</code>。</p>
+<p>从 Docker 1.10 起，其内置一套各容器独立的 <a href="https://docs.docker.com/engine/admin/logging/overview/" target="_blank" rel="noopener">日志引擎</a>，每个容器可以独立使用。你可以使用 <code>docker run --log-driver=syslog</code> 来自定义日志引擎（例如以上的 <code>syslog</code>）。</p>
+<h4 id="启动和停止"><a href="#启动和停止" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:启动和停止" class="headings">启动和停止</a></h4>
+<ul>
+<li><a href="https://docs.docker.com/engine/reference/commandline/start" target="_blank" rel="noopener"><code>docker start</code></a> 启动已存在的容器。</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/stop" target="_blank" rel="noopener"><code>docker stop</code></a> 停止运行中的容器。</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/restart" target="_blank" rel="noopener"><code>docker restart</code></a> 重启容器。</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/pause/" target="_blank" rel="noopener"><code>docker pause</code></a> 暂停运行中的容器，将其「冻结」在当前状态。</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/unpause/" target="_blank" rel="noopener"><code>docker unpause</code></a> 结束容器暂停状态。</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/wait" target="_blank" rel="noopener"><code>docker wait</code></a> 阻塞地等待某个运行中的容器直到停止。</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/kill" target="_blank" rel="noopener"><code>docker kill</code></a> 向运行中的容器发送 SIGKILL 指令。</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/attach" target="_blank" rel="noopener"><code>docker attach</code></a> 连接到运行中的容器。</li>
+</ul>
+<p>如果你想将容器的端口 (ports) 暴露至宿主机，请见 <a href="#%E6%9A%B4%E9%9C%B2%E7%AB%AF%E5%8F%A3exposing-ports">暴露端口</a> 一节。</p>
+<p>关于 Docker 实例崩溃后的重启策略，详见 <a href="http://container42.com/2014/09/30/docker-restart-policies/" target="_blank" rel="noopener">本文</a>。</p>
+<h4 id="cpu-限制"><a href="#cpu-限制" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:cpu-限制" class="headings">CPU 限制</a></h4>
+<p>你可以限制 CPU 资源占用，无论是指定百分比，或是特定核心数。</p>
+<p>例如，你可以设置 <a href="https://docs.docker.com/engine/reference/run/#/cpu-share-constraint" target="_blank" rel="noopener"><code>cpu-shares</code></a>。该配置看起来有点奇怪 -- 1024 表示 100% CPU，因此如果你希望容器使用所有 CPU 内核的 50%，应将其设置为 512：</p>
+<pre><code>docker run -ti --c 512 agileek/cpuset-test
+</code></pre><p>更多信息请参阅 <a href="https://goldmann.pl/blog/2014/09/11/resource-management-in-docker/#_cpu" target="_blank" rel="noopener">https://goldmann.pl/blog/2014/09/11/resource-management-in-docker/#_cpu</a>。</p>
+<p>通过 <a href="https://docs.docker.com/engine/reference/run/#/cpuset-constraint" target="_blank" rel="noopener"><code>cpuset-cpus</code></a> 可使用特定 CPU 内核。</p>
+<pre><code>docker run -ti --cpuset-cpus=0,4,6 agileek/cpuset-test
+</code></pre><p>请参阅 <a href="https://agileek.github.io/docker/2014/08/06/docker-cpuset/" target="_blank" rel="noopener">https://agileek.github.io/docker/2014/08/06/docker-cpuset/</a> 获取更多细节以及一些不错的视频。</p>
+<p>注意，Docker 在容器内仍然能够 <strong>看到</strong> 全部 CPU -- 它仅仅是不使用全部而已。请参阅 <a href="https://github.com/docker/docker/issues/20770" target="_blank" rel="noopener">https://github.com/docker/docker/issues/20770</a> 获取更多细节。</p>
+<h4 id="内存限制"><a href="#内存限制" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:内存限制" class="headings">内存限制</a></h4>
+<p>同样，亦可给 Docker 设置 <a href="https://docs.docker.com/engine/reference/run/#/user-memory-constraints" target="_blank" rel="noopener">内存限制</a>：</p>
+<pre><code>docker run -it -m 300M ubuntu:14.04 /bin/bash
+</code></pre><h4 id="能力capabilities"><a href="#能力capabilities" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:能力capabilities" class="headings">能力(Capabilities)</a></h4>
+<p>Linux 的 Capability 可以通过使用 <code>cap-add</code> 和 <code>cap-drop</code> 设置。请参阅 <a href="https://docs.docker.com/engine/reference/run/#/runtime-privilege-and-linux-capabilities" target="_blank" rel="noopener">https://docs.docker.com/engine/reference/run/#/runtime-privilege-and-linux-capabilities</a> 获取更多细节。这有助于提高安全性。</p>
+<p>如需要挂载基于 FUSE 的文件系统，你需要结合 <code>--cap-add</code> 和 <code>--device</code> 使用：</p>
+<pre><code>docker run --rm -it --cap-add SYS_ADMIN --device /dev/fuse sshfs
+</code></pre><p>授予对某个设备的访问权限：</p>
+<pre><code>docker run -it --device=/dev/ttyUSB0 debian bash
+</code></pre><p>授予对所有设备的访问权限：</p>
+<pre><code>docker run -it --privileged -v /dev/bus/usb:/dev/bus/usb debian bash
+</code></pre><p>有关容器特权的更多信息请参阅 <a href="https://docs.docker.com/engine/reference/run/#/runtime-privilege-and-linux-capabilities" target="_blank" rel="noopener">本文</a>。</p>
+<h3 id="信息"><a href="#信息" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:信息" class="headings">信息</a></h3>
+<ul>
+<li><a href="https://docs.docker.com/engine/reference/commandline/ps" target="_blank" rel="noopener"><code>docker ps</code></a> 查看运行中的所有容器。</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/logs" target="_blank" rel="noopener"><code>docker logs</code></a> 从容器中读取日志。（你也可以使用自定义日志驱动，不过在 1.10 中，它只支持 <code>json-file</code> 和 <code>journald</code>）。</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/inspect" target="_blank" rel="noopener"><code>docker inspect</code></a> 查看某个容器的所有信息（包括 IP 地址）。</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/events" target="_blank" rel="noopener"><code>docker events</code></a> 从容器中获取事件 (events)。</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/port" target="_blank" rel="noopener"><code>docker port</code></a> 查看容器的公开端口。</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/top" target="_blank" rel="noopener"><code>docker top</code></a> 查看容器中活动进程。</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/stats" target="_blank" rel="noopener"><code>docker stats</code></a> 查看容器的资源使用量统计信息。</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/diff" target="_blank" rel="noopener"><code>docker diff</code></a> 查看容器文件系统中存在改动的文件。</li>
+</ul>
+<p><code>docker ps -a</code> 将显示所有容器，包括运行中和已停止的。</p>
+<p><code>docker stats --all</code> 同样将显示所有容器，默认仅显示运行中的容器。</p>
+<h4 id="导入--导出"><a href="#导入--导出" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:导入--导出" class="headings">导入 / 导出</a></h4>
+<ul>
+<li><a href="https://docs.docker.com/engine/reference/commandline/cp" target="_blank" rel="noopener"><code>docker cp</code></a> 在容器和本地文件系统之间复制文件或目录。</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/export" target="_blank" rel="noopener"><code>docker export</code></a> 将容器的文件系统打包为归档文件流 (tarball archive stream) 并输出至标准输出 (STDOUT)。</li>
+</ul>
+<h4 id="执行命令"><a href="#执行命令" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:执行命令" class="headings">执行命令</a></h4>
+<ul>
+<li><a href="https://docs.docker.com/engine/reference/commandline/exec" target="_blank" rel="noopener"><code>docker exec</code></a> 在容器内执行命令。</li>
+</ul>
+<p>例如，进入正在运行的 <code>foo</code> 容器，并连接 (attach) 到一个新的 Shell 进程：<code>docker exec -it foo /bin/bash</code>。</p>
+<h3 id="镜像images"><a href="#镜像images" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:镜像images" class="headings">镜像(Images)</a></h3>
+<p>镜像是 <a href="https://docs.docker.com/engine/understanding-docker/#how-does-a-docker-image-work" target="_blank" rel="noopener">Docker 容器的模板</a>。</p>
+<h4 id="生命周期-1"><a href="#生命周期-1" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:生命周期-1" class="headings">生命周期</a></h4>
+<ul>
+<li><a href="https://docs.docker.com/engine/reference/commandline/images" target="_blank" rel="noopener"><code>docker images</code></a> 查看所有镜像。</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/import" target="_blank" rel="noopener"><code>docker import</code></a> 从归档文件创建镜像。</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/build" target="_blank" rel="noopener"><code>docker build</code></a> 从 Dockerfile 创建镜像。</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/commit" target="_blank" rel="noopener"><code>docker commit</code></a> 为容器创建镜像，如果容器正在运行则会临时暂停。</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/rmi" target="_blank" rel="noopener"><code>docker rmi</code></a> 删除镜像。</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/load" target="_blank" rel="noopener"><code>docker load</code></a> 从标准输入 (STDIN) 加载归档包 (tar archive) 作为镜像，包括镜像本身和标签 (tags, 0.7 起)。</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/save" target="_blank" rel="noopener"><code>docker save</code></a> 将镜像打包为归档包，并输出至标准输出 (STDOUT)，包括所有的父层、标签和版本 (parent layers, tags, versions, 0.7 起)。</li>
+</ul>
+<h4 id="其它信息"><a href="#其它信息" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:其它信息" class="headings">其它信息</a></h4>
+<ul>
+<li><a href="https://docs.docker.com/engine/reference/commandline/history" target="_blank" rel="noopener"><code>docker history</code></a> 查看镜像的历史记录。</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/tag" target="_blank" rel="noopener"><code>docker tag</code></a> 给镜像打标签命名（本地或者仓库均可）。</li>
+</ul>
+<h4 id="清理"><a href="#清理" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:清理" class="headings">清理</a></h4>
+<p>虽然你可以用 <code>docker rmi</code> 命令来删除指定的镜像，不过有个名为 <a href="https://github.com/spotify/docker-gc" target="_blank" rel="noopener">docker-gc</a> 的工具，它可以以一种安全的方式，清理掉那些不再被任何容器使用的镜像。Docker 1.13 起，使用 <code>docker image prune</code> 亦可删除未使用的镜像。参见 <a href="#%E6%B8%85%E7%90%86">清理</a>。</p>
+<h4 id="加载--保存镜像"><a href="#加载--保存镜像" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:加载--保存镜像" class="headings">加载 / 保存镜像</a></h4>
+<p>从文件中加载镜像：</p>
+<pre><code>docker load &lt; my_image.tar.gz
+</code></pre><p>保存既有镜像：</p>
+<pre><code>docker save my_image:my_tag | gzip &gt; my_image.tar.gz
+</code></pre><h4 id="导入--导出容器"><a href="#导入--导出容器" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:导入--导出容器" class="headings">导入 / 导出容器</a></h4>
+<p>从文件中导入容器镜像：</p>
+<pre><code>cat my_container.tar.gz | docker import - my_image:my_tag
+</code></pre><p>导出既有容器：</p>
+<pre><code>docker export my_container | gzip &gt; my_container.tar.gz
+</code></pre><h4 id="加载已保存的镜像-与-导入已导出为镜像的容器-的不同"><a href="#加载已保存的镜像-与-导入已导出为镜像的容器-的不同" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:加载已保存的镜像-与-导入已导出为镜像的容器-的不同" class="headings">加载已保存的镜像 与 导入已导出为镜像的容器 的不同</a></h4>
+<p>通过 <code>load</code> 命令来加载镜像，会创建一个新的镜像，并继承原镜像的所有历史。
+通过 <code>import</code> 将容器作为镜像导入，也会创建一个新的镜像，但并不包含原镜像的历史，因此会比使用 <code>load</code> 方式生成的镜像更小。</p>
+<h3 id="网络networks"><a href="#网络networks" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:网络networks" class="headings">网络(Networks)</a></h3>
+<p>Docker 具备 <a href="https://docs.docker.com/engine/userguide/networking/" target="_blank" rel="noopener">网络</a> 功能。我并不是很了解它，所以这是一个扩展本文的好地方。文档 <a href="https://docs.docker.com/engine/userguide/networking/work-with-networks/" target="_blank" rel="noopener">使用网络</a> 指出，这是一种无需暴露端口即可实现 Docker 容器间通信的好方法。</p>
+<h3 id="生命周期-2"><a href="#生命周期-2" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:生命周期-2" class="headings">生命周期</a></h3>
+<ul>
+<li><a href="https://docs.docker.com/engine/reference/commandline/network_create/" target="_blank" rel="noopener"><code>docker network create</code></a></li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/network_rm/" target="_blank" rel="noopener"><code>docker network rm</code></a></li>
+</ul>
+<h3 id="其它信息-1"><a href="#其它信息-1" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:其它信息-1" class="headings">其它信息</a></h3>
+<ul>
+<li><a href="https://docs.docker.com/engine/reference/commandline/network_ls/" target="_blank" rel="noopener"><code>docker network ls</code></a></li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/network_inspect/" target="_blank" rel="noopener"><code>docker network inspect</code></a></li>
+</ul>
+<h3 id="建立连接"><a href="#建立连接" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:建立连接" class="headings">建立连接</a></h3>
+<ul>
+<li><a href="https://docs.docker.com/engine/reference/commandline/network_connect/" target="_blank" rel="noopener"><code>docker network connect</code></a></li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/network_disconnect/" target="_blank" rel="noopener"><code>docker network disconnect</code></a></li>
+</ul>
+<p>你可以 <a href="https://blog.jessfraz.com/post/ips-for-all-the-things/" target="_blank" rel="noopener">为容器指定 IP 地址</a>：</p>
+<pre><code># 使用你自己的子网和网关创建一个桥接网络
+docker network create --subnet 203.0.113.0/24 --gateway 203.0.113.254 iptastic
+
+# 基于以上创建的网络，运行一个 Nginx 容器并指定 IP
+$ docker run --rm -it --net iptastic --ip 203.0.113.2 nginx
+
+# 在其他地方使用 CURL 访问这个 IP（假设该 IP 为公网）
+$ curl 203.0.113.2
+</code></pre><h3 id="仓管中心和仓库registry--repository"><a href="#仓管中心和仓库registry--repository" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:仓管中心和仓库registry--repository" class="headings">仓管中心和仓库(Registry &amp; Repository)</a></h3>
+<p>仓库 (repository) 是 <em>被托管(hosted)</em> 的已命名镜像 (tagged images) 的集合，这组镜像用于构建容器文件系统。</p>
+<p>仓管中心 (registry) 则是 <em>托管服务(host)</em> -- 用于存储仓库并提供 HTTP API，以便 <a href="https://docs.docker.com/engine/tutorials/dockerrepos/" target="_blank" rel="noopener">管理仓库的上传和下载</a>。</p>
+<p>Docker 官方托管着自己的 <a href="https://hub.docker.com/" target="_blank" rel="noopener">仓管中心</a>，包含着数量众多的仓库。不过话虽如此，这个仓管中心 <a href="https://titanous.com/posts/docker-insecurity" target="_blank" rel="noopener">并没有很好地验证镜像</a>，所以如果你担心安全问题的话，请尽量避免使用它。</p>
+<ul>
+<li><a href="https://docs.docker.com/engine/reference/commandline/login" target="_blank" rel="noopener"><code>docker login</code></a> 登入仓管中心。</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/logout" target="_blank" rel="noopener"><code>docker logout</code></a> 登出仓管中心。</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/search" target="_blank" rel="noopener"><code>docker search</code></a> 从仓管中心检索镜像。</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/pull" target="_blank" rel="noopener"><code>docker pull</code></a> 从仓管中心拉取镜像到本地。</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/push" target="_blank" rel="noopener"><code>docker push</code></a> 从本地推送镜像到仓管中心。</li>
+</ul>
+<h4 id="本地仓管中心"><a href="#本地仓管中心" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:本地仓管中心" class="headings">本地仓管中心</a></h4>
+<p>你可以使用 <a href="https://github.com/docker/distribution" target="_blank" rel="noopener">docker distribution</a> 项目搭建本地的仓管中心，详情参阅 <a href="https://github.com/docker/docker.github.io/blob/master/registry/deploying.md" target="_blank" rel="noopener">本地发布 (local deploy)</a> 的介绍。</p>
+<p>科学上网后，也可以看看 <a href="https://groups.google.com/a/dockerproject.org/forum/#!forum/distribution" target="_blank" rel="noopener">Google+ Group</a>。</p>
+<h4 id="dockerfile"><a href="#dockerfile" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:dockerfile" class="headings">Dockerfile</a></h4>
+<p>当你执行 <code>docker build</code> 时，Docker 将会根据 <a href="https://docs.docker.com/engine/reference/builder/" target="_blank" rel="noopener">配置文件</a> 启动 Docker 容器。远优于使用 <code>docker commit</code>。</p>
+<p>以下是一些编写 Dockerfile 的常用编辑器，并链接到适配的语法高亮模块︰</p>
+<ul>
+<li>如果你在使用 <a href="http://jedit.org" target="_blank" rel="noopener">jEdit</a>，你可以使用我开发的 Dockerfile <a href="https://github.com/wsargent/jedit-docker-mode" target="_blank" rel="noopener">语法高亮模块</a>。</li>
+<li><a href="https://packagecontrol.io/packages/Dockerfile%20Syntax%20Highlighting" target="_blank" rel="noopener">Sublime Text 2</a></li>
+<li><a href="https://atom.io/packages/language-docker" target="_blank" rel="noopener">Atom</a></li>
+<li><a href="https://github.com/ekalinin/Dockerfile.vim" target="_blank" rel="noopener">Vim</a></li>
+<li><a href="https://github.com/spotify/dockerfile-mode" target="_blank" rel="noopener">Emacs</a></li>
+<li><a href="https://github.com/docker/docker/tree/master/contrib/syntax/textmate" target="_blank" rel="noopener">TextMate</a></li>
+<li>更多信息请参阅 <a href="https://domeide.github.io/" target="_blank" rel="noopener">Docker 遇上 IDE</a></li>
+</ul>
+<h4 id="指令"><a href="#指令" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:指令" class="headings">指令</a></h4>
+<ul>
+<li><a href="https://docs.docker.com/engine/reference/builder/#dockerignore-file" target="_blank" rel="noopener">.dockerignore</a></li>
+<li><a href="https://docs.docker.com/engine/reference/builder/#from" target="_blank" rel="noopener">FROM</a> 为其他指令设置基础镜像 (Base Image)。</li>
+<li><a href="https://docs.docker.com/engine/reference/builder/#maintainer-deprecated" target="_blank" rel="noopener">MAINTAINER (deprecated - use LABEL instead)</a> 为生成的镜像设置作者字段。</li>
+<li><a href="https://docs.docker.com/engine/reference/builder/#run" target="_blank" rel="noopener">RUN</a> 在当前镜像的基础上生成一个新层并执行命令。</li>
+<li><a href="https://docs.docker.com/engine/reference/builder/#cmd" target="_blank" rel="noopener">CMD</a> 设置容器默认执行命令。</li>
+<li><a href="https://docs.docker.com/engine/reference/builder/#expose" target="_blank" rel="noopener">EXPOSE</a> 告知 Docker 容器在运行时所要监听的网络端口。注意：并没有实际上将端口设置为可访问。</li>
+<li><a href="https://docs.docker.com/engine/reference/builder/#env" target="_blank" rel="noopener">ENV</a> 设置环境变量。</li>
+<li><a href="https://docs.docker.com/engine/reference/builder/#add" target="_blank" rel="noopener">ADD</a> 将文件、目录或远程文件复制到容器中。缓存无效。请尽量用 <code>COPY</code> 代替 <code>ADD</code>。</li>
+<li><a href="https://docs.docker.com/engine/reference/builder/#copy" target="_blank" rel="noopener">COPY</a> 将文件或文件夹复制到容器中。注意：将使用 ROOT 用户复制文件，故无论 USER / WORKDIR 指令如何配置，你都需要手动修改其所有者（<code>chown</code>），<code>ADD</code> 也是一样。</li>
+<li><a href="https://docs.docker.com/engine/reference/builder/#entrypoint" target="_blank" rel="noopener">ENTRYPOINT</a> 将容器设为可执行的。</li>
+<li><a href="https://docs.docker.com/engine/reference/builder/#volume" target="_blank" rel="noopener">VOLUME</a> 在容器内部创建挂载点 (mount point) 指向外部挂载的卷标或其他容器。</li>
+<li><a href="https://docs.docker.com/engine/reference/builder/#user" target="_blank" rel="noopener">USER</a> 设置随后执行 RUN / CMD / ENTRYPOINT 命令的用户名。</li>
+<li><a href="https://docs.docker.com/engine/reference/builder/#workdir" target="_blank" rel="noopener">WORKDIR</a> 设置工作目录 (working directory)。</li>
+<li><a href="https://docs.docker.com/engine/reference/builder/#arg" target="_blank" rel="noopener">ARG</a> 定义编译时 (build-time) 变量。</li>
+<li><a href="https://docs.docker.com/engine/reference/builder/#onbuild" target="_blank" rel="noopener">ONBUILD</a> 添加触发指令，当该镜像被作为其他镜像的基础镜像时该指令会被触发。</li>
+<li><a href="https://docs.docker.com/engine/reference/builder/#stopsignal" target="_blank" rel="noopener">STOPSIGNAL</a> 设置停止容器时，向容器内发送的系统调用信号 (system call signal)。</li>
+<li><a href="https://docs.docker.com/config/labels-custom-metadata/" target="_blank" rel="noopener">LABEL</a> 将键值对元数据 (key/value metadata) 应用到镜像、容器或是守护进程。</li>
+</ul>
+<h4 id="教程"><a href="#教程" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:教程" class="headings">教程</a></h4>
+<ul>
+<li><a href="http://flux7.com/blogs/docker/docker-tutorial-series-part-3-automation-is-the-word-using-dockerfile/" target="_blank" rel="noopener">Flux7's Dockerfile Tutorial</a></li>
+</ul>
+<h4 id="例子"><a href="#例子" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:例子" class="headings">例子</a></h4>
+<ul>
+<li><a href="https://docs.docker.com/engine/reference/builder/#dockerfile-examples" target="_blank" rel="noopener">Examples</a></li>
+<li><a href="https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/" target="_blank" rel="noopener">Best practices for writing Dockerfiles</a></li>
+<li><a href="http://crosbymichael.com/" target="_blank" rel="noopener">Michael Crosby</a> 还有更多的 <a href="http://crosbymichael.com/dockerfile-best-practices.html" target="_blank" rel="noopener">Dockerfiles best practices</a> / <a href="http://crosbymichael.com/dockerfile-best-practices-take-2.html" target="_blank" rel="noopener">take 2</a></li>
+<li><a href="http://jonathan.bergknoff.com/journal/building-good-docker-images" target="_blank" rel="noopener">Building Good Docker Images</a> / <a href="http://jonathan.bergknoff.com/journal/building-better-docker-images" target="_blank" rel="noopener">Building Better Docker Images</a></li>
+<li><a href="https://speakerdeck.com/garethr/managing-container-configuration-with-metadata" target="_blank" rel="noopener">Managing Container Configuration with Metadata</a></li>
+</ul>
+<h4 id="层layers"><a href="#层layers" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:层layers" class="headings">层(Layers)</a></h4>
+<p>Docker 的版本化文件系统是基于层的。就像 <a href="https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/" target="_blank" rel="noopener">Git 的提交或文件变更系统</a> 一样。</p>
+<h4 id="链接links"><a href="#链接links" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:链接links" class="headings">链接(Links)</a></h4>
+<p>链接 (links) <a href="https://docs.docker.com/userguide/dockerlinks/" target="_blank" rel="noopener">通过 TCP/IP 端口</a> 实现 Docker 容器之间的通讯。<a href="https://blogs.atlassian.com/2013/11/docker-all-the-things-at-atlassian-automation-and-wiring/" target="_blank" rel="noopener">Atlassian</a> 展示了可用的例子。你还可以 <a href="https://docs.docker.com/engine/userguide/networking/default_network/dockerlinks/#/updating-the-etchosts-file" target="_blank" rel="noopener">通过主机名 (hostname) 链接</a>。</p>
+<p>在某种意义上来说，该特性已经被 <a href="https://docs.docker.com/network/" target="_blank" rel="noopener">自定义网络</a> 所替代。</p>
+<p>注意: 如果你希望容器之间<strong>只</strong>通过链接进行通讯，在启动 Docker 守护进程时，请使用 <code>-icc=false</code> 来禁用内部进程通讯。</p>
+<p>假设你有一个名为 CONTAINER 的容器（通过 <code>docker run --name CONTAINER</code> 指定）并且在 Dockerfile 中，暴露了一个端口:</p>
+<pre><code>EXPOSE 1337
+</code></pre><p>然后，我们创建另外一个名为 LINKED 的容器:</p>
+<pre><code>docker run -d --link CONTAINER:ALIAS --name LINKED user/wordpress
+</code></pre><p>然后 CONTAINER 暴露的端口和别名将会以如下的环境变量出现在 LINKED 中:</p>
+<pre><code>$ALIAS_PORT_1337_TCP_PORT
+$ALIAS_PORT_1337_TCP_ADDR
+</code></pre><p>那么你便可以通过这种方式来连接它了。</p>
+<p>使用 <code>docker rm --link</code> 即可删除链接。</p>
+<p>通常，Docker 容器（亦可理解为「服务」）之间的链接，是「服务发现」的一个子集。如果你打算在生产中大规模使用 Docker，这将是一个很大的问题。请参阅<a href="https://www.digitalocean.com/community/tutorials/the-docker-ecosystem-service-discovery-and-distributed-configuration-stores" target="_blank" rel="noopener">The Docker Ecosystem: Service Discovery and Distributed Configuration Stores</a> 获取更多信息。</p>
+<h3 id="卷标volumes"><a href="#卷标volumes" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:卷标volumes" class="headings">卷标(Volumes)</a></h3>
+<p>Docker 的卷标 (volumes) 是 <a href="https://docs.docker.com/engine/tutorials/dockervolumes/" target="_blank" rel="noopener">独立的文件系统</a>。它们并非必须连接到特定的容器上。</p>
+<h4 id="生命周期-3"><a href="#生命周期-3" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:生命周期-3" class="headings">生命周期</a></h4>
+<ul>
+<li><a href="https://docs.docker.com/engine/reference/commandline/volume_create/" target="_blank" rel="noopener"><code>docker volume create</code></a></li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/volume_rm/" target="_blank" rel="noopener"><code>docker volume rm</code></a></li>
+</ul>
+<h4 id="信息-1"><a href="#信息-1" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:信息-1" class="headings">信息</a></h4>
+<ul>
+<li><a href="https://docs.docker.com/engine/reference/commandline/volume_ls/" target="_blank" rel="noopener"><code>docker volume ls</code></a></li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/volume_inspect/" target="_blank" rel="noopener"><code>docker volume inspect</code></a></li>
+</ul>
+<p>卷标在不能使用链接（只有 TCP/IP）的情况下非常有用。例如，如果你有两个 Docker 实例需要通讯并在文件系统上留下记录。</p>
+<p>你可以一次性将其挂载到多个 docker 容器上，通过 <code>docker run --volumes-from</code>。</p>
+<p>因为卷标是独立的文件系统，它们通常被用于存储各容器之间的瞬时状态。也就是说，你可以配置一个无状态临时容器，关掉之后，当你有第二个这种临时容器实例的时候，你可以从上一次保存的状态继续执行。</p>
+<p>查看 <a href="http://crosbymichael.com/advanced-docker-volumes.html" target="_blank" rel="noopener">卷标进阶</a> 来获取更多细节。<a href="http://container42.com/2014/11/03/docker-indepth-volumes/" target="_blank" rel="noopener">Container42</a> 非常有用。</p>
+<p>你可以 <a href="https://docs.docker.com/engine/tutorials/dockervolumes/#mount-a-host-directory-as-a-data-volume" target="_blank" rel="noopener">将宿主 MacOS 的文件夹映射为 Docker 卷标</a>：</p>
+<pre><code>docker run -v /Users/wsargent/myapp/src:/src
+</code></pre><p>你也可以用远程 NFS 卷标，如果你觉得你 <a href="https://docs.docker.com/engine/tutorials/dockervolumes/#/mount-a-shared-storage-volume-as-a-data-volume" target="_blank" rel="noopener">有足够勇气</a>。</p>
+<p>还可以考虑运行一个纯数据容器，像 <a href="http://container42.com/2013/12/16/persistent-volumes-with-docker-container-as-volume-pattern/" target="_blank" rel="noopener">这里</a> 所说的那样，提供可移植数据。</p>
+<p>记得，<a href="#%E5%B0%86%E6%96%87%E4%BB%B6%E6%8C%82%E8%BD%BD%E4%B8%BA%E5%8D%B7%E6%A0%87">文件也可以被挂载为卷标</a>。</p>
+<h3 id="暴露端口exposing-ports"><a href="#暴露端口exposing-ports" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:暴露端口exposing-ports" class="headings">暴露端口(Exposing ports)</a></h3>
+<p>通过宿主容器暴露输入端口相当 <a href="https://docs.docker.com/engine/reference/run/#expose-incoming-ports" target="_blank" rel="noopener">繁琐但有效的</a>。</p>
+<p>例如使用 <code>-p</code> 将容器端口映射到宿主端口上（只使用本地主机 (localhost) 接口）：</p>
+<pre><code>docker run -p 127.0.0.1:$HOSTPORT:$CONTAINERPORT --name CONTAINER -t someimage
+</code></pre><p>你可以使用 <a href="https://docs.docker.com/engine/reference/builder/#expose" target="_blank" rel="noopener">EXPOSE</a> 告知 Docker，该容器在运行时监听指定的端口：</p>
+<pre><code>EXPOSE &lt;CONTAINERPORT&gt;
+</code></pre><p>但是注意 EXPOSE 并不会直接暴露端口，你需要用参数 <code>-p</code> 。比如说你要在 localhost 上暴露容器的端口:</p>
+<pre><code>iptables -t nat -A DOCKER -p tcp --dport &lt;LOCALHOSTPORT&gt; -j DNAT --to-destination &lt;CONTAINERIP&gt;:&lt;PORT&gt;
+</code></pre><p>如果你是在 Virtualbox 中运行 Docker，那么你需要配置端口转发 (forward the port)。使用 <a href="https://docs.vagrantup.com/v2/networking/forwarded_ports.html" target="_blank" rel="noopener">forwarded_port</a> 在 Vagrantfile 上配置暴露的端口范围，这样你就可以动态地映射了：</p>
+<pre><code>Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  ...
+
+  (49000..49900).each do |port|
+    config.vm.network :forwarded_port, :host =&gt; port, :guest =&gt; port
+  end
+
+  ...
+end
+</code></pre><p>如果你忘记了将什么端口映射到宿主机上的话，可使用 <code>docker port</code> 查看：</p>
+<pre><code>docker port CONTAINER $CONTAINERPORT
+</code></pre><h3 id="最佳实践"><a href="#最佳实践" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:最佳实践" class="headings">最佳实践</a></h3>
+<p>这里有一些最佳实践，以及争论焦点：</p>
+<ul>
+<li><a href="http://gregoryszorc.com/blog/2014/10/16/the-rabbit-hole-of-using-docker-in-automated-tests/" target="_blank" rel="noopener">The Rabbit Hole of Using Docker in Automated Tests</a></li>
+<li><a href="https://twitter.com/bridgetkromhout" target="_blank" rel="noopener">Bridget Kromhout</a> has a useful blog post on <a href="http://sysadvent.blogspot.co.uk/2014/12/day-1-docker-in-production-reality-not.html" target="_blank" rel="noopener">running Docker in production</a> at Dramafever.</li>
+<li>There's also a best practices <a href="http://developers.lyst.com/devops/2014/12/08/docker/" target="_blank" rel="noopener">blog post</a> from Lyst.</li>
+<li><a href="https://engineering.salesforceiq.com/2013/11/05/a-docker-dev-environment-in-24-hours-part-2-of-2.html" target="_blank" rel="noopener">A Docker Dev Environment in 24 Hours!</a></li>
+<li><a href="https://tersesystems.com/2013/11/20/building-a-development-environment-with-docker/" target="_blank" rel="noopener">Building a Development Environment With Docker</a></li>
+<li><a href="https://samsaffron.com/archive/2013/11/07/discourse-in-a-docker-container" target="_blank" rel="noopener">Discourse in a Docker Container</a></li>
+</ul>
+<h4 id="安全security"><a href="#安全security" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:安全security" class="headings">安全(Security)</a></h4>
+<p>这节准备讨论一些关于 Docker 安全性的问题。Docker 官方文档 <a href="https://docs.docker.com/articles/security/" target="_blank" rel="noopener">安全</a> 页面讲述了更多细节。</p>
+<p>首先第一件事：Docker 是有 root 权限的。如果你在 <code>docker</code> 组，那么你就有 <a href="https://web.archive.org/web/20161226211755/http://reventlov.com/advisories/using-the-docker-command-to-root-the-host" target="_blank" rel="noopener">root 权限</a>。如果你将 Docker 的 Unix Socket 暴露给容器，意味着你赋予了容器 <a href="https://www.lvh.io/posts/dont-expose-the-docker-socket-not-even-to-a-container/" target="_blank" rel="noopener">宿主机 root 权限</a>。</p>
+<p>Docker 不应当作为唯一的防御措施。你应当使其更加安全可靠。</p>
+<p>为了更好地理解容器暴露了什么，可参阅由 <a href="https://twitter.com/dyn___" target="_blank" rel="noopener">Aaron Grattafiori</a> 编写的 <a href="https://www.nccgroup.trust/globalassets/our-research/us/whitepapers/2016/april/ncc_group_understanding_hardening_linux_containers-1-1.pdf" target="_blank" rel="noopener">Understanding and Hardening Linux Containers</a>。这是一个完整全面且包含大量链接和脚注的容器问题指南，介绍了许多有用的内容。即使你已经加固过容器，以下的安全提示依然十分有帮助，但并不能代替理解的过程。</p>
+<h4 id="安全提示"><a href="#安全提示" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:安全提示" class="headings">安全提示</a></h4>
+<p>为了最大的安全性，你应当考虑在虚拟机上运行 Docker。这是直接从 Docker 安全团队拿来的资料 -- <a href="http://www.slideshare.net/jpetazzo/linux-containers-lxc-docker-and-security" target="_blank" rel="noopener">slides</a> / <a href="http://www.projectatomic.io/blog/2014/08/is-it-safe-a-look-at-docker-and-security-from-linuxcon/" target="_blank" rel="noopener">notes</a>。之后，可使用 AppArmor、seccomp、SELinux、grsec 等来 <a href="http://linux-audit.com/docker-security-best-practices-for-your-vessel-and-containers/" target="_blank" rel="noopener">限制容器的权限</a>。更多细节，请查阅 <a href="https://blog.docker.com/2016/02/docker-engine-1-10-security/" target="_blank" rel="noopener">Docker 1.10 security features</a>。</p>
+<p>Docker 镜像 ID 属于 <a href="https://medium.com/@quayio/your-docker-image-ids-are-secrets-and-its-time-you-treated-them-that-way-f55e9f14c1a4" target="_blank" rel="noopener">敏感信息</a> 所以它不应该向外界公开。请将它们当作密码来对待。</p>
+<p>阅读由 <a href="https://github.com/konstruktoid" target="_blank" rel="noopener">Thomas Sjögren</a> 编写的 <a href="https://github.com/konstruktoid/Docker/blob/master/Security/CheatSheet.adoc" target="_blank" rel="noopener">Docker Security Cheat Sheet</a>：关于加固容器的不错的建议。</p>
+<p>查看 <a href="https://github.com/docker/docker-bench-security" target="_blank" rel="noopener">Docker 安全测试脚本</a>，下载 <a href="https://blog.docker.com/2015/05/understanding-docker-security-and-best-practices/" target="_blank" rel="noopener">最佳实践白皮书</a>。</p>
+<p>你应当远离使用非稳定版本 grsecurity / pax 的内核，比如 <a href="https://en.wikipedia.org/wiki/Alpine_Linux" target="_blank" rel="noopener">Alpine Linux</a>。如果在产品中用了 grsecurity，那么你应该考虑使用有 <a href="https://grsecurity.net/business_support.php" target="_blank" rel="noopener">商业支持</a> 的 <a href="https://grsecurity.net/announce.php" target="_blank" rel="noopener">稳定版本</a>，就像你对待 RedHat 那样。虽然要 $200 每月，但对于你的运维预算来说不值一提。</p>
+<p>从 Docker 1.11 开始，你可以轻松的限制在容器中可用的进程数，以防止 fork 炸弹。 这要求 Linux 内核 &gt;= 4.3，并且要在内核配置中打开 CGROUP_PIDS=y。</p>
+<pre><code>docker run --pids-limit=64
+</code></pre><p>同时，你也可以限制进程再获取新权限。该功能是 Linux 内核从 3.5 版本开始就拥有的。你可以从 <a href="http://www.projectatomic.io/blog/2016/03/no-new-privs-docker/" target="_blank" rel="noopener">这篇博客</a> 中阅读到更多关于这方面的内容。</p>
+<pre><code>docker run --security-opt=no-new-privileges
+</code></pre><p>以下内容摘选自 <a href="http://container-solutions.com/is-docker-safe-for-production/" target="_blank" rel="noopener">Container Solutions</a> 的 <a href="http://container-solutions.com/content/uploads/2015/06/15.06.15_DockerCheatSheet_A2.pdf" target="_blank" rel="noopener">Docker Security Cheat Sheet</a>（PDF 版本，难以使用，故复制至此）：</p>
+<p>关闭内部进程通讯：</p>
+<pre><code>docker -d --icc=false --iptables
+</code></pre><p>设置容器为只读：</p>
+<pre><code>docker run --read-only
+</code></pre><p>通过 hashsum 来验证卷标：</p>
+<pre><code>docker pull debian@sha256:a25306f3850e1bd44541976aa7b5fd0a29be
+</code></pre><p>设置卷标为只读：</p>
+<pre><code>docker run -v $(pwd)/secrets:/secrets:ro debian
+</code></pre><p>在 Dockerfile 中定义用户并以该用户运行，避免在容器中以 ROOT 身份操作：</p>
+<pre><code>RUN groupadd -r user &amp;&amp; useradd -r -g user user
+USER user
+</code></pre><h4 id="用户命名空间user-namespaces"><a href="#用户命名空间user-namespaces" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:用户命名空间user-namespaces" class="headings">用户命名空间(User Namespaces)</a></h4>
+<p>还可以通过使用 <a href="https://s3hh.wordpress.com/2013/07/19/creating-and-using-containers-without-privilege/" target="_blank" rel="noopener">用户命名空间</a> -- 自 1.10 版本起已内置，但默认并未启用。</p>
+<p>要在 Ubuntu 15.10 中启用用户命名空间 (remap the userns)，请 <a href="https://raesene.github.io/blog/2016/02/04/Docker-User-Namespaces/" target="_blank" rel="noopener">跟着这篇博客的例子</a> 来做。</p>
+<h4 id="安全相关视频"><a href="#安全相关视频" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:安全相关视频" class="headings">安全相关视频</a></h4>
+<ul>
+<li><a href="https://youtu.be/04LOuMgNj9U" target="_blank" rel="noopener">Using Docker Safely</a></li>
+<li><a href="https://youtu.be/KmxOXmPhZbk" target="_blank" rel="noopener">Securing your applications using Docker</a></li>
+<li><a href="https://youtu.be/a9lE9Urr6AQ" target="_blank" rel="noopener">Container security: Do containers actually contain?</a></li>
+<li><a href="https://www.youtube.com/watch?v=iN6QbszB1R8" target="_blank" rel="noopener">Linux Containers: Future or Fantasy?</a></li>
+</ul>
+<h4 id="安全路线图"><a href="#安全路线图" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:安全路线图" class="headings">安全路线图</a></h4>
+<p>Docker 的路线图提到关于 <a href="https://github.com/docker/docker/blob/master/ROADMAP.md#11-security" target="_blank" rel="noopener">seccomp 的支持</a>。
+一个名为 <a href="https://github.com/jfrazelle/bane" target="_blank" rel="noopener">bane</a> 的 AppArmor 策略生成器正在实现 <a href="https://github.com/docker/docker/issues/17142" target="_blank" rel="noopener">安全配置文件</a>。</p>
+<h3 id="小贴士"><a href="#小贴士" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:小贴士" class="headings">小贴士</a></h3>
+<p>链接：</p>
+<ul>
+<li><a href="http://sssslide.com/speakerdeck.com/bmorearty/15-docker-tips-in-5-minutes" target="_blank" rel="noopener">15 Docker Tips in 5 minutes</a></li>
+<li><a href="https://codefresh.io/blog/everyday-hacks-docker/" target="_blank" rel="noopener">CodeFresh Everyday Hacks Docker</a></li>
+</ul>
+<h4 id="清理-1"><a href="#清理-1" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:清理-1" class="headings">清理</a></h4>
+<p>最新的 <a href="https://github.com/docker/docker/pull/26108" target="_blank" rel="noopener">数据管理命令</a> 已在 Docker 1.13 实现：</p>
+<ul>
+<li><code>docker system prune</code></li>
+<li><code>docker volume prune</code></li>
+<li><code>docker network prune</code></li>
+<li><code>docker container prune</code></li>
+<li><code>docker image prune</code></li>
+</ul>
+<h4 id="df-命令"><a href="#df-命令" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:df-命令" class="headings">df 命令</a></h4>
+<p><code>docker system df</code> 将显示当前 Docker 各部分占用的磁盘空间。</p>
+<h4 id="heredoc-声明-docker-容器"><a href="#heredoc-声明-docker-容器" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:heredoc-声明-docker-容器" class="headings">Heredoc 声明 Docker 容器</a></h4>
+<pre><code>docker build -t htop - &lt;&lt; EOF
+FROM alpine
+RUN apk --no-cache add htop
+EOF
+</code></pre><h4 id="最近一次的容器-id"><a href="#最近一次的容器-id" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:最近一次的容器-id" class="headings">最近一次的容器 ID</a></h4>
+<pre><code>alias dl='docker ps -l -q'
+docker run ubuntu echo hello world
+docker commit $(dl) helloworld
+</code></pre><h4 id="带命令的提交需要-dockerfile"><a href="#带命令的提交需要-dockerfile" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:带命令的提交需要-dockerfile" class="headings">带命令的提交（需要 Dockerfile）</a></h4>
+<pre><code>docker commit -run='{&quot;Cmd&quot;:[&quot;postgres&quot;, &quot;-too -many -opts&quot;]}' $(dl) postgres
+</code></pre><h4 id="获取-ip-地址"><a href="#获取-ip-地址" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:获取-ip-地址" class="headings">获取 IP 地址</a></h4>
+<pre><code>docker inspect $(dl) | grep -wm1 IPAddress | cut -d '&quot;' -f 4
+</code></pre><p>或使用 <a href="https://stedolan.github.io/jq/" target="_blank" rel="noopener">jq</a>:</p>
+<pre><code>docker inspect $(dl) | jq -r '.[0].NetworkSettings.IPAddress'
+</code></pre><p>或使用 <a href="https://docs.docker.com/engine/reference/commandline/inspect" target="_blank" rel="noopener">go 模板</a>：</p>
+<pre><code>docker inspect -f '{{ .NetworkSettings.IPAddress }}' &lt;container_name&gt;
+</code></pre><p>或在通过 Dockerfile 构建镜像时，通过构建参数 (build argument) 传入：</p>
+<pre><code>DOCKER_HOST_IP=`ifconfig | grep -E &quot;([0-9]{1,3}\.){3}[0-9]{1,3}&quot; | grep -v 127.0.0.1 | awk '{ print $2 }' | cut -f2 -d: | head -n1`
+echo DOCKER_HOST_IP = $DOCKER_HOST_IP
+docker build \
+  --build-arg ARTIFACTORY_ADDRESS=$DOCKER_HOST_IP 
+  -t sometag \
+  some-directory/
+</code></pre><h4 id="获取端口映射"><a href="#获取端口映射" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:获取端口映射" class="headings">获取端口映射</a></h4>
+<pre><code>docker inspect -f '{{range $p, $conf := .NetworkSettings.Ports}} {{$p}} -&gt; {{(index $conf 0).HostPort}} {{end}}' &lt;containername&gt;
+</code></pre><h4 id="通过正则匹配容器"><a href="#通过正则匹配容器" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:通过正则匹配容器" class="headings">通过正则匹配容器</a></h4>
+<pre><code>for i in $(docker ps -a | grep &quot;REGEXP_PATTERN&quot; | cut -f1 -d&quot; &quot;); do echo $i; done`
+</code></pre><h4 id="获取环境变量配置"><a href="#获取环境变量配置" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:获取环境变量配置" class="headings">获取环境变量配置</a></h4>
+<pre><code>docker run --rm ubuntu env
+</code></pre><h4 id="强行终止运行中的容器"><a href="#强行终止运行中的容器" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:强行终止运行中的容器" class="headings">强行终止运行中的容器</a></h4>
+<pre><code>docker kill $(docker ps -q)
+</code></pre><h4 id="删除所有容器强行删除无论容器运行或停止"><a href="#删除所有容器强行删除无论容器运行或停止" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:删除所有容器强行删除无论容器运行或停止" class="headings">删除所有容器（强行删除！无论容器运行或停止）</a></h4>
+<pre><code>docker rm -f $(docker ps -qa)
+</code></pre><h4 id="删除旧容器"><a href="#删除旧容器" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:删除旧容器" class="headings">删除旧容器</a></h4>
+<pre><code>docker ps -a | grep 'weeks ago' | awk '{print $1}' | xargs docker rm
+</code></pre><h4 id="删除已停止的容器"><a href="#删除已停止的容器" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:删除已停止的容器" class="headings">删除已停止的容器</a></h4>
+<pre><code>docker rm -v `docker ps -a -q -f status=exited`
+</code></pre><h4 id="停止并删除容器"><a href="#停止并删除容器" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:停止并删除容器" class="headings">停止并删除容器</a></h4>
+<pre><code>docker stop $(docker ps -aq) &amp;&amp; docker rm -v $(docker ps -aq)
+</code></pre><h4 id="删除无用-dangling-的镜像"><a href="#删除无用-dangling-的镜像" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:删除无用-dangling-的镜像" class="headings">删除无用 (dangling) 的镜像</a></h4>
+<pre><code>docker rmi $(docker images -q -f dangling=true)
+</code></pre><h4 id="删除所有镜像"><a href="#删除所有镜像" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:删除所有镜像" class="headings">删除所有镜像</a></h4>
+<pre><code>docker rmi $(docker images -q)
+</code></pre><h4 id="删除无用-dangling-的卷标"><a href="#删除无用-dangling-的卷标" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:删除无用-dangling-的卷标" class="headings">删除无用 (dangling) 的卷标</a></h4>
+<p>Docker 1.9 版本起：</p>
+<pre><code>docker volume rm $(docker volume ls -q -f dangling=true)
+</code></pre><p>1.9.0 中，参数 <code>dangling=false</code> 居然 <em>没</em> 用 - 它会被忽略然后列出所有的卷标。</p>
+<h4 id="查看镜像依赖"><a href="#查看镜像依赖" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:查看镜像依赖" class="headings">查看镜像依赖</a></h4>
+<pre><code>docker images -viz | dot -Tpng -o docker.png
+</code></pre><h4 id="docker-容器瘦身"><a href="#docker-容器瘦身" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:docker-容器瘦身" class="headings">Docker 容器瘦身</a></h4>
+<ul>
+<li>在某层 (RUN layer) 清理 APT</li>
+</ul>
+<p>这应当和其他 apt 命令在同一层中完成。
+否则，前面的层将会保持原有信息，而你的镜像则依旧臃肿。</p>
+<pre><code>RUN {apt commands} \
+  &amp;&amp; apt-get clean \  
+  &amp;&amp; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+</code></pre><ul>
+<li>压缩镜像</li>
+</ul>
+<pre><code>ID=$(docker run -d image-name /bin/bash)
+docker export $ID | docker import – flat-image-name
+</code></pre><ul>
+<li>备份</li>
+</ul>
+<pre><code>ID=$(docker run -d image-name /bin/bash)
+(docker export $ID | gzip -c &gt; image.tgz)
+gzip -dc image.tgz | docker import - flat-image-name
+</code></pre><h4 id="监视运行中容器的系统资源利用率"><a href="#监视运行中容器的系统资源利用率" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:监视运行中容器的系统资源利用率" class="headings">监视运行中容器的系统资源利用率</a></h4>
+<p>检查某个容器的 CPU、内存以及网络 I/O 使用情况，你可以：</p>
+<pre><code>docker stats &lt;container&gt;
+</code></pre><p>按 ID 列出所有容器：</p>
+<pre><code>docker stats $(docker ps -q)
+</code></pre><p>按名称列出所有容器：</p>
+<pre><code>docker stats $(docker ps --format '{{.Names}}')
+</code></pre><p>按指定镜像名称列出所有容器：</p>
+<pre><code>docker ps -a -f ancestor=ubuntu
+</code></pre><p>删除所有未标签命名 (untagged) 的容器：</p>
+<pre><code>docker rmi $(docker images | grep “^” | awk '{split($0,a,&quot; &quot;); print a[3]}')
+</code></pre><p>通过正则匹配删除指定容器：</p>
+<pre><code>docker ps -a | grep wildfly | awk '{print $1}' | xargs docker rm -f
+</code></pre><p>删除所有已退出 (exited) 的容器：</p>
+<pre><code>docker rm -f $(docker ps -a | grep Exit | awk '{ print $1 }')
+</code></pre><h4 id="将文件挂载为卷标"><a href="#将文件挂载为卷标" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:将文件挂载为卷标" class="headings">将文件挂载为卷标</a></h4>
+<p>文件也可以被挂载为卷标。例如你可以仅仅注入单个配置文件：</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># 从容器复制文件</span>
+docker run --rm httpd cat /usr/local/apache2/conf/httpd.conf &gt; httpd.conf
+
+<span class="c1"># 编辑文件</span>
+vim httpd.conf
+
+<span class="c1"># 挂载修改后的配置启动容器</span>
+docker run --rm -ti -v <span class="s2">&#34;</span><span class="nv">$PWD</span><span class="s2">/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro&#34;</span> -p <span class="s2">&#34;80:80&#34;</span> httpd
+</code></pre></td></tr></table></div>
+</div>
+</div>
+            </div>
+
+            
+
+
+        </article>
+
+        
+
+        
+    <div class="updated-badge-container">
+        <span title="Updated @ 2020-11-29 00:53:19 CST" style="cursor:help">
+
+<svg xmlns="http://www.w3.org/2000/svg" width="130" height="20" class="updated-badge"><linearGradient id="b" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="a"><rect width="130" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#a)"><path class="updated-badge-left" d="M0 0h55v20H0z"/><path class="updated-badge-right" d="M55 0h75v20H55z"/><path fill="url(#b)" d="M0 0h130v20H0z"/></g><g fill="#fff" text-anchor="middle" font-size="110"><text x="285" y="150" fill="#010101" fill-opacity=".3" textLength="450" transform="scale(.1)">updated</text><text x="285" y="140" textLength="450" transform="scale(.1)">updated</text><text x="915" y="150" fill="#010101" fill-opacity=".3" textLength="650" transform="scale(.1)">2020-11-29</text><text x="915" y="140" textLength="650" transform="scale(.1)">2020-11-29</text></g></svg>
+        </span></div>
+
+
+
+        
+
+
+        <div class="post-share">
+
+        
+
+        <div class="share-items">
+
+            
+                <div class="share-item twitter">
+                    
+                    <a href="https://twitter.com/share?url=http://www.wemeng.top/posts/docker-cheat-sheet/&amp;text=Docker%20Cheat%20Sheet&amp;hashtags=Docker,%e7%bb%8f%e9%aa%8c,&amp;via=%e6%87%92%e7%99%8c%e6%ad%a3%e6%82%a3%e8%80%85" title="分享到「Twitter」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item facebook">
+                    
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=http://www.wemeng.top/posts/docker-cheat-sheet/&amp;hashtag=%23Docker" title="分享到「Facebook」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon facebook-icon"><path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item linkedin">
+                    
+                    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http://www.wemeng.top/posts/docker-cheat-sheet/&amp;title=Docker%20Cheat%20Sheet&amp;summary=%e4%b8%ba%e4%bd%95%e4%bd%bf%e7%94%a8%20Docker%20%e3%80%8c%e9%80%9a%e8%bf%87%20Docker%ef%bc%8c%e5%bc%80%e5%8f%91%e8%80%85%e5%8f%af%e4%bb%a5%e4%bd%bf%e7%94%a8%e4%bb%bb%e4%bd%95%e8%af%ad%e8%a8%80%e4%bb%bb%e4%bd%95%e5%b7%a5%e5%85%b7%e5%88%9b%e5%bb%ba%e4%bb%bb%e4%bd%95%e5%ba%94%e7%94%a8%e3%80%82%e2%80%9cDockerized%e2%80%9d%20%e7%9a%84%e5%ba%94%e7%94%a8%e6%98%af%e5%ae%8c%e5%85%a8%e5%8f%af%e7%a7%bb%e6%a4%8d%e7%9a%84%ef%bc%8c%e8%83%bd%e5%9c%a8%e4%bb%bb%e4%bd%95%e5%9c%b0%e6%96%b9%e8%bf%90%e8%a1%8c%20-%20%e4%b8%8d%e7%ae%a1%e6%98%af%e5%90%8c%e4%ba%8b%e7%9a%84%20OS%20X%20%e5%92%8c%20Windows%20%e7%ac%94%e8%ae%b0%e6%9c%ac%ef%bc%8c%e6%88%96%e6%98%af%e5%9c%a8%e4%ba%91%e7%ab%af%e8%bf%90%e8%a1%8c%e7%9a%84%20Ubuntu%20QA%20%e6%9c%8d%e5%8a%a1%ef%bc%8c%e8%bf%98%e6%98%af%e5%9c%a8%e8%99%9a%e6%8b%9f%e6%9c%ba%e8%bf%90%e8%a1%8c%e7%9a%84%20Red%20Hat%20%e4%ba%a7%e5%93%81%e6%95%b0%e6%8d%ae%e4%b8%ad%e5%bf%83%e3%80%82%0aDocker%20Hub%20%e4%b8%8a%e6%9c%89%2013000&#43;%20%e7%9a%84%e5%ba%94%e7%94%a8%ef%bc%8c%e5%bc%80%e5%8f%91%e8%80%85%e5%8f%af%e4%bb%a5%e4%bb%8e%e4%b8%ad%e9%80%89%e5%8f%96%e4%b8%80%e4%b8%aa%e8%bf%9b%e8%a1%8c%e5%bf%ab%e9%80%9f%e6%89%a9%e5%b1%95%e5%bc%80%e5%8f%91%e3%80%82Docker%20%e8%b7%9f%e8%b8%aa%e7%ae%a1%e7%90%86%e5%8f%98%e6%9b%b4%e5%92%8c%e4%be%9d%e8%b5%96%e5%85%b3%e7%b3%bb%ef%bc%8c%e8%ae%a9%e7%b3%bb%e7%bb%9f%e7%ae%a1%e7%90%86%e5%91%98%e8%83%bd%e6%9b%b4%e5%ae%b9%e6%98%93%e7%90%86%e8%a7%a3%e5%bc%80%e5%8f%91%e4%ba%ba%e5%91%98%e6%98%af%e5%a6%82%e4%bd%95%e8%ae%a9%e5%ba%94%e7%94%a8%e8%bf%90%e8%bd%ac%e8%b5%b7%e6%9d%a5%e7%9a%84%e3%80%82%e8%80%8c%e5%bc%80%e5%8f%91%e8%80%85%e5%8f%af%e4%bb%a5%e9%80%9a%e8%bf%87%20Docker%20Hub%20%e7%9a%84%e5%85%b1%e6%9c%89/%e7%a7%81%e6%9c%89%e4%bb%93%e5%ba%93%ef%bc%8c%e6%9e%84%e5%bb%ba%e4%bb%96%e4%bb%ac%e7%9a%84%e8%87%aa%e5%8a%a8%e5%8c%96%e7%bc%96%e8%af%91%ef%bc%8c%e4%b8%8e%e5%85%b6%e4%bb%96%e5%90%88%e4%bd%9c%e8%80%85%e5%85%b1%e4%ba%ab%e6%88%90%e6%9e%9c%e3%80%82%0aDocker%20%e5%b8%ae%e5%8a%a9%e5%bc%80%e5%8f%91%e8%80%85%e6%9b%b4%e5%bf%ab%e5%9c%b0%e6%9e%84%e5%bb%ba%e5%92%8c%e5%8f%91%e5%b8%83%e9%ab%98%e8%b4%a8%e9%87%8f%e7%9a%84%e5%ba%94%e7%94%a8%e3%80%82%e3%80%8d%e2%80%94%e2%80%94%20%e4%bb%80%e4%b9%88%e6%98%af%20Docker%0a%e2%80%a6%e2%80%a6&amp;source=%e6%87%92%e7%99%8c%e6%ad%a3%e6%82%a3%e8%80%85" title="分享到「LinkedIn」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon linkedin-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item telegram">
+                    
+                    <a href="https://t.me/share/url?url=http://www.wemeng.top/posts/docker-cheat-sheet/&amp;text=Docker%20Cheat%20Sheet" title="分享到「Telegram」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon telegram-icon"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm121.8 169.9l-40.7 191.8c-3 13.6-11.1 16.9-22.4 10.5l-62-45.7-29.9 28.8c-3.3 3.3-6.1 6.1-12.5 6.1l4.4-63.1 114.9-103.8c5-4.4-1.1-6.9-7.7-2.5l-142 89.4-61.2-19.1c-13.3-4.2-13.6-13.3 2.8-19.7l239.1-92.2c11.1-4 20.8 2.7 17.2 19.5z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item weibo">
+                    
+                    <a href="https://service.weibo.com/share/share.php?&amp;url=http://www.wemeng.top/posts/docker-cheat-sheet/&amp;title=Docker%20Cheat%20Sheet&amp;pic=http://www.wemeng.top/icons/apple-touch-icon.png&amp;searchPic=false" title="分享到「新浪微博」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon weibo-icon"><path d="M407 177.6c7.6-24-13.4-46.8-37.4-41.7-22 4.8-28.8-28.1-7.1-32.8 50.1-10.9 92.3 37.1 76.5 84.8-6.8 21.2-38.8 10.8-32-10.3zM214.8 446.7C108.5 446.7 0 395.3 0 310.4c0-44.3 28-95.4 76.3-143.7C176 67 279.5 65.8 249.9 161c-4 13.1 12.3 5.7 12.3 6 79.5-33.6 140.5-16.8 114 51.4-3.7 9.4 1.1 10.9 8.3 13.1 135.7 42.3 34.8 215.2-169.7 215.2zm143.7-146.3c-5.4-55.7-78.5-94-163.4-85.7-84.8 8.6-148.8 60.3-143.4 116s78.5 94 163.4 85.7c84.8-8.6 148.8-60.3 143.4-116zM347.9 35.1c-25.9 5.6-16.8 43.7 8.3 38.3 72.3-15.2 134.8 52.8 111.7 124-7.4 24.2 29.1 37 37.4 12 31.9-99.8-55.1-195.9-157.4-174.3zm-78.5 311c-17.1 38.8-66.8 60-109.1 46.3-40.8-13.1-58-53.4-40.3-89.7 17.7-35.4 63.1-55.4 103.4-45.1 42 10.8 63.1 50.2 46 88.5zm-86.3-30c-12.9-5.4-30 .3-38 12.9-8.3 12.9-4.3 28 8.6 34 13.1 6 30.8.3 39.1-12.9 8-13.1 3.7-28.3-9.7-34zm32.6-13.4c-5.1-1.7-11.4.6-14.3 5.4-2.9 5.1-1.4 10.6 3.7 12.9 5.1 2 11.7-.3 14.6-5.4 2.8-5.2 1.1-10.9-4-12.9z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item douban">
+                    
+                    <a href="https://www.douban.com/share/service?href=http://www.wemeng.top/posts/docker-cheat-sheet/&amp;name=Docker%20Cheat%20Sheet&amp;text=%e4%b8%ba%e4%bd%95%e4%bd%bf%e7%94%a8%20Docker%20%e3%80%8c%e9%80%9a%e8%bf%87%20Docker%ef%bc%8c%e5%bc%80%e5%8f%91%e8%80%85%e5%8f%af%e4%bb%a5%e4%bd%bf%e7%94%a8%e4%bb%bb%e4%bd%95%e8%af%ad%e8%a8%80%e4%bb%bb%e4%bd%95%e5%b7%a5%e5%85%b7%e5%88%9b%e5%bb%ba%e4%bb%bb%e4%bd%95%e5%ba%94%e7%94%a8%e3%80%82%e2%80%9cDockerized%e2%80%9d%20%e7%9a%84%e5%ba%94%e7%94%a8%e6%98%af%e5%ae%8c%e5%85%a8%e5%8f%af%e7%a7%bb%e6%a4%8d%e7%9a%84%ef%bc%8c%e8%83%bd%e5%9c%a8%e4%bb%bb%e4%bd%95%e5%9c%b0%e6%96%b9%e8%bf%90%e8%a1%8c%20-%20%e4%b8%8d%e7%ae%a1%e6%98%af%e5%90%8c%e4%ba%8b%e7%9a%84%20OS%20X%20%e5%92%8c%20Windows%20%e7%ac%94%e8%ae%b0%e6%9c%ac%ef%bc%8c%e6%88%96%e6%98%af%e5%9c%a8%e4%ba%91%e7%ab%af%e8%bf%90%e8%a1%8c%e7%9a%84%20Ubuntu%20QA%20%e6%9c%8d%e5%8a%a1%ef%bc%8c%e8%bf%98%e6%98%af%e5%9c%a8%e8%99%9a%e6%8b%9f%e6%9c%ba%e8%bf%90%e8%a1%8c%e7%9a%84%20Red%20Hat%20%e4%ba%a7%e5%93%81%e6%95%b0%e6%8d%ae%e4%b8%ad%e5%bf%83%e3%80%82%0aDocker%20Hub%20%e4%b8%8a%e6%9c%89%2013000&#43;%20%e7%9a%84%e5%ba%94%e7%94%a8%ef%bc%8c%e5%bc%80%e5%8f%91%e8%80%85%e5%8f%af%e4%bb%a5%e4%bb%8e%e4%b8%ad%e9%80%89%e5%8f%96%e4%b8%80%e4%b8%aa%e8%bf%9b%e8%a1%8c%e5%bf%ab%e9%80%9f%e6%89%a9%e5%b1%95%e5%bc%80%e5%8f%91%e3%80%82Docker%20%e8%b7%9f%e8%b8%aa%e7%ae%a1%e7%90%86%e5%8f%98%e6%9b%b4%e5%92%8c%e4%be%9d%e8%b5%96%e5%85%b3%e7%b3%bb%ef%bc%8c%e8%ae%a9%e7%b3%bb%e7%bb%9f%e7%ae%a1%e7%90%86%e5%91%98%e8%83%bd%e6%9b%b4%e5%ae%b9%e6%98%93%e7%90%86%e8%a7%a3%e5%bc%80%e5%8f%91%e4%ba%ba%e5%91%98%e6%98%af%e5%a6%82%e4%bd%95%e8%ae%a9%e5%ba%94%e7%94%a8%e8%bf%90%e8%bd%ac%e8%b5%b7%e6%9d%a5%e7%9a%84%e3%80%82%e8%80%8c%e5%bc%80%e5%8f%91%e8%80%85%e5%8f%af%e4%bb%a5%e9%80%9a%e8%bf%87%20Docker%20Hub%20%e7%9a%84%e5%85%b1%e6%9c%89/%e7%a7%81%e6%9c%89%e4%bb%93%e5%ba%93%ef%bc%8c%e6%9e%84%e5%bb%ba%e4%bb%96%e4%bb%ac%e7%9a%84%e8%87%aa%e5%8a%a8%e5%8c%96%e7%bc%96%e8%af%91%ef%bc%8c%e4%b8%8e%e5%85%b6%e4%bb%96%e5%90%88%e4%bd%9c%e8%80%85%e5%85%b1%e4%ba%ab%e6%88%90%e6%9e%9c%e3%80%82%0aDocker%20%e5%b8%ae%e5%8a%a9%e5%bc%80%e5%8f%91%e8%80%85%e6%9b%b4%e5%bf%ab%e5%9c%b0%e6%9e%84%e5%bb%ba%e5%92%8c%e5%8f%91%e5%b8%83%e9%ab%98%e8%b4%a8%e9%87%8f%e7%9a%84%e5%ba%94%e7%94%a8%e3%80%82%e3%80%8d%e2%80%94%e2%80%94%20%e4%bb%80%e4%b9%88%e6%98%af%20Docker%0a%e2%80%a6%e2%80%a6" title="分享到「豆瓣」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon douban-icon"><path d="M.643.92v2.412h22.714V.92H.643zm1.974 4.926v9.42h18.764v-9.42H2.617zm2.72 2.408H18.69v4.605H5.338V8.254zm1.657 7.412l-2.512.938c1.037 1.461 1.87 2.825 2.512 4.091H0v2.385h24v-2.385h-6.678c.818-1.176 1.589-2.543 2.303-4.091l-2.73-.938a29.952 29.952 0 01-2.479 5.03h-4.75c-.786-1.962-1.677-3.641-2.672-5.03Z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item qq">
+                    
+                    <a href="https://connect.qq.com/widget/shareqq/index.html?url=http://www.wemeng.top/posts/docker-cheat-sheet/&amp;title=Docker%20Cheat%20Sheet&amp;summary=%e4%b8%ba%e4%bd%95%e4%bd%bf%e7%94%a8%20Docker%20%e3%80%8c%e9%80%9a%e8%bf%87%20Docker%ef%bc%8c%e5%bc%80%e5%8f%91%e8%80%85%e5%8f%af%e4%bb%a5%e4%bd%bf%e7%94%a8%e4%bb%bb%e4%bd%95%e8%af%ad%e8%a8%80%e4%bb%bb%e4%bd%95%e5%b7%a5%e5%85%b7%e5%88%9b%e5%bb%ba%e4%bb%bb%e4%bd%95%e5%ba%94%e7%94%a8%e3%80%82%e2%80%9cDockerized%e2%80%9d%20%e7%9a%84%e5%ba%94%e7%94%a8%e6%98%af%e5%ae%8c%e5%85%a8%e5%8f%af%e7%a7%bb%e6%a4%8d%e7%9a%84%ef%bc%8c%e8%83%bd%e5%9c%a8%e4%bb%bb%e4%bd%95%e5%9c%b0%e6%96%b9%e8%bf%90%e8%a1%8c%20-%20%e4%b8%8d%e7%ae%a1%e6%98%af%e5%90%8c%e4%ba%8b%e7%9a%84%20OS%20X%20%e5%92%8c%20Windows%20%e7%ac%94%e8%ae%b0%e6%9c%ac%ef%bc%8c%e6%88%96%e6%98%af%e5%9c%a8%e4%ba%91%e7%ab%af%e8%bf%90%e8%a1%8c%e7%9a%84%20Ubuntu%20QA%20%e6%9c%8d%e5%8a%a1%ef%bc%8c%e8%bf%98%e6%98%af%e5%9c%a8%e8%99%9a%e6%8b%9f%e6%9c%ba%e8%bf%90%e8%a1%8c%e7%9a%84%20Red%20Hat%20%e4%ba%a7%e5%93%81%e6%95%b0%e6%8d%ae%e4%b8%ad%e5%bf%83%e3%80%82%0aDocker%20Hub%20%e4%b8%8a%e6%9c%89%2013000&#43;%20%e7%9a%84%e5%ba%94%e7%94%a8%ef%bc%8c%e5%bc%80%e5%8f%91%e8%80%85%e5%8f%af%e4%bb%a5%e4%bb%8e%e4%b8%ad%e9%80%89%e5%8f%96%e4%b8%80%e4%b8%aa%e8%bf%9b%e8%a1%8c%e5%bf%ab%e9%80%9f%e6%89%a9%e5%b1%95%e5%bc%80%e5%8f%91%e3%80%82Docker%20%e8%b7%9f%e8%b8%aa%e7%ae%a1%e7%90%86%e5%8f%98%e6%9b%b4%e5%92%8c%e4%be%9d%e8%b5%96%e5%85%b3%e7%b3%bb%ef%bc%8c%e8%ae%a9%e7%b3%bb%e7%bb%9f%e7%ae%a1%e7%90%86%e5%91%98%e8%83%bd%e6%9b%b4%e5%ae%b9%e6%98%93%e7%90%86%e8%a7%a3%e5%bc%80%e5%8f%91%e4%ba%ba%e5%91%98%e6%98%af%e5%a6%82%e4%bd%95%e8%ae%a9%e5%ba%94%e7%94%a8%e8%bf%90%e8%bd%ac%e8%b5%b7%e6%9d%a5%e7%9a%84%e3%80%82%e8%80%8c%e5%bc%80%e5%8f%91%e8%80%85%e5%8f%af%e4%bb%a5%e9%80%9a%e8%bf%87%20Docker%20Hub%20%e7%9a%84%e5%85%b1%e6%9c%89/%e7%a7%81%e6%9c%89%e4%bb%93%e5%ba%93%ef%bc%8c%e6%9e%84%e5%bb%ba%e4%bb%96%e4%bb%ac%e7%9a%84%e8%87%aa%e5%8a%a8%e5%8c%96%e7%bc%96%e8%af%91%ef%bc%8c%e4%b8%8e%e5%85%b6%e4%bb%96%e5%90%88%e4%bd%9c%e8%80%85%e5%85%b1%e4%ba%ab%e6%88%90%e6%9e%9c%e3%80%82%0aDocker%20%e5%b8%ae%e5%8a%a9%e5%bc%80%e5%8f%91%e8%80%85%e6%9b%b4%e5%bf%ab%e5%9c%b0%e6%9e%84%e5%bb%ba%e5%92%8c%e5%8f%91%e5%b8%83%e9%ab%98%e8%b4%a8%e9%87%8f%e7%9a%84%e5%ba%94%e7%94%a8%e3%80%82%e3%80%8d%e2%80%94%e2%80%94%20%e4%bb%80%e4%b9%88%e6%98%af%20Docker%0a%e2%80%a6%e2%80%a6&amp;pics=http://www.wemeng.top/icons/apple-touch-icon.png&amp;site=%e6%87%92%e7%99%8c%e6%ad%a3%e6%82%a3%e8%80%85" title="分享到「QQ」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon qq-icon"><path d="M433.754 420.445c-11.526 1.393-44.86-52.741-44.86-52.741 0 31.345-16.136 72.247-51.051 101.786 16.842 5.192 54.843 19.167 45.803 34.421-7.316 12.343-125.51 7.881-159.632 4.037-34.122 3.844-152.316 8.306-159.632-4.037-9.045-15.25 28.918-29.214 45.783-34.415-34.92-29.539-51.059-70.445-51.059-101.792 0 0-33.334 54.134-44.859 52.741-5.37-.65-12.424-29.644 9.347-99.704 10.261-33.024 21.995-60.478 40.144-105.779C60.683 98.063 108.982.006 224 0c113.737.006 163.156 96.133 160.264 214.963 18.118 45.223 29.912 72.85 40.144 105.778 21.768 70.06 14.716 99.053 9.346 99.704z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item qzone">
+                    
+                    <a href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://www.wemeng.top/posts/docker-cheat-sheet/&amp;title=Docker%20Cheat%20Sheet&amp;summary=%e4%b8%ba%e4%bd%95%e4%bd%bf%e7%94%a8%20Docker%20%e3%80%8c%e9%80%9a%e8%bf%87%20Docker%ef%bc%8c%e5%bc%80%e5%8f%91%e8%80%85%e5%8f%af%e4%bb%a5%e4%bd%bf%e7%94%a8%e4%bb%bb%e4%bd%95%e8%af%ad%e8%a8%80%e4%bb%bb%e4%bd%95%e5%b7%a5%e5%85%b7%e5%88%9b%e5%bb%ba%e4%bb%bb%e4%bd%95%e5%ba%94%e7%94%a8%e3%80%82%e2%80%9cDockerized%e2%80%9d%20%e7%9a%84%e5%ba%94%e7%94%a8%e6%98%af%e5%ae%8c%e5%85%a8%e5%8f%af%e7%a7%bb%e6%a4%8d%e7%9a%84%ef%bc%8c%e8%83%bd%e5%9c%a8%e4%bb%bb%e4%bd%95%e5%9c%b0%e6%96%b9%e8%bf%90%e8%a1%8c%20-%20%e4%b8%8d%e7%ae%a1%e6%98%af%e5%90%8c%e4%ba%8b%e7%9a%84%20OS%20X%20%e5%92%8c%20Windows%20%e7%ac%94%e8%ae%b0%e6%9c%ac%ef%bc%8c%e6%88%96%e6%98%af%e5%9c%a8%e4%ba%91%e7%ab%af%e8%bf%90%e8%a1%8c%e7%9a%84%20Ubuntu%20QA%20%e6%9c%8d%e5%8a%a1%ef%bc%8c%e8%bf%98%e6%98%af%e5%9c%a8%e8%99%9a%e6%8b%9f%e6%9c%ba%e8%bf%90%e8%a1%8c%e7%9a%84%20Red%20Hat%20%e4%ba%a7%e5%93%81%e6%95%b0%e6%8d%ae%e4%b8%ad%e5%bf%83%e3%80%82%0aDocker%20Hub%20%e4%b8%8a%e6%9c%89%2013000&#43;%20%e7%9a%84%e5%ba%94%e7%94%a8%ef%bc%8c%e5%bc%80%e5%8f%91%e8%80%85%e5%8f%af%e4%bb%a5%e4%bb%8e%e4%b8%ad%e9%80%89%e5%8f%96%e4%b8%80%e4%b8%aa%e8%bf%9b%e8%a1%8c%e5%bf%ab%e9%80%9f%e6%89%a9%e5%b1%95%e5%bc%80%e5%8f%91%e3%80%82Docker%20%e8%b7%9f%e8%b8%aa%e7%ae%a1%e7%90%86%e5%8f%98%e6%9b%b4%e5%92%8c%e4%be%9d%e8%b5%96%e5%85%b3%e7%b3%bb%ef%bc%8c%e8%ae%a9%e7%b3%bb%e7%bb%9f%e7%ae%a1%e7%90%86%e5%91%98%e8%83%bd%e6%9b%b4%e5%ae%b9%e6%98%93%e7%90%86%e8%a7%a3%e5%bc%80%e5%8f%91%e4%ba%ba%e5%91%98%e6%98%af%e5%a6%82%e4%bd%95%e8%ae%a9%e5%ba%94%e7%94%a8%e8%bf%90%e8%bd%ac%e8%b5%b7%e6%9d%a5%e7%9a%84%e3%80%82%e8%80%8c%e5%bc%80%e5%8f%91%e8%80%85%e5%8f%af%e4%bb%a5%e9%80%9a%e8%bf%87%20Docker%20Hub%20%e7%9a%84%e5%85%b1%e6%9c%89/%e7%a7%81%e6%9c%89%e4%bb%93%e5%ba%93%ef%bc%8c%e6%9e%84%e5%bb%ba%e4%bb%96%e4%bb%ac%e7%9a%84%e8%87%aa%e5%8a%a8%e5%8c%96%e7%bc%96%e8%af%91%ef%bc%8c%e4%b8%8e%e5%85%b6%e4%bb%96%e5%90%88%e4%bd%9c%e8%80%85%e5%85%b1%e4%ba%ab%e6%88%90%e6%9e%9c%e3%80%82%0aDocker%20%e5%b8%ae%e5%8a%a9%e5%bc%80%e5%8f%91%e8%80%85%e6%9b%b4%e5%bf%ab%e5%9c%b0%e6%9e%84%e5%bb%ba%e5%92%8c%e5%8f%91%e5%b8%83%e9%ab%98%e8%b4%a8%e9%87%8f%e7%9a%84%e5%ba%94%e7%94%a8%e3%80%82%e3%80%8d%e2%80%94%e2%80%94%20%e4%bb%80%e4%b9%88%e6%98%af%20Docker%0a%e2%80%a6%e2%80%a6&amp;pics=http://www.wemeng.top/icons/apple-touch-icon.png&amp;site=%e6%87%92%e7%99%8c%e6%ad%a3%e6%82%a3%e8%80%85" title="分享到「QQ 空间」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon qzone-icon"><path d="M23.985 9.202c-.032-.099-.127-.223-.334-.258-.207-.036-7.351-1.406-7.351-1.406s-.105-.022-.198-.07c-.092-.047-.127-.167-.127-.167S12.447.956 12.349.77C12.25.583 12.104.532 12 .532c-.104 0-.251.051-.349.238-.098.186-3.626 6.531-3.626 6.531s-.035.12-.128.167c-.092.047-.197.07-.197.07S.556 8.908.348 8.943c-.208.036-.302.16-.333.258a.477.477 0 0 0 .125.449l5.362 5.49s.072.08.119.172c.016.104.005.21.005.21s-1.189 7.242-1.22 7.45.075.369.159.43c.083.062.233.106.421.013.189-.093 6.812-3.261 6.812-3.261s.098-.044.201-.061c.103-.017.201.061.201.061s6.623 3.168 6.812 3.261c.188.094.338.049.421-.013a.463.463 0 0 0 .159-.43c-.021-.14-.93-5.677-.93-5.677.876-.54 1.425-1.039 1.849-1.747-2.594.969-6.006 1.717-9.415 1.866-.915.041-2.41.097-3.473-.015-.678-.071-1.17-.144-1.243-.438-.053-.215.054-.46.545-.831a2640.5 2640.5 0 0 1 2.861-2.155c1.285-.968 3.559-2.47 3.559-2.731 0-.285-2.144-.781-4.037-.781-1.945 0-2.275.132-2.811.168-.488.034-.769.005-.804-.138-.06-.248.183-.389.588-.568.709-.314 1.86-.594 1.984-.626.194-.052 3.082-.805 5.618-.535 1.318.14 3.244.668 3.244 1.276 0 .342-1.721 1.494-3.225 2.597-1.149.843-2.217 1.561-2.217 1.688 0 .342 3.533 1.241 6.689 1.01l.003-.022c.048-.092.119-.172.119-.172l5.362-5.49a.477.477 0 0 0 .127-.449z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item qrcode">
+                    <div class="qrcode-container" title="通过「二维码」"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon qrcode-icon"><path d="M0 224h192V32H0v192zM64 96h64v64H64V96zm192-64v192h192V32H256zm128 128h-64V96h64v64zM0 480h192V288H0v192zm64-128h64v64H64v-64zm352-64h32v128h-96v-32h-32v96h-64V288h96v32h64v-32zm0 160h32v32h-32v-32zm-64 0h32v32h-32v-32z"/></svg><div id="qrcode-img"></div>
+                    </div>
+                    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+
+<script>
+    var typeNumber = 0;
+    var errorCorrectionLevel = 'L';
+    var qr = qrcode(typeNumber, errorCorrectionLevel);
+    qr.addData('http:\/\/www.wemeng.top\/posts\/docker-cheat-sheet\/');
+    qr.make();
+    document.getElementById('qrcode-img').innerHTML = qr.createImgTag();
+</script>
+
+                </div>
+            
+
+        </div>
+
+    </div>
+
+
+
+
+        
+    
+    
+        <div class="related-posts">
+            <h2 class="related-title">相关文章：<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon related-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"/></svg></h2>
+            <ul class="related-list">
+                
+                    <li class="related-item">
+                        <a href="/posts/docker%E6%90%AD%E5%BB%BAdns%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="related-link">Docker搭建dns服务器</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/docker%E9%83%A8%E7%BD%B2rocketmq/" class="related-link">Docker部署RocketMQ</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/docker%E9%83%A8%E7%BD%B2kafka%E4%B8%8E%E4%BD%BF%E7%94%A8/" class="related-link">Docker部署Kafka与使用</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/mg%E5%8A%A8%E7%94%BB%E5%88%B6%E4%BD%9C%E6%B5%81%E7%A8%8B%E4%B8%80%E5%88%86%E9%92%9F%E4%BA%86%E8%A7%A3/" class="related-link">MG动画制作流程一分钟了解</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
+
+
+
+        
+    
+        <div class="post-tags">
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/docker/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>Docker</a>
+                
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/%E7%BB%8F%E9%AA%8C/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>经验</a>
+                
+            
+        </div>
+    
+
+
+
+        
+
+
+        
+
+
+        
+    
+        
+        
+    
+    
+    
+    
+        <ul class="post-nav">
+            
+                <li class="post-nav-prev">
+                    <a href="/posts/docker%E9%83%A8%E7%BD%B2rocketmq/" rel="prev">&lt; Docker部署RocketMQ</a>
+                </li>
+            
+            
+                <li class="post-nav-next">
+                    <a href="/posts/mg%E5%8A%A8%E7%94%BB%E5%88%B6%E4%BD%9C%E6%B5%81%E7%A8%8B%E4%B8%80%E5%88%86%E9%92%9F%E4%BA%86%E8%A7%A3/" rel="next">MG动画制作流程一分钟了解 &gt;</a>
+                </li>
+            
+        </ul>
+    
+
+
+
+        
+
+
+    </div>
+</main>
+
+
+            
+    <div id="back-to-top" class="back-to-top">
+        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon arrow-up"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg></a>
+    </div>
+
+
+            
+    <footer id="footer" class="footer">
+        <div class="footer-inner">
+            <div class="site-info">©&nbsp;2020–2020&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;懒癌正患者</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a></div>
+
+            
+    
+        <ul class="socials"><li class="socials-item">
+                    <a href="mailto:zengqiang96@gmail.com" target="_blank" rel="external noopener" title="Email"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon social-icon"><path d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="https://github.com/zengqiang96" target="_blank" rel="external noopener" title="GitHub"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="https://twitter.com/lazzyq" target="_blank" rel="external noopener" title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon social-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="https://t.me/lazzyq" target="_blank" rel="external noopener" title="Telegram"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon social-icon"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm121.8 169.9l-40.7 191.8c-3 13.6-11.1 16.9-22.4 10.5l-62-45.7-29.9 28.8c-3.3 3.3-6.1 6.1-12.5 6.1l4.4-63.1 114.9-103.8c5-4.4-1.1-6.9-7.7-2.5l-142 89.4-61.2-19.1c-13.3-4.2-13.6-13.3 2.8-19.7l239.1-92.2c11.1-4 20.8 2.7 17.2 19.5z"/></svg></a>
+                </li></ul>
+    
+
+
+
+            
+        </div>
+    </footer>
+
+
+        </div>
+        
+
+        
+
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.js"></script>
+
+<script>
+    mediumZoom(document.querySelectorAll('div.post-body img'), {
+        background: 'hsla(var(--color-bg-h), var(--color-bg-s), var(--color-bg-l), 0.95)'
+    })
+</script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/instant.page@5.1.0/instantpage.min.js" type="module" defer></script>
+
+
+
+
+
+
+
+    </body>
+</html>
