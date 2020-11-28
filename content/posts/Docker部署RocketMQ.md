@@ -21,6 +21,8 @@ RocketMQ不像MySQL，Redis等在仓库中有官方镜像。如果我们要使�
 
 直接上构建RocketMQ镜像的Dockerfile文件
 
+<!--more-->
+
 ```yml
 # 基于openjdk8镜像构建
 FROM openjdk:8-alpine
