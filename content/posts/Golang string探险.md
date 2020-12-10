@@ -1,11 +1,12 @@
 ---
-title: "Golang String源码探险"
+title: "Golang string探险"
 date: 2020-11-29T13:52:24+08:00
 draft: false
 original: true
 categories: 
   - Golang
 tags: 
+  - string
   - Golang
 ---
 
