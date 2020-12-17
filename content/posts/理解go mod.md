@@ -33,7 +33,7 @@ go mod 对版本号的定义是有一定要求的，它要求的格式为 v\<maj
 
 如下图所示，Module A 依赖 B，但是 B 还未切换成 Module，即没有 go.mod 文件，此时，当使用 go mod tidy 命令更新 A 的 go.mod 文件时，B 的两个依赖 B1 和 B2 将会被添加到 A 的 go.mod 文件中（前提是 A 之前没有依赖 B1 和 B2），并且 B1 和 B2 还会被添加 // indirect 的注释。
 
-![](/理解gomod/f9WLznfssH.png)
+![](/gomod实践/f9WLznfssH.png)
 
 那么项目 A 的依赖关系就会变成下面这个样子
 
@@ -49,7 +49,7 @@ require (
 
 > 如下图所示，Module B 虽然提供了 go.mod 文件中，但 go.mod 文件中只添加了依赖 B1，那么此时 A 在引用 B 时，则会在 A 的 go.mod 文件中添加 B2 作为间接依赖，B1 则不会出现在 A 的 go.mod 文件中。
 
-![](/理解gomod/1w2MVOkx0Z.png)
+![](/gomod实践/1w2MVOkx0Z.png)
 
 此时项目 A 的依赖关系就会变成下面这个样子
 
