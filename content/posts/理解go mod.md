@@ -1,5 +1,5 @@
 ---
-title: "理解go mod"
+title: "go mod实践"
 date: 2020-12-16T18:04:54+08:00
 draft: false
 original: true
@@ -19,6 +19,7 @@ go mod 对版本号的定义是有一定要求的，它要求的格式为 v\<maj
 
 我们将项目上传到 github 后，如果不打 tag，或 tag 不符合 v\<major\>.\<minor\>.\<patch\> 这个格式，那么当我们用 go mod 去拉这个项目的时候，就会将 commitId 作为版本号，它的格式大概是 vx.y.z-yyyymmddhhmmss-abcdef格式
 
+<!--more-->
 #### indirect 标志
 
 > 我们用 go mod 的时候应该经常会看到 有的依赖后面会打了一个 // indirect 的标识位，这个标识位是表示 间接的依赖。
@@ -84,6 +85,8 @@ exclude 指令在实际的项目中很少被使用，因为很少会显式地排
 
 ### 遇到的问题
 
+#### replace只在main module里面有效
+
 在我的项目中，直接引用只有beats这一个项目
 
 ```go
@@ -119,6 +122,68 @@ go: github.com/elastic/beats/v7@v7.10.1 requires
 
 在前面的基础只是一节中，说到过replace至于在main module才能生效，所以我们需要将相应的replace也添加到我们的项目中
 
+> 如果引用的第三方包很多，如果大部分都有这种问题的话，我们自己项目里面的就要写很多的这种replace，真的是蛋疼
+
+#### 出现checksum mismatch
+
+删除go.sum，清空mod缓存，重新下载包
+
+```
+$rm go.sum
+$go clean -modcache
+```
+
+如果还不行，那就把checksum的校验关了吧 
+
+```
+GOSUMDB='off'
+```
+
+#### case-insensitive import collision
+
+这个问题报错是这样子的
+
+```
+go/pkg/mod/github.com/apache/pulsar-client-go@v0.3.0/pulsar/internal/compression/zstd_cgo.go:27:2: case-insensitive import collision: "github.com/datadog/zstd" and "github.com/DataDog/zstd"
+```
+
+根据报错信息我们知道因为引入包存在大小写不同的2种包导致
+
+最初我以为是因为`github.com/apache/pulsar-client-go@v0.3.0`这个包导致的，而且也有人提了[issue](https://github.com/apache/pulsar-client-go/issues/379)，但是这个issue中使用的是v0.2.0，v0.3.0已经修复这个问题了，将依赖都改成了`github.com/datadog/zstd`
+
+说明我们项目中还有依赖`github.com/DataDog/zstd`，可以使用`go mod why github.com/DataDog/zstd`来看看`github.com/DataDog/zstd`是怎么引用进来的
+
+```
+$ go mod why github.com/DataDog/zstd
+# github.com/DataDog/zstd
+gitlab.xiaoduoai.com/xxx/xxxxx
+github.com/elastic/beats/v7/x-pack/filebeat/cmd
+github.com/elastic/beats/v7/x-pack/filebeat/input/default-inputs
+github.com/elastic/beats/v7/x-pack/filebeat/input/cloudfoundry
+github.com/elastic/beats/v7/x-pack/libbeat/common/cloudfoundry
+github.com/elastic/beats/v7/x-pack/libbeat/persistentcache
+github.com/dgraph-io/badger/v2
+github.com/dgraph-io/badger/v2/y
+github.com/DataDog/zstd
+```
+
+可以看到`github.com/DataDog/zstd`是由`github.com/dgraph-io/badger/v2`引入的，我也去badger项目确认了一下，它们确实使用的是`github.com/DataDog/zstd`
+
+原以为这个问题使用replace也能解决，类似这样
+
+```
+replace (
+...
+github.com/DataDog/zstd => github.com/DataDog/zstd va.b.c
+...
+)
+```
+
+但是我大意了，如果项目中同时存在多种大小写不同的引用，要么统一，要么就不使用，要不然这种是无解的
+
+由于`github.com/DataDog/zstd`是`github.com/dgraph-io/badger/v2`引入的，要么给`github.com/dgraph-io/badger/v2`提PR修改，要么clone这个仓库，我们自己改了，然后replace成我们自己的仓库
+
 ### 参考资料
 
 * [这一次，彻底掌握go mod](https://learnku.com/articles/47737)
+* [Go Module 实践中的问题](https://romatic.net/post/gomod/)

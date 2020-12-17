@@ -24,6 +24,8 @@ lea是“load effective address”的缩写，简单的说，lea指令可以用�
 
 一句话就是lea不会解引用
 
+<!--more-->
+
 * MOVB，MOVQ等这些指令后缀代表什么意思？
 
 表示的是指令操作数的宽度，B表示8位，S表示16位，L表示32位，Q表示64位
