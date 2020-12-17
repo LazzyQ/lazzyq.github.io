@@ -4,7 +4,37 @@
   
   <url>
     <loc>http://www.wemeng.top/categories/</loc>
-    <lastmod>2020-12-16T12:58:45+08:00</lastmod>
+    <lastmod>2020-12-17T11:50:34+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.wemeng.top/categories/golang/</loc>
+    <lastmod>2020-12-17T11:50:34+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.wemeng.top/tags/gomod/</loc>
+    <lastmod>2020-12-17T11:50:34+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.wemeng.top/posts/</loc>
+    <lastmod>2020-12-17T11:50:34+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.wemeng.top/tags/</loc>
+    <lastmod>2020-12-17T11:50:34+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.wemeng.top/</loc>
+    <lastmod>2020-12-17T11:50:34+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.wemeng.top/posts/%E7%90%86%E8%A7%A3go-mod/</loc>
+    <lastmod>2020-12-17T11:50:34+08:00</lastmod>
   </url>
   
   <url>
@@ -14,21 +44,6 @@
   
   <url>
     <loc>http://www.wemeng.top/posts/java%E7%BA%BF%E7%A8%8B%E6%B1%A0/</loc>
-    <lastmod>2020-12-16T12:58:45+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://www.wemeng.top/posts/</loc>
-    <lastmod>2020-12-16T12:58:45+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://www.wemeng.top/tags/</loc>
-    <lastmod>2020-12-16T12:58:45+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://www.wemeng.top/</loc>
     <lastmod>2020-12-16T12:58:45+08:00</lastmod>
   </url>
   
@@ -54,11 +69,6 @@
   
   <url>
     <loc>http://www.wemeng.top/tags/cmdline/</loc>
-    <lastmod>2020-12-16T12:49:37+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://www.wemeng.top/categories/golang/</loc>
     <lastmod>2020-12-16T12:49:37+08:00</lastmod>
   </url>
   
