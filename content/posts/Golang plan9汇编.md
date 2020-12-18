@@ -36,7 +36,11 @@ lea是“load effective address”的缩写，简单的说，lea指令可以用�
 
 * 函数开头的`TEXT	"".add(SB), NOSPLIT|ABIInternal, $0-16` 中`$0-16`是什么意思？
 
-$0 表示栈大小为0, $16 表示参数大小为16个字节
+$0 表示栈帧(局部变量+可能需要的额外调用函数的参数空间的总大小，但不包括调用其它函数时的 ret address 的大小)大小为0, $16 表示参数及返回值大小为16个字节
+
+* `FUNCDATA` 和 `PCDATA`是什么？
+  
+`FUNCDATA` 和 `PCDATA` 是编译器产生的，用于保存一些和垃圾收集相关的信息
 
 ### 练手
 
@@ -134,13 +138,57 @@ go tool compile -S -N main.go
 
 通过这个例子知道了大概的调用流程，这里在补一个栈的示意图
 
-### 参数类型为结构体的函数调用
+### 参数类型为string的函数调用
+ 
+一切从简
 
+```go
+package main
 
+//go:noinline
+func stringParam(s string) {}
 
+func main() {
+	var x = "abcc"
+	stringParam(x)
+}
+```
 
+汇编后main函数得到的结果
 
+```
+"".main STEXT size=72 args=0x0 locals=0x18
+	0x0000 00000 (main.go:6)	TEXT	"".main(SB), ABIInternal, $24-0 // 栈帧大小24字节
+	0x0000 00000 (main.go:6)	MOVQ	(TLS), CX
+	0x0009 00009 (main.go:6)	CMPQ	SP, 16(CX)
+	0x000d 00013 (main.go:6)	PCDATA	$0, $-2
+	0x000d 00013 (main.go:6)	JLS	65
+	0x000f 00015 (main.go:6)	PCDATA	$0, $-1
+	0x000f 00015 (main.go:6)	SUBQ	$24, SP // 申请24字节大小的栈帧
+	0x0013 00019 (main.go:6)	MOVQ	BP, 16(SP) // 保存旧的BP值
+	0x0018 00024 (main.go:6)	LEAQ	16(SP), BP // BP指向新的地址
+	0x001d 00029 (main.go:6)	FUNCDATA	$0, gclocals·33cdeccccebe80329f1fdbee7f5874cb(SB)
+	0x001d 00029 (main.go:6)	FUNCDATA	$1, gclocals·33cdeccccebe80329f1fdbee7f5874cb(SB)
+	0x001d 00029 (main.go:8)	LEAQ	go.string."abcc"(SB), AX // 获取 RODATA 段中的字符串地址
+	0x0024 00036 (main.go:8)	MOVQ	AX, (SP) // 将获取到的地址放在栈顶，作为第一个参数
+	0x0028 00040 (main.go:8)	MOVQ	$4, 8(SP) // 字符串长度作为第二个参数
+	0x0031 00049 (main.go:8)	PCDATA	$1, $0
+	0x0031 00049 (main.go:8)	CALL	"".stringParam(SB) // 调用 stringParam 函数
+	0x0036 00054 (main.go:9)	MOVQ	16(SP), BP
+	0x003b 00059 (main.go:9)	ADDQ	$24, SP
+	0x003f 00063 (main.go:9)	NOP
+	0x0040 00064 (main.go:9)	RET
+	0x0041 00065 (main.go:9)	NOP
+	0x0041 00065 (main.go:6)	PCDATA	$1, $-1
+	0x0041 00065 (main.go:6)	PCDATA	$0, $-2
+	0x0041 00065 (main.go:6)	CALL	runtime.morestack_noctxt(SB)
+	0x0046 00070 (main.go:6)	PCDATA	$0, $-1
+	0x0046 00070 (main.go:6)	JMP	0
+```
 
+在汇编层面 string 就是地址 + 字符串长度。
+
+> TODO 打算写slice。struce的，太复杂了，等研究清楚了再补充
 
 ### 参考资料
 
@@ -148,3 +196,4 @@ go tool compile -S -N main.go
 * [golang汇编基础知识](https://guidao.github.io/asm.html)
 * [Go语言汇编入门](https://blog.csdn.net/qq_31930499/article/details/100881461)
 * [曹大 plan9 assembly 完全解析](https://github.com/cch123/golang-notes/blob/master/assembly.md)
+* [Go 函数调用 ━ 栈和寄存器视角](https://segmentfault.com/a/1190000019753885)
