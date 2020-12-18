@@ -3,9 +3,10 @@ title: "RocketMQ消费者消费消息"
 date: 2020-11-27T22:19:40+08:00
 draft: false
 categories: 
-  - "中间件"
+  - 中间件
 tags: 
-  - "RocketMQ"
+  - RocketMQ
+  - 消息队列
 ---
 
 

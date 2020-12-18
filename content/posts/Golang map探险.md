@@ -7,8 +7,7 @@ mathjax: true
 categories: 
   - Golang
 tags: 
-  - map
-  - Golang
+  - Golang基础
 ---
 
 ### 前言

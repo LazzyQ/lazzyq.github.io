@@ -9,6 +9,7 @@ categories:
 tags: 
   - Docker
   - Kafka
+  - 消息队列
 ---
 
 最近在做日志平台，第一步就是日志收集，使用的filebeat收集日志推送到kafka集群。所以需要搭建Kafka集群，这里记录使用Docker搭建Kafka集群的过程，并对Kafka进行一些常规的操作。

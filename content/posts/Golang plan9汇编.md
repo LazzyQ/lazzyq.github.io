@@ -8,6 +8,7 @@ categories:
 tags: 
   - plan9
   - 汇编
+  - Golang基础
 ---
 
 ### 源起

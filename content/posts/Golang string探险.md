@@ -6,8 +6,7 @@ original: true
 categories: 
   - Golang
 tags: 
-  - string
-  - Golang
+  - Golang基础
 ---
 
 

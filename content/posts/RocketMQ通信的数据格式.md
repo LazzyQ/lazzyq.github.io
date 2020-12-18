@@ -3,9 +3,10 @@ title: "RocketMQ通信的数据格式"
 date: 2020-11-27T22:17:01+08:00
 draft: false
 categories: 
-  - "中间件"
+  - 中间件
 tags: 
-  - "RocketMQ"
+  - RocketMQ
+  - 消息队列
 ---
 
 
