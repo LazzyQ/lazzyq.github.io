@@ -1,7 +1,7 @@
 ---
 title: "Golang Plan9汇编"
 date: 2020-12-14T21:45:17+08:00
-draft: true
+draft: false
 original: true
 categories: 
   - Golang
