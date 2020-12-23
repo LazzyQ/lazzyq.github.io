@@ -1,0 +1,1652 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
+    <meta charset="UTF-8" />
+
+    <meta name="generator" content="Hugo 0.76.4" /><meta name="theme-color" content="#fff" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <title>Docker快速入门 | 懒癌正患者</title>
+
+    <link rel="stylesheet" href="/css/meme.min.2f9232918b45a8f83b406469874e2be32093cd97e79e0840dbff3f1f122ad6ca.css"/>
+
+    
+    
+        <script src="/js/meme.min.434274bb2302fe029f98d3d29ae57dab1566be565436f52a6dd93089085533c4.js"></script>
+
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB&#43;Garamond:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Noto&#43;Serif&#43;SC:wght@400;500;700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" media="print" onload="this.media='all'" />
+        <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB&#43;Garamond:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Noto&#43;Serif&#43;SC:wght@400;500;700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" /></noscript>
+
+    <meta name="author" content="懒癌正患者" /><meta name="description" content="part 1: 目标与快速入门 欢迎!我们很高兴你对学习Docker那么感兴趣。这篇快速入门教程包括如下内容：
+ 配置Docker环境 创建一个Docker镜像并在容器中运行 扩容你的应用，在多个容器中运行 在集群中运行你的应用 添加数据库组成服务堆栈 生产环境部署你的应用 ……" />
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#2a6df4" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="懒癌正患者" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="懒癌正患者" />
+    <meta name="msapplication-starturl" content="../../" />
+    <meta name="msapplication-TileColor" content="#fff" />
+    <meta name="msapplication-TileImage" content="../../icons/mstile-150x150.png" />
+    <link rel="manifest" href="/manifest.json" />
+
+    
+    
+
+    
+    <link rel="canonical" href="http://www.wemeng.top/posts/docker%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" />
+    
+
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "datePublished": "2020-12-19T21:29:55+08:00",
+        "dateModified": "2020-12-19T21:33:29+08:00",
+        "url": "http://www.wemeng.top/posts/docker%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/",
+        "headline": "Docker快速入门",
+        "description": "part 1: 目标与快速入门 欢迎!我们很高兴你对学习Docker那么感兴趣。这篇快速入门教程包括如下内容：\n 配置Docker环境 创建一个Docker镜像并在容器中运行 扩容你的应用，在多个容器中运行 在集群中运行你的应用 添加数据库组成服务堆栈 生产环境部署你的应用 ……",
+        "inLanguage" : "zh-CN",
+        "articleSection": "posts",
+        "wordCount":  13520 ,
+        "image": ["http://www.wemeng.top/Docker%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/Container.png","http://www.wemeng.top/Docker%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/VM.png","http://www.wemeng.top/Docker%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/image-20190827171826800.png","http://www.wemeng.top/Docker%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/ingress-routing-mesh.png","http://www.wemeng.top/Docker%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/get-started-visualizer1.png","http://www.wemeng.top/Docker%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/app-in-browser-redis.png","http://www.wemeng.top/Docker%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/visualizer-with-redis.png"],
+        "author": {
+            "@type": "Person",
+            "description": "Viva La Vida",
+            "email": "zengqiang96@gmail.com",
+            "image": "http://www.wemeng.top/icons/apple-touch-icon.png",
+            "url": "https://www.wemeng.top/",
+            "name": "懒癌正患者"
+        },
+        "license": "[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)",
+        "publisher": {
+            "@type": "Organization",
+            "name": "懒癌正患者",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "http://www.wemeng.top/icons/apple-touch-icon.png"
+            },
+            "url": "http://www.wemeng.top/"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebSite",
+            "@id": "http://www.wemeng.top/"
+        }
+    }
+</script>
+
+    
+
+<meta name="twitter:card" content="summary_large_image" />
+
+
+<meta name="twitter:site" content="@懒癌正患者" />
+<meta name="twitter:creator" content="@懒癌正患者" />
+
+    
+
+
+
+<meta property="og:title" content="Docker快速入门" />
+<meta property="og:description" content="part 1: 目标与快速入门 欢迎!我们很高兴你对学习Docker那么感兴趣。这篇快速入门教程包括如下内容：
+ 配置Docker环境 创建一个Docker镜像并在容器中运行 扩容你的应用，在多个容器中运行 在集群中运行你的应用 添加数据库组成服务堆栈 生产环境部署你的应用 ……" />
+<meta property="og:url" content="http://www.wemeng.top/posts/docker%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" />
+<meta property="og:site_name" content="懒癌正患者" />
+<meta property="og:locale" content="zh" /><meta property="og:image" content="http://www.wemeng.top/Docker%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/Container.png" />
+<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2020-12-19T21:29:55&#43;08:00" />
+    <meta property="article:modified_time" content="2020-12-19T21:33:29&#43;08:00" />
+    
+    <meta property="article:section" content="posts" />
+
+
+
+    
+</head>
+
+    <body>
+        <div class="container">
+            
+    <header class="header">
+        
+            <div class="header-wrapper">
+                <div class="header-inner single">
+                    
+    <div class="site-brand">
+        
+            <a href="/" class="brand">懒癌正患者</a>
+        
+    </div>
+
+                    <nav class="nav">
+    <ul class="menu" id="menu">
+        
+            
+        
+        
+        
+        
+            
+                <li class="menu-item"><a href="/posts/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon archive"><path d="M32 448c0 17.7 14.3 32 32 32h384c17.7 0 32-14.3 32-32V160H32v288zm160-212c0-6.6 5.4-12 12-12h104c6.6 0 12 5.4 12 12v8c0 6.6-5.4 12-12 12H204c-6.6 0-12-5.4-12-12v-8zM480 32H32C14.3 32 0 46.3 0 64v48c0 8.8 7.2 16 16 16h480c8.8 0 16-7.2 16-16V64c0-17.7-14.3-32-32-32z"/></svg><span class="menu-item-name">文章</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/categories/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon th"><path d="M149.333 56v80c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V56c0-13.255 10.745-24 24-24h101.333c13.255 0 24 10.745 24 24zm181.334 240v-80c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.256 0 24.001-10.745 24.001-24zm32-240v80c0 13.255 10.745 24 24 24H488c13.255 0 24-10.745 24-24V56c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24zm-32 80V56c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.256 0 24.001-10.745 24.001-24zm-205.334 56H24c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24zM0 376v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H24c-13.255 0-24 10.745-24 24zm386.667-56H488c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24zm0 160H488c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24zM181.333 376v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24z"/></svg><span class="menu-item-name">分类</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/tags/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" class="icon tags"><path d="M497.941 225.941L286.059 14.059A48 48 0 0 0 252.118 0H48C21.49 0 0 21.49 0 48v204.118a48 48 0 0 0 14.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882 0l204.118-204.118c18.745-18.745 18.745-49.137 0-67.882zM112 160c-26.51 0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882 0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397 0h48.721a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882z"/></svg><span class="menu-item-name">标签</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/about/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon user-circle"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"/></svg><span class="menu-item-name">关于</span></a>
+                </li>
+            
+        
+            
+                
+                    
+                    
+                        <li class="menu-item">
+                            <a id="theme-switcher" href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon theme-icon-light"><path d="M193.2 104.5l48.8-97.5a18 18 0 0128 0l48.8 97.5 103.4 -34.5a18 18 0 0119.8 19.8l-34.5 103.4l97.5 48.8a18 18 0 010 28l-97.5 48.8 34.5 103.4a18 18 0 01-19.8 19.8l-103.4-34.5-48.8 97.5a18 18 0 01-28 0l-48.8-97.5l-103.4 34.5a18 18 0 01-19.8-19.8l34.5-103.4-97.5-48.8a18 18 0 010-28l97.5-48.8-34.5-103.4a18 18 0 0119.8-19.8zM256 128a128 128 0 10.01 0M256 160a96 96 0 10.01 0"/></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon theme-icon-dark"><path d="M27 412a256 256 0 10154-407a11.5 11.5 0 00-5 20a201.5 201.5 0 01-134 374a11.5 11.5 0 00-15 13"/></svg></a>
+                        </li>
+                    
+                
+            
+        
+            
+                
+            
+        
+            
+                
+            
+        
+    </ul>
+</nav>
+
+                    
+                </div>
+            </div>
+            
+    <input type="checkbox" id="nav-toggle" aria-hidden="true" />
+    <label for="nav-toggle" class="nav-toggle"></label>
+    <label for="nav-toggle" class="nav-curtain"></label>
+
+
+        
+    </header>
+
+
+
+
+            
+            
+    <main class="main single" id="main">
+    <div class="main-inner">
+
+        
+
+        <article class="content post h-entry" data-align="justify" data-type="posts">
+
+            <h1 class="post-title p-name">Docker快速入门</h1>
+
+            
+
+            
+                
+            
+
+            
+                
+
+<div class="post-meta">
+    
+        
+        <time datetime="2020-12-19T21:29:55&#43;08:00" class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z"/></svg>&nbsp;2020.12.19</time>
+    
+    
+        
+        <time datetime="2020-12-19T21:33:29&#43;08:00" class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M400 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 400H54a6 6 0 0 1-6-6V160h352v298a6 6 0 0 1-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;2020.12.19</time>
+    
+    
+    
+        
+        
+        
+            
+                <span class="post-meta-item category"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M464 128H272l-54.63-54.63c-6-6-14.14-9.37-22.63-9.37H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V176c0-26.51-21.49-48-48-48zm0 272H48V112h140.12l54.63 54.63c6 6 14.14 9.37 22.63 9.37H464v224z"/></svg>&nbsp;<a href="/categories/docker/" class="category-link p-category">Docker</a></span>
+            
+        
+    
+    
+        
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;13520</span>
+    
+    
+        
+        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;27&nbsp;分钟</span>
+    
+    
+    
+</div>
+
+            
+
+            <nav class="contents">
+  <h2 id="contents" class="contents-title">目录</h2><ol class="toc">
+    <li>
+      <ol>
+        <li><a id="contents:part-1-目标与快速入门" href="#part-1-目标与快速入门">part 1: 目标与快速入门</a>
+          <ol>
+            <li><a id="contents:docker-中的概念" href="#docker-中的概念">Docker 中的概念</a></li>
+            <li><a id="contents:镜像和容器" href="#镜像和容器">镜像和容器</a></li>
+            <li><a id="contents:容器和虚拟机" href="#容器和虚拟机">容器和虚拟机</a></li>
+            <li><a id="contents:准备docker环境" href="#准备docker环境">准备Docker环境</a>
+              <ol>
+                <li><a id="contents:验证docker版本" href="#验证docker版本">验证docker版本</a></li>
+                <li><a id="contents:验证doker安装" href="#验证doker安装">验证doker安装</a></li>
+              </ol>
+            </li>
+            <li><a id="contents:总结和小抄" href="#总结和小抄">总结和小抄</a></li>
+            <li><a id="contents:part-1-结论" href="#part-1-结论">part 1 结论</a></li>
+          </ol>
+        </li>
+        <li><a id="contents:part-2-容器" href="#part-2-容器">Part 2: 容器</a>
+          <ol>
+            <li><a id="contents:前提条件" href="#前提条件">前提条件</a></li>
+            <li><a id="contents:简介" href="#简介">简介</a></li>
+            <li><a id="contents:新的开发环境" href="#新的开发环境">新的开发环境</a></li>
+            <li><a id="contents:使用dockerfile定义容器" href="#使用dockerfile定义容器">使用Dockerfile定义容器</a></li>
+            <li><a id="contents:应用本身" href="#应用本身">应用本身</a></li>
+            <li><a id="contents:构建应用" href="#构建应用">构建应用</a></li>
+            <li><a id="contents:运行应用程序" href="#运行应用程序">运行应用程序</a></li>
+            <li><a id="contents:共享镜像" href="#共享镜像">共享镜像</a>
+              <ol>
+                <li><a id="contents:使用docker-id登陆" href="#使用docker-id登陆">使用Docker ID登陆</a></li>
+                <li><a id="contents:给镜像打标签" href="#给镜像打标签">给镜像打标签</a></li>
+                <li><a id="contents:发布镜像" href="#发布镜像">发布镜像</a></li>
+                <li><a id="contents:pull同时运行远程仓库的镜像" href="#pull同时运行远程仓库的镜像">pull同时运行远程仓库的镜像</a></li>
+              </ol>
+            </li>
+            <li><a id="contents:part-2结论" href="#part-2结论">Part 2结论</a></li>
+          </ol>
+        </li>
+        <li><a id="contents:part-3-services" href="#part-3-services">Part 3: Services</a>
+          <ol>
+            <li><a id="contents:前提条件-1" href="#前提条件-1">前提条件</a></li>
+            <li><a id="contents:简介-1" href="#简介-1">简介</a></li>
+            <li><a id="contents:关于services" href="#关于services">关于services</a></li>
+            <li><a id="contents:第一个docker-composeyml文件" href="#第一个docker-composeyml文件">第一个docker-compose.yml文件</a></li>
+            <li><a id="contents:运行新的负载均衡的应用" href="#运行新的负载均衡的应用">运行新的负载均衡的应用</a></li>
+            <li><a id="contents:扩容你的应用" href="#扩容你的应用">扩容你的应用</a></li>
+            <li><a id="contents:停止应用和swarm" href="#停止应用和swarm">停止应用和swarm</a></li>
+            <li><a id="contents:总结和小抄-1" href="#总结和小抄-1">总结和小抄</a></li>
+          </ol>
+        </li>
+        <li><a id="contents:part-4-swarms" href="#part-4-swarms">Part 4: Swarms</a>
+          <ol>
+            <li><a id="contents:前提条件-2" href="#前提条件-2">前提条件</a></li>
+            <li><a id="contents:简介-2" href="#简介-2">简介</a></li>
+            <li><a id="contents:理解swarm集群" href="#理解swarm集群">理解Swarm集群</a></li>
+            <li><a id="contents:启动swarm" href="#启动swarm">启动swarm</a></li>
+            <li><a id="contents:创建集群" href="#创建集群">创建集群</a></li>
+            <li><a id="contents:列出vm获取它们的ip" href="#列出vm获取它们的ip">列出VM获取它们的IP</a></li>
+            <li><a id="contents:初始化swarm和添加nodes" href="#初始化swarm和添加nodes">初始化Swarm和添加Nodes</a></li>
+            <li><a id="contents:在swarm集群上部署应用" href="#在swarm集群上部署应用">在swarm集群上部署应用</a></li>
+            <li><a id="contents:配置swarm-manager的docker-machine-shell命令" href="#配置swarm-manager的docker-machine-shell命令">配置swarm manager的docker-machine shell命令</a></li>
+            <li><a id="contents:mac或linux上配置docker-machine-shell环境" href="#mac或linux上配置docker-machine-shell环境">Mac或Linux上配置docker-machine shell环境</a></li>
+            <li><a id="contents:在swarm-manager上部署应用" href="#在swarm-manager上部署应用">在swarm manager上部署应用</a></li>
+            <li><a id="contents:访问集群" href="#访问集群">访问集群</a></li>
+            <li><a id="contents:迭代和扩容应用" href="#迭代和扩容应用">迭代和扩容应用</a></li>
+            <li><a id="contents:清理和重启" href="#清理和重启">清理和重启</a>
+              <ol>
+                <li><a id="contents:stack和swarm" href="#stack和swarm">stack和swarm</a></li>
+                <li><a id="contents:取消docker-machine-shell命令" href="#取消docker-machine-shell命令">取消docker-machine shell命令</a></li>
+              </ol>
+            </li>
+            <li><a id="contents:重启docker-machine" href="#重启docker-machine">重启Docker machine</a></li>
+            <li><a id="contents:总结和小抄-2" href="#总结和小抄-2">总结和小抄</a></li>
+          </ol>
+        </li>
+        <li><a id="contents:part-5-stack" href="#part-5-stack">Part 5: Stack</a>
+          <ol>
+            <li><a id="contents:前提条件-3" href="#前提条件-3">前提条件</a></li>
+            <li><a id="contents:添加一个新service并重新部署" href="#添加一个新service并重新部署">添加一个新service并重新部署</a></li>
+            <li><a id="contents:持久化数据" href="#持久化数据">持久化数据</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+  </ol>
+</nav><div class="post-body e-content">
+              <h3 id="part-1-目标与快速入门"><a href="#part-1-目标与快速入门" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:part-1-目标与快速入门" class="headings">part 1: 目标与快速入门</a></h3>
+<p>欢迎!我们很高兴你对学习Docker那么感兴趣。这篇快速入门教程包括如下内容：</p>
+<ol>
+<li>配置Docker环境</li>
+<li>创建一个Docker镜像并在容器中运行</li>
+<li>扩容你的应用，在多个容器中运行</li>
+<li>在集群中运行你的应用</li>
+<li>添加数据库组成服务堆栈</li>
+<li>生产环境部署你的应用</li>
+</ol>
+<h4 id="docker-中的概念"><a href="#docker-中的概念" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:docker-中的概念" class="headings">Docker 中的概念</a></h4>
+<p>Docker是开发人员和系统管理员使用容器开发，部署和运行应用程序的平台。 使用Linux容器部署应用程序被称为容器化。 容器的概念并不是新的，但是将容器用来轻松的部署应用程序却是一个新颖的想法</p>
+<p>容器化变得如此受欢迎主要因为容器：</p>
+<ul>
+<li>灵活: 即使复杂度很高的应用同样可以容器化</li>
+<li>轻量级: 容器之间共享宿主机内核</li>
+<li>快速升级: 动态部署更新和升级</li>
+<li>可移植: 可以本地build，部署到云上，并且可以在任何地方运行</li>
+<li>可扩展: 可以增加并自动分发容器副本</li>
+<li>服务堆栈: You can stack services vertically and on-the-fly.</li>
+</ul>
+<h4 id="镜像和容器"><a href="#镜像和容器" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:镜像和容器" class="headings">镜像和容器</a></h4>
+<p>通过运行一个镜像可以启动一个容器。镜像是包含运行应用程序所需环境的可执行包，运行环境包括程序代码，运行时，各种依赖库，环境变量和配置文件</p>
+<p>容器是一个镜像的运行实例。可以通过<code>docker ps</code>查看运行中的容器</p>
+<h4 id="容器和虚拟机"><a href="#容器和虚拟机" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:容器和虚拟机" class="headings">容器和虚拟机</a></h4>
+<p>容器在Linux上本机运行，并与其他容器共享主机的内核。 它运行一个独立的进程，不占用任何其他可执行文件的内存，使其轻量级</p>
+<p>相比之下，虚拟机（VM）运行一个完整的“客户”操作系统，通过虚拟机管理程序对主机资源进行虚拟访问。 通常，VM提供的环境比大多数应用程序需要的资源更多</p>
+<p><img src="/Docker%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/Container.png" alt="Container stack example"></p>
+<p><img src="/Docker%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/VM.png" alt="Virtual machine stack example"></p>
+<h4 id="准备docker环境"><a href="#准备docker环境" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:准备docker环境" class="headings">准备Docker环境</a></h4>
+<p>安装docker，这一步具体<a href="xx">这篇文章</a></p>
+<h5 id="验证docker版本"><a href="#验证docker版本" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:验证docker版本" class="headings">验证docker版本</a></h5>
+<ol>
+<li>运行<code>docker --version</code>确认docker版本</li>
+</ol>
+<pre><code>$ docker --version
+Docker version 19.03.1, build 74b1e89
+</code></pre><ol start="2">
+<li>运行<code>docker info</code>或<code>docker version</code>查看更多docker版本细节</li>
+</ol>
+<pre><code>$ docker info
+Client:
+ Debug Mode: false
+
+Server:
+ Containers: 1
+  Running: 0
+  Paused: 0
+  Stopped: 1
+ Images: 10
+ Server Version: 19.03.1
+ Storage Driver: overlay2
+  Backing Filesystem: extfs
+  Supports d_type: true
+  Native Overlay Diff: true
+ Logging Driver: json-file
+ Cgroup Driver: cgroupfs
+ Plugins:
+  Volume: local
+  Network: bridge host ipvlan macvlan null overlay
+  Log: awslogs fluentd gcplogs gelf journald json-file local logentries splunk syslog
+ Swarm: inactive
+ Runtimes: runc
+ Default Runtime: runc
+ Init Binary: docker-init
+ containerd version: 894b81a4b802e4eb2a91d1ce216b8817763c29fb
+ runc version: 425e105d5a03fabd737a126ad93d62a9eeede87f
+ init version: fec3683
+ Security Options:
+  seccomp
+   Profile: default
+ Kernel Version: 4.9.184-linuxkit
+ Operating System: Docker Desktop
+ OSType: linux
+ Architecture: x86_64
+ CPUs: 2
+ Total Memory: 1.952GiB
+ Name: docker-desktop
+ ID: XOGQ:6LZ4:DWI4:MH24:T7NA:MBOH:OHXR:2QYW:Q5CO:I5FR:TEVJ:Y5B7
+ Docker Root Dir: /var/lib/docker
+ Debug Mode: true
+  File Descriptors: 32
+  Goroutines: 49
+  System Time: 2019-08-27T08:02:13.8093806Z
+  EventsListeners: 2
+ HTTP Proxy: gateway.docker.internal:3128
+ HTTPS Proxy: gateway.docker.internal:3129
+ Registry: https://index.docker.io/v1/
+ Labels:
+ Experimental: false
+ Insecure Registries:
+  127.0.0.0/8
+ Registry Mirrors:
+  http://f1361db2.m.daocloud.io/
+ Live Restore Enabled: false
+ Product License: Community Engine
+</code></pre><p>为了避免权限问题(使用<code>sudo</code>运行)，需要将用户添加到<code>docker</code>用户组中。具体参考<a href="">这篇文章</a></p>
+<h5 id="验证doker安装"><a href="#验证doker安装" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:验证doker安装" class="headings">验证doker安装</a></h5>
+<ol>
+<li>
+<p>通过运行简单的<code>hello-world</code>镜像测试docker安装是否成功</p>
+<pre><code>$ docker run hello-world
+   
+Unable to find image 'hello-world:latest' locally
+latest: Pulling from library/hello-world
+[DEPRECATION NOTICE] registry v2 schema1 support will be removed in an upcoming release. Please contact admins of the docker.io registry NOW to avoid future disruption.
+1b930d010525: Pull complete
+Digest: sha256:fb158b7ad66f4d58aa66c4455858230cd2eab4cdf29b13e5c3628a6bfc2e9f05
+Status: Downloaded newer image for hello-world:latest
+   
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+   
+To generate this message, Docker took the following steps:
+ 1. The Docker client contacted the Docker daemon.
+ 2. The Docker daemon pulled the &quot;hello-world&quot; image from the Docker Hub.
+    (amd64)
+ 3. The Docker daemon created a new container from that image which runs the
+    executable that produces the output you are currently reading.
+ 4. The Docker daemon streamed that output to the Docker client, which sent it
+    to your terminal.
+   
+To try something more ambitious, you can run an Ubuntu container with:
+ $ docker run -it ubuntu bash
+   
+Share images, automate workflows, and more with a free Docker ID:
+ https://hub.docker.com/
+   
+For more examples and ideas, visit:
+ https://docs.docker.com/get-started/
+</code></pre></li>
+<li>
+<p>列出机器上已经下载的<code>hello-world</code>镜像</p>
+<pre><code>docker image ls或docker images
+   
+REPOSITORY          TAG                            IMAGE ID            CREATED             SIZE
+choaya/into         latest                         d013706f5624        About an hour ago   123MB
+minio/minio         RELEASE.2019-08-21T19-40-07Z   7669a864ad18        5 days ago          51.6MB
+nginx               latest                         5a3221f0137b        11 days ago         126MB
+ubuntu              latest                         a2a15febcdf3        12 days ago         64.2MB
+minio/minio         latest                         77a8467ccda1        12 days ago         63.5MB
+python              3.6-alpine                     58496e6dcbca        2 weeks ago         95.1MB
+redis               alpine                         47af6bf42a1e        3 weeks ago         29.3MB
+openjdk             8-jdk-alpine                   a3562aa0b991        3 months ago        105MB
+hello-world         latest                         fce289e99eb9        7 months ago        1.84kB
+</code></pre></li>
+<li>
+<p>列出机器上的容器，<code>--all</code>或 <code>-a</code>会列出所有的容器，包括已经停止运行的容器</p>
+<pre><code>$ docker container ls -a 或 $ docker container ls --all
+   
+942b61d0b2ce        hello-world         &quot;/hello&quot;                 2 minutes ago       Exited (0) 2 minutes ago                             awesome_grothendieck
+78bc76fae770        d013706f5624        &quot;java -Djava.securit…&quot;   About an hour ago   Exited (143) About an hour ago                       into
+</code></pre></li>
+</ol>
+<h4 id="总结和小抄"><a href="#总结和小抄" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:总结和小抄" class="headings">总结和小抄</a></h4>
+<pre><code>## List Docker CLI commands
+docker
+docker container --help
+
+## Display Docker version and info
+docker --version
+docker version
+docker info
+
+## Execute Docker image
+docker run hello-world
+
+## List Docker images
+docker image ls
+
+## List Docker containers (running, all, all in quiet mode)
+docker container ls
+docker container ls --all
+docker container ls -aq
+</code></pre><h4 id="part-1-结论"><a href="#part-1-结论" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:part-1-结论" class="headings">part 1 结论</a></h4>
+<p>容器化使得持续集成/持续部署无缝衔接，比如：</p>
+<ul>
+<li>应用没有系统依赖</li>
+<li>可以将更新推送到分布式应用程序的任何部分</li>
+<li>资源密度可以优化</li>
+</ul>
+<h3 id="part-2-容器"><a href="#part-2-容器" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:part-2-容器" class="headings">Part 2: 容器</a></h3>
+<h4 id="前提条件"><a href="#前提条件" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:前提条件" class="headings">前提条件</a></h4>
+<ul>
+<li>
+<p>安装版本<code>1.13</code>以上的docker</p>
+</li>
+<li>
+<p>完成<code>Part 1</code>部分的学习</p>
+</li>
+<li>
+<p>下面命令能正常执行</p>
+<pre><code>$ docker run hello-world
+</code></pre></li>
+</ul>
+<h4 id="简介"><a href="#简介" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:简介" class="headings">简介</a></h4>
+<p>现在开始就可以用Docker的方式来开发一个应用程序。我们从一个应用程序最底层，也就是<code>container</code>开始。在<code>container</code>之上是<code>service</code>，这部分将这<code>part 3</code>中介绍。最后最顶层是<code>stack</code>，这部分将这<code>part 5</code>中介绍。</p>
+<ul>
+<li>Stack</li>
+<li>Services</li>
+<li>Container(现在在这)</li>
+</ul>
+<h4 id="新的开发环境"><a href="#新的开发环境" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:新的开发环境" class="headings">新的开发环境</a></h4>
+<p>过去，如果您你要开始编写Python应用程序，那么你首先就是在你的计算机上安装Python。 但是，你需要保证安装的Python和你机器能兼容而且还要和你生产环境中的环境相匹配。</p>
+<p>使用Docker，您可以使用一个可移植的Python环境作为镜像，无需安装。 然后，你可以将基础镜像，应用程序代码，依赖项，运行时一起打包构建。</p>
+<p>这些可移植镜像由<code>Dockerfile</code>定义。</p>
+<h4 id="使用dockerfile定义容器"><a href="#使用dockerfile定义容器" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:使用dockerfile定义容器" class="headings">使用Dockerfile定义容器</a></h4>
+<p>Dockerfile定义容器内环境中发生的事情。 对网络接口和磁盘驱动器等资源的访问在此环境中进行虚拟化，该环境与系统的其他部分隔离，因此您需要将端口映射到外部世界，并具体说明要“复制”到哪些文件到这个环境。此Dockerfile中定义的应用程序的构建在其运行时表现完全一致。</p>
+<p><strong>Dockerfile</strong></p>
+<p>在本地机器上创建一个空的目录，并进入到这个目录，在这个目录中创建<code>Dockerfile</code>文件，拷贝下面的内容到这个文件，然后保存。<code>Dockerfile</code>中的每个语句都有说明。</p>
+<pre><code>$ mkdir app
+$ cd app
+$ touch Dockerfile
+</code></pre><pre><code># 使用官方的python运行时作为基础镜像
+FROM python:2.7-slim
+
+# 设置工作目录为/app
+WORKDIR /app
+
+# 拷贝当前目录中的内容到容器中/app目录下
+COPY . /app
+
+# 按章requirements.txt文件中定义的依赖
+RUN pip install --trusted-host pypi.python.org -r requirements.txt
+
+# 暴露80端口
+EXPOSE 80
+
+# 定义环境变量
+ENV NAME World
+
+# 容器启动时运行app.py
+CMD [&quot;python&quot;, &quot;app.py&quot;]
+</code></pre><p><code>Dockerfile</code>中使用了一些还没有创建的文件<code>app.py</code>和<code>requirements.txt</code>。下面我们来创建这些文件。</p>
+<h4 id="应用本身"><a href="#应用本身" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:应用本身" class="headings">应用本身</a></h4>
+<p>在<code>Dockerfile</code>同目录下创建<code>app.py</code>和<code>requirements.txt</code>文件。</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">touch app.py requirements.txt
+</code></pre></td></tr></table></div>
+</div>
+</div><p><strong>requirements.txt</strong></p>
+<pre><code>Flask
+Redis
+</code></pre><p><strong>app.py</strong></p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span>
+<span class="kn">from</span> <span class="nn">redis</span> <span class="kn">import</span> <span class="n">Redis</span><span class="p">,</span> <span class="n">RedisError</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">socket</span>
+
+<span class="c1"># Connect to Redis</span>
+<span class="n">redis</span> <span class="o">=</span> <span class="n">Redis</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&#34;redis&#34;</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">socket_connect_timeout</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">socket_timeout</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="s2">&#34;/&#34;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">hello</span><span class="p">():</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">visits</span> <span class="o">=</span> <span class="n">redis</span><span class="o">.</span><span class="n">incr</span><span class="p">(</span><span class="s2">&#34;counter&#34;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">RedisError</span><span class="p">:</span>
+        <span class="n">visits</span> <span class="o">=</span> <span class="s2">&#34;&lt;i&gt;cannot connect to Redis, counter disabled&lt;/i&gt;&#34;</span>
+
+    <span class="n">html</span> <span class="o">=</span> <span class="s2">&#34;&lt;h3&gt;Hello {name}!&lt;/h3&gt;&#34;</span> \
+           <span class="s2">&#34;&lt;b&gt;Hostname:&lt;/b&gt; {hostname}&lt;br/&gt;&#34;</span> \
+           <span class="s2">&#34;&lt;b&gt;Visits:&lt;/b&gt; {visits}&#34;</span>
+    <span class="k">return</span> <span class="n">html</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&#34;NAME&#34;</span><span class="p">,</span> <span class="s2">&#34;world&#34;</span><span class="p">),</span> <span class="n">hostname</span><span class="o">=</span><span class="n">socket</span><span class="o">.</span><span class="n">gethostname</span><span class="p">(),</span> <span class="n">visits</span><span class="o">=</span><span class="n">visits</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;0.0.0.0&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span>
+</code></pre></td></tr></table></div>
+</div>
+</div><p>目前我们通过<code>pip install -r requirements.txt</code>安装了<code>Flask</code>和<code>Redis</code>的pthon库，应用程序打印了环境变量<code>NAME</code>和<code>socket.gethostname()</code>，最后，由于Redis并没有运行，这里应该会打印错误信息。</p>
+<blockquote>
+<p>在容器内获取hostname，其实是container ID，类似于 process ID</p>
+</blockquote>
+<p>OK！你并不需要安装Python或者<code>requirements.txt</code>中定义的库文件在你的系统，构建或运行这个镜像也不需要在系统上安装它们。 你似乎并没有真正设置Python和Flask的环境，但实际上你已经有了。</p>
+<h4 id="构建应用"><a href="#构建应用" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:构建应用" class="headings">构建应用</a></h4>
+<p>准备构建这个应用。在此之前，请先确保你在刚才建立的目录下，<code>ls</code>列出这个目录下的内容:</p>
+<pre><code>$ ls
+Dockerfile       app.py           requirements.txt
+</code></pre><p>现在运行构建命令。这条命令将会创建一个Docker镜像，可以通过<code>--tag</code>或<code>-t</code>选项来制定镜像名称</p>
+<pre><code>docker build --tag=friendlyhello .
+</code></pre><p>构建的镜像在哪？已经在你的本地机器上了</p>
+<pre><code>$ docker images
+REPOSITORY          TAG                            IMAGE ID            CREATED             SIZE
+friendlyhello       latest                         996ecb8e1951        30 seconds ago      148MB
+choaya/into         latest                         d013706f5624        2 hours ago         123MB
+python              2.7-slim                       6b34ff151910        9 hours ago         137MB
+minio/minio         RELEASE.2019-08-21T19-40-07Z   7669a864ad18        5 days ago          51.6MB
+nginx               latest                         5a3221f0137b        11 days ago         126MB
+ubuntu              latest                         a2a15febcdf3        12 days ago         64.2MB
+minio/minio         latest                         77a8467ccda1        12 days ago         63.5MB
+python              3.6-alpine                     58496e6dcbca        2 weeks ago         95.1MB
+redis               alpine                         47af6bf42a1e        3 weeks ago         29.3MB
+openjdk             8-jdk-alpine                   a3562aa0b991        3 months ago        105MB
+hello-world         latest                         fce289e99eb9        7 months ago        1.84kB
+</code></pre><p>注意tag默认是<code>latest</code>。完整的tag语法应该像这个样子<code>--tag=friendlyhello:v0.0.1</code></p>
+<h4 id="运行应用程序"><a href="#运行应用程序" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:运行应用程序" class="headings">运行应用程序</a></h4>
+<p>运行应用程序，使用<code>-p</code>将机器的4000端口映射到容器的80端口</p>
+<pre><code>docker run -p 4000:80 friendlyhello
+</code></pre><p>在运行的日志上，你可以看到你的服务运行在<code>http://0.0.0.0:80/</code>，但是这写消息来自于容器内部，容器并不知道你将容器的80端口映射到了4000端口，所以正确的URL应该是<code>http://localhost:4000</code></p>
+<p>在浏览器中输入URL，查看页面内容</p>
+<p><img src="/Docker%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/image-20190827171826800.png" alt="应用运行显示内容"></p>
+<p>同样可以使用<code>curl</code>命令得到同样的内容</p>
+<pre><code>$ curl localhost:4000
+
+&lt;h3&gt;Hello World!&lt;/h3&gt;&lt;b&gt;Hostname:&lt;/b&gt; 14cf737a0cf5&lt;br/&gt;&lt;b&gt;Visits:&lt;/b&gt; &lt;i&gt;cannot connect to Redis, counter disabled&lt;/i&gt;
+</code></pre><p>端口重映射<code>4000:80</code>演示了 <code>Dockerfile</code> 中 <code>EXPOSE</code>和<code>docker run -p</code>运行的区别。后者将宿主机<code>4000</code>端口映射到容器的<code>80</code>端口，在容器内部可以使用<code>http://localhost</code>来访问。</p>
+<pre><code>$ docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                          NAMES
+4f28a2e7c9e6        friendlyhello       &quot;python app.py&quot;     2 minutes ago       Up 2 minutes        80/tcp, 0.0.0.0:80-&gt;4000/tcp   pedantic_hermann
+
+$ docker exec -it pedantic_hermann /bin/bash
+$ root@4f28a2e7c9e6:/app# curl localhost
+&lt;h3&gt;Hello World!&lt;/h3&gt;&lt;b&gt;Hostname:&lt;/b&gt; 14cf737a0cf5&lt;br/&gt;&lt;b&gt;Visits:&lt;/b&gt; &lt;i&gt;cannot connect to Redis, counter disabled&lt;/i&gt;
+</code></pre><blockquote>
+<p>注意这里使用docker exec -it pedantic_hermann /bin/bash 进入了容器，由于基础镜像中并没有安装curl，所以需要先通过apt安装curl才能使用。</p>
+<p>$ apt update</p>
+<p>$ apt-get install curl</p>
+<p>这里只是为了验证内部容器可以通过80端口进行访问，尽量不要在容器内安装多余的内容，这会增加容器的大小</p>
+</blockquote>
+<p><code>ctrl+c  </code>停止运行。</p>
+<p>在后台运行应用程序，使用detached模式</p>
+<pre><code>docker run -d -p 4000:80 friendlyhello
+</code></pre><p>执行完后你会得到一个长长的 container ID，然后马上退出返回到命令行。这样容器就会一直在后台运行。可以通过<code>docker container ls</code>命令查看到简短的container ID。</p>
+<pre><code>$ docker container ls
+
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                  NAMES
+cf8a2c2a348b        friendlyhello       &quot;python app.py&quot;     4 minutes ago       Up 4 minutes        0.0.0.0:4000-&gt;80/tcp   mystifying_brown
+</code></pre><p>注意<code>CONTAINER ID</code>和<code>http://localhost:4000</code>页面上的hostname是匹配的</p>
+<p>现在使用<code>docker container stop</code>结束容器运行，将<code>CONTAINER ID</code>作为参数</p>
+<pre><code>docker container stop cf8a2c2a348b
+</code></pre><h4 id="共享镜像"><a href="#共享镜像" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:共享镜像" class="headings">共享镜像</a></h4>
+<p>为了演示刚才关键镜像的便携性，我们需要上传我们刚才的镜像，然后尝试在任何地方运行它。毕竟当你在线上部署容器时，你需要知道怎么push镜像到registries。</p>
+<p>registries时一些仓库的集合，仓库时镜像的集合。这个有点像Github仓库。</p>
+<h5 id="使用docker-id登陆"><a href="#使用docker-id登陆" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:使用docker-id登陆" class="headings">使用Docker ID登陆</a></h5>
+<p>如果没有Docker账户，请在<a href="https://hub.docker.com/" target="_blank" rel="noopener">hub.docker.com</a>上注册一个。注意你的用户名。</p>
+<p>在你机器上登陆公共的registry</p>
+<pre><code>docker login
+</code></pre><h5 id="给镜像打标签"><a href="#给镜像打标签" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:给镜像打标签" class="headings">给镜像打标签</a></h5>
+<p>通过 <code>username/repository:tag</code>可以将本地镜像和registry的一个仓库关联。<code>tag</code>是可选的，但是推荐填上。比如<code>get-started:part2</code>，这就是将镜像放在<code>get-started</code>仓库，<code>tag</code>是<code>part2</code></p>
+<p>现在运行<code>docker tag image</code>传入username，repository和tag</p>
+<pre><code>docker tag image username/repository:tag
+</code></pre><p>比如</p>
+<pre><code>docker tag friendlyhello choaya/get-started:part2
+</code></pre><p>运行<code>docker images</code>查看这个新的镜像</p>
+<pre><code>$ docker images
+REPOSITORY           TAG                            IMAGE ID            CREATED             SIZE
+choaya/get-started   part2                          996ecb8e1951        About an hour ago   148MB
+friendlyhello        latest                         996ecb8e1951        About an hour ago   148MB
+choaya/into          latest                         d013706f5624        3 hours ago         123MB
+python               2.7-slim                       6b34ff151910        10 hours ago        137MB
+minio/minio          RELEASE.2019-08-21T19-40-07Z   7669a864ad18        5 days ago          51.6MB
+nginx                latest                         5a3221f0137b        11 days ago         126MB
+ubuntu               latest                         a2a15febcdf3        12 days ago         64.2MB
+minio/minio          latest                         77a8467ccda1        12 days ago         63.5MB
+python               3.6-alpine                     58496e6dcbca        2 weeks ago         95.1MB
+redis                alpine                         47af6bf42a1e        3 weeks ago         29.3MB
+openjdk              8-jdk-alpine                   a3562aa0b991        3 months ago        105MB
+hello-world          latest                         fce289e99eb9        7 months ago        1.84kB
+</code></pre><h5 id="发布镜像"><a href="#发布镜像" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:发布镜像" class="headings">发布镜像</a></h5>
+<p>上传刚才的镜像到仓库</p>
+<pre><code>docker push choaya/get-started:part2
+</code></pre><p>完成之后，你可以登陆到<a href="https://hub.docker.com/" target="_blank" rel="noopener">Docker Hub</a>，可以看到这个镜像。</p>
+<h5 id="pull同时运行远程仓库的镜像"><a href="#pull同时运行远程仓库的镜像" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:pull同时运行远程仓库的镜像" class="headings">pull同时运行远程仓库的镜像</a></h5>
+<p>从现在开始，你可以用<code>docker run</code>直接在你的机器上运行你的应用程序。</p>
+<pre><code>docker run -p 4000:80 choaya/get-started:part2
+</code></pre><p>如果本地没有这个镜像，docker自动会从远程仓库中下载这个镜像到本地机器</p>
+<p>由于我们本地已经有这个镜像，为了演示便携性，我先把本地的镜像删除</p>
+<pre><code>$ docker images
+REPOSITORY           TAG                            IMAGE ID            CREATED             SIZE
+choaya/get-started   part2                          996ecb8e1951        About an hour ago   148MB
+friendlyhello        latest                         996ecb8e1951        About an hour ago   148MB
+choaya/into          latest                         d013706f5624        3 hours ago         123MB
+python               2.7-slim                       6b34ff151910        11 hours ago        137MB
+minio/minio          RELEASE.2019-08-21T19-40-07Z   7669a864ad18        5 days ago          51.6MB
+nginx                latest                         5a3221f0137b        11 days ago         126MB
+ubuntu               latest                         a2a15febcdf3        12 days ago         64.2MB
+minio/minio          latest                         77a8467ccda1        12 days ago         63.5MB
+python               3.6-alpine                     58496e6dcbca        2 weeks ago         95.1MB
+redis                alpine                         47af6bf42a1e        3 weeks ago         29.3MB
+openjdk              8-jdk-alpine                   a3562aa0b991        3 months ago        105MB
+hello-world          latest                         fce289e99eb9        7 months ago        1.84kB
+
+$ docker container prune
+
+$ docker image rm -f 996ecb8e1951
+
+$ docker images
+REPOSITORY          TAG                            IMAGE ID            CREATED             SIZE
+choaya/into         latest                         d013706f5624        3 hours ago         123MB
+python              2.7-slim                       6b34ff151910        11 hours ago        137MB
+minio/minio         RELEASE.2019-08-21T19-40-07Z   7669a864ad18        5 days ago          51.6MB
+nginx               latest                         5a3221f0137b        11 days ago         126MB
+ubuntu              latest                         a2a15febcdf3        12 days ago         64.2MB
+minio/minio         latest                         77a8467ccda1        12 days ago         63.5MB
+python              3.6-alpine                     58496e6dcbca        2 weeks ago         95.1MB
+redis               alpine                         47af6bf42a1e        3 weeks ago         29.3MB
+openjdk             8-jdk-alpine                   a3562aa0b991        3 months ago        105MB
+hello-world         latest                         fce289e99eb9        7 months ago        1.84kB
+</code></pre><p>可以看到现在我本地机器上已经没有了刚才创建的镜像，现在直接从远程仓库运行应用程序试试。</p>
+<pre><code>$ docker run -p 4000:80 choaya/get-started:part2
+
+Unable to find image 'choaya/get-started:part2' locally
+part2: Pulling from choaya/get-started
+[DEPRECATION NOTICE] registry v2 schema1 support will be removed in an upcoming release. Please contact admins of the docker.io registry NOW to avoid future disruption.
+1ab2bdfe9778: Already exists
+f9047cc61c29: Already exists
+7f58e6c9f6f0: Already exists
+7058c90ade99: Already exists
+32c0ef8226c3: Pull complete
+c67c640dc154: Pull complete
+13606c24f595: Pull complete
+Digest: sha256:02e4a83a136002050374b2b5d3b15683ff2134ed752bb8435f1f770ecbcd57d1
+Status: Downloaded newer image for choaya/get-started:part2
+ * Serving Flask app &quot;app&quot; (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on http://0.0.0.0:80/ (Press CTRL+C to quit)
+</code></pre><p>可以看到从远程仓库拉取了镜像，并运行了一个容器，在本地通过<code>http://localhost:4000</code>可以正常访问</p>
+<p>如论在什么地方执行<code>docker run</code>，它都会pull你的镜像，同时Python和<code>requirements.txt</code>定义的依赖和你的应用程序代码都会一并打包。你不需要在你机器上安装各种环境。</p>
+<h4 id="part-2结论"><a href="#part-2结论" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:part-2结论" class="headings">Part 2结论</a></h4>
+<p>这部分内容到这就结束了，下一节我们将学习扩容我们应用，我们将以<code>service</code>来运行这个<code>container</code></p>
+<p>这里是这一节所用到的命令</p>
+<pre><code>docker build -t friendlyhello .  # Create image using this directory's Dockerfile
+docker run -p 4000:80 friendlyhello  # Run &quot;friendlyhello&quot; mapping port 4000 to 80
+docker run -d -p 4000:80 friendlyhello         # Same thing, but in detached mode
+docker container ls                                # List all running containers
+docker container ls -a             # List all containers, even those not running
+docker container stop &lt;hash&gt;           # Gracefully stop the specified container
+docker container kill &lt;hash&gt;         # Force shutdown of the specified container
+docker container rm &lt;hash&gt;        # Remove specified container from this machine
+docker container rm $(docker container ls -a -q)         # Remove all containers
+docker image ls -a                             # List all images on this machine
+docker image rm &lt;image id&gt;            # Remove specified image from this machine
+docker image rm $(docker image ls -a -q)   # Remove all images from this machine
+docker login             # Log in this CLI session using your Docker credentials
+docker tag &lt;image&gt; username/repository:tag  # Tag &lt;image&gt; for upload to registry
+docker push username/repository:tag            # Upload tagged image to registry
+docker run username/repository:tag                   # Run image from a registry
+</code></pre><h3 id="part-3-services"><a href="#part-3-services" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:part-3-services" class="headings">Part 3: Services</a></h3>
+<h4 id="前提条件-1"><a href="#前提条件-1" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:前提条件-1" class="headings">前提条件</a></h4>
+<ul>
+<li>安装版本<code>1.13</code>以上的docker</li>
+<li>安装<code>Docker Compose</code>。Mac OS版和Windows版的Docker已经预装了。在Linux上，你需要<a href="https://github.com/docker/compose/releases" target="_blank" rel="noopener">安装</a></li>
+<li>学习完Part 1</li>
+<li>学习完Part 2</li>
+<li>确保Part 2中推向远程仓库的镜像能正常运行，这一节我们将会使用这个镜像</li>
+</ul>
+<h4 id="简介-1"><a href="#简介-1" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:简介-1" class="headings">简介</a></h4>
+<p>在part 3中我们会扩容我们的应用同时启用负载均衡。为了实现这个目标，我们将进入分布式应用的container层级升级到service层</p>
+<ul>
+<li>Stack</li>
+<li>Services(现在在这)</li>
+<li>Container(在part 2中介绍)</li>
+</ul>
+<h4 id="关于services"><a href="#关于services" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:关于services" class="headings">关于services</a></h4>
+<p>在分布式应用中，应用的不同部分称为&quot;services&quot;。比如，一个视频分享网站可能包括一个存储应用数据到数据库的服务，一个视频转码服务，一个为前端提供数据的服务等等</p>
+<p><code>services</code>实际上只是“生产中的容器”。服务只运行一个镜像，但它规定了镜像的运行方式，它应该使用哪些端口，应该运行多少个容器副本，以便<code>service</code>具有所需的容量等等。 扩容服务会更改运行该应用的容器实例的数量，从而为应用中的服务分配更多计算资源。</p>
+<h4 id="第一个docker-composeyml文件"><a href="#第一个docker-composeyml文件" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:第一个docker-composeyml文件" class="headings">第一个docker-compose.yml文件</a></h4>
+<p><code>docker-compose.yml</code>文件是一个YAML文件，它定义了Docker容器应该怎么运行。</p>
+<p><strong>docker-compose.yml</strong></p>
+<p>将下面的内容保存到docker-compose.yml文件。确保你已经将Part 2中的镜像推到了远程仓库，然后将文件中的<code>username/repo:tag</code>换成你自己远程仓库镜像</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;3&#34;</span><span class="w">
+</span><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">web</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="c"># replace username/repo:tag with your name and image details</span><span class="w">
+</span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">username/repo:tag</span><span class="w">
+</span><span class="w">    </span><span class="nt">deploy</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="m">5</span><span class="w">
+</span><span class="w">      </span><span class="nt">resources</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">limits</span><span class="p">:</span><span class="w">
+</span><span class="w">          </span><span class="nt">cpus</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;0.1&#34;</span><span class="w">
+</span><span class="w">          </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l">50M</span><span class="w">
+</span><span class="w">      </span><span class="nt">restart_policy</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">condition</span><span class="p">:</span><span class="w"> </span><span class="kc">on</span>-<span class="l">failure</span><span class="w">
+</span><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span>- <span class="s2">&#34;4000:80&#34;</span><span class="w">
+</span><span class="w">    </span><span class="nt">networks</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span>- <span class="l">webnet</span><span class="w">
+</span><span class="w"></span><span class="nt">networks</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">webnet</span><span class="p">:</span><span class="w">
+</span></code></pre></td></tr></table></div>
+</div>
+</div><p>这个<code>docker-compose.yml</code>告诉Docker做了下面这些事：</p>
+<ul>
+<li>从远程仓库pull part 2中我们上传的镜像</li>
+<li>运行5个镜像的实例作为<code>web</code>service，限制每个实例最多只能使用单个CPU核心的10%(1.5表示每个实例最多1.5个核心)，最多50M的内存</li>
+<li>如果运行失败立即重启</li>
+<li>映射本地4000端口到<code>web</code>的80端口</li>
+<li>Instruct <code>web</code>’s containers to share port 80 via a load-balanced network called <code>webnet</code>. (Internally, the containers themselves publish to <code>web</code>’s port 80 at an ephemeral port.)</li>
+<li>使用默认设置定义一个名为<code>webnet</code>的网络(默认配置是一个负载均衡的overlay网络)</li>
+</ul>
+<h4 id="运行新的负载均衡的应用"><a href="#运行新的负载均衡的应用" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:运行新的负载均衡的应用" class="headings">运行新的负载均衡的应用</a></h4>
+<p>在使用<code>docker stack deploy</code>命令之前，需要先运行</p>
+<pre><code>docker swarm init
+</code></pre><blockquote>
+<p>注意：这条命令的含义在part 4中介绍。如果不运行<code>dicker swarm init</code>会报<code>this node is not a swarm manager</code>错误</p>
+</blockquote>
+<p>现在就可以运行了，你需要给你的应用一个名字，这里命名为<code>getstartedlab</code></p>
+<pre><code>$ docker stack deploy -c docker-compose.yml getstartedlab
+</code></pre><p>我们在一个宿主机上运行了5个容器实例，每个容器中是我们部署的镜像。下面我们来探索探索</p>
+<p>查看我们应用程序<code>web</code>service的service ID</p>
+<pre><code>$ docker service ls
+</code></pre><p>查看上面这条命令的输出，以应用名字为前缀。如果你把应用命名同上面一样，那么这里显示的名字就是<code>getstartedlab_web</code>。同样输出中列出了service ID，副本数量，镜像名称和暴露的端口</p>
+<p>同样，你能运行<code>docker stack services</code>，以stack的名字作为参数。以下示例命令允许您查看与<code>getstartedlab</code>stack关联的所有服务：</p>
+<pre><code>$ docker stack services getstartedlab
+
+ID                  NAME                MODE                REPLICAS            IMAGE                      PORTS
+k0eqbpwwjbn7        getstartedlab_web   replicated          5/5                 choaya/get-started:part2   *:4000-&gt;80/tcp
+</code></pre><p><code>service</code>中运行的单个容器称为<code>task</code>。每个<code>task</code>都有一个唯一ID，最多是<code>docker-compose.yml</code>中定义的<code>replicas</code>数量。列出你的<code>service</code>的<code>Tasks</code></p>
+<pre><code>$ docker service ps getstartedlab_web
+
+ID                  NAME                  IMAGE                      NODE                DESIRED STATE       CURRENT STATE            ERROR               PORTS
+t9f3n9ehci40        getstartedlab_web.1   choaya/get-started:part2   lazzyq-HP           Running             Running 29 minutes ago
+ugf8z6qymwcl        getstartedlab_web.2   choaya/get-started:part2   lazzyq-HP           Running             Running 29 minutes ago
+m65zkmcnh9uk        getstartedlab_web.3   choaya/get-started:part2   lazzyq-HP           Running             Running 29 minutes ago
+a6kl9zalaxc1        getstartedlab_web.4   choaya/get-started:part2   lazzyq-HP           Running             Running 29 minutes ago
+cpb6ynlm7680        getstartedlab_web.5   choaya/get-started:part2   lazzyq-HP           Running             Running 29 minutes ago
+</code></pre><p>你可以运行在浏览器中输入<code>http://localhost:4000</code>，刷新几次观察每次的hostname和容器ID的关系</p>
+<p>可以发现，每次刷新，容器ID都会改变一次，这演示了负载均衡的功能。每次请求都会选一个<code>task</code>来响应。使用<code>round-robin</code>的方式进行响应。容器ID和<code>docker container ls -q</code>中的容器ID对应</p>
+<h4 id="扩容你的应用"><a href="#扩容你的应用" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:扩容你的应用" class="headings">扩容你的应用</a></h4>
+<p>你可以通过改变<code>docker-compose.yml</code>文件中<code>replicas</code>来实现扩容。保存修改之后，重新运行<code>docker stack deploy</code>命令</p>
+<pre><code>docker stack deploy -c docker-compose.yml getstartedlab
+</code></pre><p>Docker就地运行，不需要先停止<code>stack</code>和停止任何容器就能实现扩容</p>
+<p>现在重新运行<code>docker container ls -q</code>查看重新部署的实例。如何扩大副本，则会启动更多的<code>tasks</code>，运行更多的容器</p>
+<h4 id="停止应用和swarm"><a href="#停止应用和swarm" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:停止应用和swarm" class="headings">停止应用和swarm</a></h4>
+<ul>
+<li>
+<p>使用<code>docker stack rm</code>命令停止应用</p>
+<pre><code>docker stack rm getstartedlab
+</code></pre></li>
+<li>
+<p>停止swarm</p>
+<pre><code>docker swarm leave --force
+</code></pre></li>
+</ul>
+<p>使用Docker启动应用和扩容就像这么简单。你已经向生产环境运行容器迈了一大步。接下来，你将会学习如何在Docker machines集群上运行真正的swarm应用。</p>
+<h4 id="总结和小抄-1"><a href="#总结和小抄-1" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:总结和小抄-1" class="headings">总结和小抄</a></h4>
+<p>回顾一下，当运行<code>docker run</code>很简单，在生产环境中真正的实现是将容器当作service来运行。在Compose文件中，Services定义了容器的行为，这个文件能用来扩容，限制资源和重新部署应用。service的改变能就地运行，使用<code>docker stack deploy</code>命令来部署service</p>
+<p>这一节使用到的命令</p>
+<pre><code>docker stack ls                                            # List stacks or apps
+docker stack deploy -c &lt;composefile&gt; &lt;appname&gt;  # Run the specified Compose file
+docker service ls                 # List running services associated with an app
+docker service ps &lt;service&gt;                  # List tasks associated with an app
+docker inspect &lt;task or container&gt;                   # Inspect task or container
+docker container ls -q                                      # List container IDs
+docker stack rm &lt;appname&gt;                             # Tear down an application
+docker swarm leave --force      # Take down a single node swarm from the manager
+</code></pre><h3 id="part-4-swarms"><a href="#part-4-swarms" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:part-4-swarms" class="headings">Part 4: Swarms</a></h3>
+<h4 id="前提条件-2"><a href="#前提条件-2" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:前提条件-2" class="headings">前提条件</a></h4>
+<ul>
+<li>安装版本<code>1.13</code>以上的docker</li>
+<li>安装<a href="https://docs.docker.com/compose/overview/" target="_blank" rel="noopener">Docker Compose</a></li>
+<li>安装<a href="https://docs.docker.com/machine/overview/" target="_blank" rel="noopener">Docker Machine</a>，Mac OS版和Windows版的Docker已经预装了。在Linux上需要<a href="https://docs.docker.com/machine/install-machine/#installing-machine-directly" target="_blank" rel="noopener">安装</a></li>
+<li>学习完成part 1</li>
+<li>学习完成part 2</li>
+<li>确保Part 2中推向远程仓库的镜像能正常运行，这一节我们将会使用这个镜像</li>
+<li>一份part 3中的<code>docker-compose.yml</code>文件的备份</li>
+</ul>
+<h4 id="简介-2"><a href="#简介-2" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:简介-2" class="headings">简介</a></h4>
+<p>在part 3中，我们使用part 2中构建的镜像，将其以service的方式，扩容到5个实例</p>
+<p>在part 4中，我们将部署应用到集群中，并且在多台机器上运行。多容器，多机应用实现基于被称为<strong>swarm</strong>的<code>Docker化</code>的集群</p>
+<h4 id="理解swarm集群"><a href="#理解swarm集群" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:理解swarm集群" class="headings">理解Swarm集群</a></h4>
+<p>Swarm是一组运行Docker的机器集群。在Swarm集群中像原来那样执行Docker命令，现在这些命令被称为<code>swarm manager</code>执行。swarm集群中的机器可以是物理机或者虚拟机。这些机器加入swarm后，这些机器被称为<strong>nodes</strong></p>
+<p>Swarm managers可以使用使用多种策略来运行容器，例如<code>emptiest node</code>--它使用容器填充利用率最低的机器。或者<code>global</code>--它确保每台机器只获得指定容器的一个实例。你可以在Compose文件中指定swarm manager使用那种策略</p>
+<p>到现在为止，我们一直在本地机器上使用单主机模式的Docker。但是Docker也能切换到<strong>swarm mode</strong>，这就是使用swarm的原因。启用<strong>swarm mode</strong>使当前计算机成为swarm manager。 启用后Docker就会运行你在管理的swarm上执行的命令，而不仅仅是在当前机器上</p>
+<h4 id="启动swarm"><a href="#启动swarm" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:启动swarm" class="headings">启动swarm</a></h4>
+<p>swarm集群由多个节点组成，这些节点可以是物理机也可以是虚拟机。基本概念很简单：运行<code>docker swarm init</code>启用swarm模式同时使当前机器作为swarm manager，然后在其他机器上运行<code>docker swarm join</code>加入swarm作为worker节点。接下来我们使用VM快速创建2台机器的swarm集群</p>
+<h4 id="创建集群"><a href="#创建集群" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:创建集群" class="headings">创建集群</a></h4>
+<p>你需要一个创建VM的hypervisor，所以在机器上需要<a href="https://www.virtualbox.org/wiki/Downloads" target="_blank" rel="noopener">安装Oracle VirtualBox</a></p>
+<p>现在使用<code>docker-machine</code>，<code>VirtualBox</code>创建几个VM</p>
+<pre><code>docker-machine create --driver virtualbox myvm1
+docker-machine create --driver virtualbox myvm2
+</code></pre><h4 id="列出vm获取它们的ip"><a href="#列出vm获取它们的ip" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:列出vm获取它们的ip" class="headings">列出VM获取它们的IP</a></h4>
+<p>现在创建了2个VM，分别为<code>myvm1</code>和<code>myvm2</code></p>
+<p>使用下面的命令列出VM获取它们的IP</p>
+<pre><code>$ docker-machine ls
+
+NAME    ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER     ERRORS
+myvm1   -        virtualbox   Running   tcp://192.168.99.100:2376           v19.03.1
+myvm2   -        virtualbox   Running   tcp://192.168.99.101:2376           v19.03.1
+</code></pre><h4 id="初始化swarm和添加nodes"><a href="#初始化swarm和添加nodes" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:初始化swarm和添加nodes" class="headings">初始化Swarm和添加Nodes</a></h4>
+<p>第一台机器充当manager，执行管理命令和对wokers加入到swarm进行授权，第二台机器充当worker</p>
+<p>你可以使用<code>docker-machine ssh</code>向VM发送命令。使用<code>docker swarm init</code>命令指定<code>myvm1</code>作为swarm manager。</p>
+<pre><code>$ docker-machine ssh myvm1 &quot;docker swarm init --advertise-addr &lt;myvm1 ip&gt;:&lt;port&gt;&quot;
+Swarm initialized: current node &lt;node ID&gt; is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+  docker swarm join \
+  --token &lt;token&gt; \
+  &lt;myvm ip&gt;:&lt;port&gt;
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+</code></pre><blockquote>
+<p>端口 2377和2376</p>
+<p><code>docker warm init</code>和<code>docker swarm join</code>尽量使用2377这个端口(swarm 管理端口)，或者不指定端口将默认端口2377</p>
+<p><code>docker-machine ls</code>命令返回的机器IP中包含2376端口，这个端口是docker的后台端口。不要使用这个端口，不然会有 <a href="https://forums.docker.com/t/docker-swarm-join-with-virtualbox-connection-error-13-bad-certificate/31392/2" target="_blank" rel="noopener">报错</a></p>
+</blockquote>
+<p><code>docker swarm init</code>命令执行后的结果中可以看到添加node的<code>docker swarm join</code>命令格式。使用<code>docker-machine ssh</code>命令将<code>docker swarm join</code>命令发送给<code>myvm2</code>，让<code>myvm2</code>作为worker加入到swarm</p>
+<pre><code>$ docker-machine ssh myvm2 &quot;docker swarm join \
+--token &lt;token&gt; \
+&lt;ip&gt;:2377&quot;
+
+This node joined a swarm as a worker.
+</code></pre><p>恭喜你，你已经创建了你的第一个swarm集群</p>
+<p>在manager上运行<code>docker node ls</code>查看swarm集群中的节点</p>
+<pre><code>$ docker-machine ssh myvm1 &quot;docker node ls&quot;
+
+ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS
+brtu9urxwfd5j0zrmkubhpkbd     myvm2               Ready               Active
+rihwohkh3ph38fhillhhb84sk *   myvm1               Ready               Active              Leader
+</code></pre><blockquote>
+<p><strong>离开swarm</strong></p>
+<p>如果你想重新开始，在每个节点上运行<code>docker swarm leave</code></p>
+</blockquote>
+<h4 id="在swarm集群上部署应用"><a href="#在swarm集群上部署应用" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:在swarm集群上部署应用" class="headings">在swarm集群上部署应用</a></h4>
+<p>最难的部分已经完了。现在你可以重复part 3的过程部署应用到新的swarm集群上。注意只有swarm manager比如<code>myvm1</code>执行docker命令。workers仅仅作为机器资源</p>
+<h4 id="配置swarm-manager的docker-machine-shell命令"><a href="#配置swarm-manager的docker-machine-shell命令" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:配置swarm-manager的docker-machine-shell命令" class="headings">配置swarm manager的docker-machine shell命令</a></h4>
+<p>目前为止，执行命令都是以<code>docker-machine ssh</code>命令将命令发送到机器上执行。可以使用<code>docker-machine env &lt;machine&gt;</code>命令配置你当前的shell命令和VM的Docker daemon通信。这个方法可以让你使用本地的<code>docker-compose.yml</code>文件部署应用程序到''远程''机器，不用将这个文件拷来拷去</p>
+<p>运行<code>docker-machine env myvm1</code>，然后命令结果运行的最后一行拷贝出来并运行，配置你当前的shell命令和swarm manager <code>myvm1</code>通信</p>
+<h4 id="mac或linux上配置docker-machine-shell环境"><a href="#mac或linux上配置docker-machine-shell环境" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:mac或linux上配置docker-machine-shell环境" class="headings">Mac或Linux上配置docker-machine shell环境</a></h4>
+<p>运行<code>docker-machine env myvm1</code>得到配置与<code>myvm1</code>通信的命令</p>
+<pre><code>$ docker-machine env myvm1
+
+export DOCKER_TLS_VERIFY=&quot;1&quot;
+export DOCKER_HOST=&quot;tcp://192.168.99.100:2376&quot;
+export DOCKER_CERT_PATH=&quot;/Users/sam/.docker/machine/machines/myvm1&quot;
+export DOCKER_MACHINE_NAME=&quot;myvm1&quot;
+# Run this command to configure your shell:
+# eval $(docker-machine env myvm1)
+</code></pre><p>运行这个命令</p>
+<pre><code>eval $(docker-machine env myvm1)
+</code></pre><p>运行<code>docker-machine ls</code>验证<code>myvm1</code>现在是激活的机器，<code>myvm1</code>被*标识</p>
+<pre><code>$ docker-machine ls
+
+NAME    ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER     ERRORS
+myvm1   *        virtualbox   Running   tcp://192.168.99.100:2376           v19.03.1
+myvm2   -        virtualbox   Running   tcp://192.168.99.101:2376           v19.03.1
+</code></pre><h4 id="在swarm-manager上部署应用"><a href="#在swarm-manager上部署应用" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:在swarm-manager上部署应用" class="headings">在swarm manager上部署应用</a></h4>
+<p>现在你可以使用在part 3中使用的<code>docker stack deploy</code>命令和<code>docker-compose.yml</code>文件的备份来部署你的应用。这个命令会花一些时间完成部署，并且需要一段时间才会可用。使用在swarm manager运行<code>docker service ps &lt;service_name&gt;</code>验证所有服务重新部署</p>
+<p>通过配置docker-machine shell环境与<code>myvm1</code>连接，你仍然可以访问本地机器的文件。确保你在之前目录下，目录下有part 3中的<code>docker-compose.yml</code>文件</p>
+<p>像之前那样，在<code>myvm1</code>上运行下面的命令</p>
+<pre><code>docker stack deploy -c docker-compose.yml getstartedlab
+</code></pre><p>就这样，应用已经部署到了swarm集群</p>
+<blockquote>
+<p>注意：如果你的镜像不是在Docker Hub上，而是在私有仓库，你需要使用<code>docker login &lt;your-registry&gt;</code>登陆，然后添加<code>--with-registry-auth</code>到上面的命令，比如：</p>
+<pre><code>docker login registry.example.com
+
+docker stack deploy --with-registry-auth -c docker-compose.yml getstartedlab
+</code></pre><p>上面的命令可以使swarm节点可以从你的私有仓库中pull镜像</p>
+</blockquote>
+<p>现在你可以使用part 3中的<a href="https://docs.docker.com/get-started/part3/#run-your-new-load-balanced-app" target="_blank" rel="noopener">命令</a>。只不过这次服务分别部署到<code>myvm1</code>和<code>myvm2</code>上</p>
+<blockquote>
+<ul>
+<li>
+<p>使用<code>docker-machine env</code>和<code>docker-machain ssh</code>连接到VM。如果想将将shell连接到<code>myvm2</code>，在当前shell或者新的shell中再次运行<code>docker-machine env</code>，然后再执行<code>docker-machine env</code>命令后返回的命令。这条命令只是配置了当前shell。如果你重新开了一个shell窗口，需要重新运行命令进行配置。使用<code>docker-machine ls</code>列出机器，看看这些机器处于什么状态，ip地址，确认当前连接到的是哪台机器</p>
+</li>
+<li>
+<p>另外，你可以用<code>docker-machine ssh &lt;machine&gt; &quot;&lt;command&gt;&quot;</code>命令来达到同样的目的。这条命令运行的log日志直接打印到VM，不会在本地机器上访问文件</p>
+</li>
+<li>
+<p>在MacOS和Linux上，你可以使用<code>docker-machine scp &lt;file&gt; &lt;machine&gt;:~</code>拷贝文件到机器上</p>
+</li>
+</ul>
+</blockquote>
+<h4 id="访问集群"><a href="#访问集群" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:访问集群" class="headings">访问集群</a></h4>
+<p>你可以使用<code>myvm1</code>或<code>myvm2</code>的IP地址来访问你的应用</p>
+<p>创建网络是共享的，同时实现了负载均衡。运行<code>docker-machine ls</code>获取VM的IP地址，可以通过浏览器或<code>curl</code>访问4000端口</p>
+<p>访问随机得到的结果有5个不同的容器ID，体现了负载均衡</p>
+<p>2个机器的IP都访问，是因为在swarm节点加入到路由网格(routing mesh)中。这样确保了在swarm中部署的service无论使用什么端口都得以保留，无论在哪个node上运行的容器都这样。下面这个图展示了一个名为<code>my-web</code>服务部署在拥有3个node的swarm中并对外暴露8080端口的结构</p>
+<p><img src="/Docker%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/ingress-routing-mesh.png" alt="routing mesh diagram"></p>
+<h4 id="迭代和扩容应用"><a href="#迭代和扩容应用" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:迭代和扩容应用" class="headings">迭代和扩容应用</a></h4>
+<p>从现在开始，你可以运行你在part 2和part 3中学到的命令</p>
+<p>可以更改<code>docker-compose.yml</code>进行扩容</p>
+<p>修改代码，重新构建镜像，将镜像推送到仓库进行迭代</p>
+<p>无论是扩容还是迭代，仅仅再次运行<code>docker stack deploy</code>就可以应用这些改变</p>
+<p>你可以使用<code>docker swarm join</code>命令将任何机器(物理机或虚拟机)加入到swarm中，集群就相当于扩容了。运行<code>docker stack deploy</code>，应用就能使用这些资源重新部署</p>
+<h4 id="清理和重启"><a href="#清理和重启" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:清理和重启" class="headings">清理和重启</a></h4>
+<h5 id="stack和swarm"><a href="#stack和swarm" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:stack和swarm" class="headings">stack和swarm</a></h5>
+<p>你可以使用<code>docker stack rm</code>命令停止stack，例如</p>
+<pre><code>docker stack rm getstartedlab
+</code></pre><blockquote>
+<p>保留swarm还是移除它？</p>
+<p>可以使用<code>docker-machine ssh myvm2 &quot;docker swarm leave&quot;</code>让worker从swarm中移除，使用<code>docker-machine ssh myvm1 &quot;docker swarm leave --force&quot;</code>让manager从swarm中移除，但是在part 5中还会使用到这个swarm，现在还是留着</p>
+</blockquote>
+<h5 id="取消docker-machine-shell命令"><a href="#取消docker-machine-shell命令" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:取消docker-machine-shell命令" class="headings">取消docker-machine shell命令</a></h5>
+<p>你可以使用下面的命令来取消上面配置的docker-machine shell环境</p>
+<p>在<code>Mac或Linux</code>上使用</p>
+<pre><code>eval $(docker-machine env -u)
+</code></pre><p>在<code>Windows</code>上使用</p>
+<pre><code>&amp; &quot;C:\Program Files\Docker\Docker\Resources\bin\docker-machine.exe&quot; env -u | Invoke-Expression
+</code></pre><h4 id="重启docker-machine"><a href="#重启docker-machine" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:重启docker-machine" class="headings">重启Docker machine</a></h4>
+<p>如果你把宿主机关机了，Docker machine将停止运行。可以使用<code>docker-machine ls</code>查看机器的运行状态</p>
+<pre><code>$ docker-machine ls
+NAME    ACTIVE   DRIVER       STATE     URL   SWARM   DOCKER    ERRORS
+myvm1   -        virtualbox   Stopped                 Unknown
+myvm2   -        virtualbox   Stopped                 Unknown
+</code></pre><p>重启可以使用</p>
+<pre><code>docker-machine start &lt;machine-name&gt;
+</code></pre><p>比如</p>
+<pre><code>$ docker-machine start myvm1
+Starting &quot;myvm1&quot;...
+(myvm1) Check network to re-create if needed...
+(myvm1) Waiting for an IP...
+Machine &quot;myvm1&quot; was started.
+Waiting for SSH to be available...
+Detecting the provisioner...
+Started machines may have new IP addresses. You may need to re-run the `docker-machine env` command.
+
+$ docker-machine start myvm2
+Starting &quot;myvm2&quot;...
+(myvm2) Check network to re-create if needed...
+(myvm2) Waiting for an IP...
+Machine &quot;myvm2&quot; was started.
+Waiting for SSH to be available...
+Detecting the provisioner...
+Started machines may have new IP addresses. You may need to re-run the `docker-machine env` command.
+</code></pre><h4 id="总结和小抄-2"><a href="#总结和小抄-2" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:总结和小抄-2" class="headings">总结和小抄</a></h4>
+<p>在part 4中，你了解了swarm，在swarm中节点怎么成为manager或worker，怎么常见swarm并部署应用到swarm。你可以看到，在part 3中的命令并没有改变，这些命令只是在swarm的manager节点上运行。你也看到了docker中网络的功能，能够在容器之间进行负载均衡，即使容器运行在不同机器上。最后你知道了怎么在集群上迭代和扩容你的应用。</p>
+<p>这一节使用到的命令</p>
+<pre><code>docker-machine create --driver virtualbox myvm1 # Create a VM (Mac, Win7, Linux)
+docker-machine create -d hyperv --hyperv-virtual-switch &quot;myswitch&quot; myvm1 # Win10
+docker-machine env myvm1                # View basic information about your node
+docker-machine ssh myvm1 &quot;docker node ls&quot;         # List the nodes in your swarm
+docker-machine ssh myvm1 &quot;docker node inspect &lt;node ID&gt;&quot;        # Inspect a node
+docker-machine ssh myvm1 &quot;docker swarm join-token -q worker&quot;   # View join token
+docker-machine ssh myvm1   # Open an SSH session with the VM; type &quot;exit&quot; to end
+docker node ls                # View nodes in swarm (while logged on to manager)
+docker-machine ssh myvm2 &quot;docker swarm leave&quot;  # Make the worker leave the swarm
+docker-machine ssh myvm1 &quot;docker swarm leave -f&quot; # Make master leave, kill swarm
+docker-machine ls # list VMs, asterisk shows which VM this shell is talking to
+docker-machine start myvm1            # Start a VM that is currently not running
+docker-machine env myvm1      # show environment variables and command for myvm1
+eval $(docker-machine env myvm1)         # Mac command to connect shell to myvm1
+&amp; &quot;C:\Program Files\Docker\Docker\Resources\bin\docker-machine.exe&quot; env myvm1 | Invoke-Expression   # Windows command to connect shell to myvm1
+docker stack deploy -c &lt;file&gt; &lt;app&gt;  # Deploy an app; command shell must be set to talk to manager (myvm1), uses local Compose file
+docker-machine scp docker-compose.yml myvm1:~ # Copy file to node's home dir (only required if you use ssh to connect to manager and deploy the app)
+docker-machine ssh myvm1 &quot;docker stack deploy -c &lt;file&gt; &lt;app&gt;&quot;   # Deploy an app using ssh (you must have first copied the Compose file to myvm1)
+eval $(docker-machine env -u)     # Disconnect shell from VMs, use native docker
+docker-machine stop $(docker-machine ls -q)               # Stop all running VMs
+docker-machine rm $(docker-machine ls -q) # Delete all VMs and their disk images
+</code></pre><h3 id="part-5-stack"><a href="#part-5-stack" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:part-5-stack" class="headings">Part 5: Stack</a></h3>
+<h4 id="前提条件-3"><a href="#前提条件-3" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:前提条件-3" class="headings">前提条件</a></h4>
+<ul>
+<li>安装版本<code>1.13</code>以上的docker</li>
+<li>安装<a href="https://docs.docker.com/compose/overview/" target="_blank" rel="noopener">Docker Compose</a></li>
+<li>安装<a href="https://docs.docker.com/machine/overview/" target="_blank" rel="noopener">Docker Machine</a>，Mac OS版和Windows版的Docker已经预装了。在Linux上需要<a href="https://docs.docker.com/machine/install-machine/#installing-machine-directly" target="_blank" rel="noopener">安装</a></li>
+<li>学习完成part 1</li>
+<li>学习完成part 2</li>
+<li>确保Part 2中推向远程仓库的镜像能正常运行，这一节我们将会使用这个镜像</li>
+<li>一份part 3中的<code>docker-compose.yml</code>文件的备份</li>
+<li>确保part 4中国创建的机器正常运行。运行<code>docker-machine ls</code>验证。如果机器停止了，运行<code>docker-machine start myvm1</code>启用manager，<code>docker-machine start myvm2</code>启动worker</li>
+<li>确保part 4中swarm正常运行。运行<code>docker-machine ssh myvm1 &quot;docker node ls&quot;</code>命令验证。如果swarm正常运行，节点应该是<code>ready</code>状态，如果不是，重新初始化swarm</li>
+</ul>
+<p>####简介</p>
+<p>在part 4中，你已经学会了启用swarm集群并且部署应用在上面</p>
+<p>在part 5这部分，你将接触到分布式应用的最高层:stack。stack就是一组相关联、共享依赖，能同时扩容的services，一个stack就能实现整个应用(尽管复杂的应用需要使用多个stack)</p>
+<p>好消息是，当你在part 3中创建compose文件并且使用<code>docker stack deploy</code>时，就已经使用过stack了。但是这只是单个service的的stack运行在单个host上，但生产环境并不会这么使用。那么现在你将学习多个相关联的services部署在多台机器上</p>
+<h4 id="添加一个新service并重新部署"><a href="#添加一个新service并重新部署" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:添加一个新service并重新部署" class="headings">添加一个新service并重新部署</a></h4>
+<p>在<code>docker-compose.yml</code>中添加服务很简单。首先我们先添加一个免费的可视化服务，这个可视化服务可以帮组我们看到swarm怎么调度容器</p>
+<ol>
+<li>
+<p>使用下面的内容替换原来的<code>docker-compose.yml</code>文件，注意将<code>username/repo:tag</code>替换成你自己的镜像</p>
+<pre><code>version: &quot;3&quot;
+services:
+  web:
+    # replace username/repo:tag with your name and image details
+    image: username/repo:tag
+    deploy:
+      replicas: 5
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          cpus: &quot;0.1&quot;
+          memory: 50M
+    ports:
+      - &quot;80:80&quot;
+    networks:
+      - webnet
+  visualizer:
+    image: dockersamples/visualizer:stable
+    ports:
+      - &quot;8080:8080&quot;
+    volumes:
+      - &quot;/var/run/docker.sock:/var/run/docker.sock&quot;
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+    networks:
+      - webnet
+networks:
+  webnet:
+</code></pre><p>唯一的改变就是添加了一个名为<code>visualizer</code>的service。注意这里添加了2个新的概念，<code>volumns</code>允许<code>visualizer</code>能够访问宿主机docker的socket文件；<code>placement</code>确保<code>visualizer</code>只运行在swarm manager，而不是在worker。</p>
+</li>
+<li>
+<p>确保你的shell配置成连接到<code>myvm1</code>了</p>
+<ul>
+<li>
+<p>运行<code>docker-machine ls</code>列出机器确保shell已经配置连接到<code>myvm1</code>，如果配置成功，可以在<code>myvm1</code>看到*标识</p>
+</li>
+<li>
+<p>如果可能的话，重新运行<code>docker-machine env myvm1</code>，然后运行下列命令配置</p>
+<p>在MacOS或Linux上</p>
+<pre><code>eval $(docker-machine env myvm1)
+</code></pre><p>在Windows上</p>
+<pre><code>&amp; &quot;C:\Program Files\Docker\Docker\Resources\bin\docker-machine.exe&quot; env myvm1 | Invoke-Expression
+</code></pre></li>
+</ul>
+</li>
+<li>
+<p>在manager上重新运行<code>docker stack deploy</code>命令</p>
+<pre><code>$ docker stack deploy -c docker-compose.yml getstartedlab
+Updating service getstartedlab_web (id: angi1bf5e4to03qu9f93trnxm)
+Creating service getstartedlab_visualizer (id: l9mnwkeq2jiononb5ihz9u7a4)
+</code></pre></li>
+<li>
+<p>看一眼visualizer</p>
+<p>你可以看到，在compose文件中<code>visualizer</code>运行在8080端口。通过<code>docker-machine ls</code>命令得到的IP地址来访问</p>
+<p><img src="/Docker%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/get-started-visualizer1.png" alt="Visualizer screenshot"></p>
+<p>可以看到单个<code>visualizer</code>运行在manager上，5个<code>web</code>实例分别在swarm各个机器上运行。你能通过<code>docker stack ps &lt;stack&gt;</code>来确认：</p>
+<pre><code>docker stack ps getstartedlab
+</code></pre></li>
+</ol>
+<h4 id="持久化数据"><a href="#持久化数据" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:持久化数据" class="headings">持久化数据</a></h4>
+<p>接下来我们添加一个redis数据出来存储应用数据</p>
+<ol>
+<li>
+<p>保存新的<code>docker-machine.yml</code>文件。只是在前面的基础上添加了Redis service</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;3&#34;</span><span class="w">
+</span><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">web</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="c"># replace username/repo:tag with your name and image details</span><span class="w">
+</span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">username/repo:tag</span><span class="w">
+</span><span class="w">    </span><span class="nt">deploy</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="m">5</span><span class="w">
+</span><span class="w">      </span><span class="nt">restart_policy</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">condition</span><span class="p">:</span><span class="w"> </span><span class="kc">on</span>-<span class="l">failure</span><span class="w">
+</span><span class="w">      </span><span class="nt">resources</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">limits</span><span class="p">:</span><span class="w">
+</span><span class="w">          </span><span class="nt">cpus</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;0.1&#34;</span><span class="w">
+</span><span class="w">          </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l">50M</span><span class="w">
+</span><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span>- <span class="s2">&#34;80:80&#34;</span><span class="w">
+</span><span class="w">    </span><span class="nt">networks</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span>- <span class="l">webnet</span><span class="w">
+</span><span class="w">  </span><span class="nt">visualizer</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">dockersamples/visualizer:stable</span><span class="w">
+</span><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span>- <span class="s2">&#34;8080:8080&#34;</span><span class="w">
+</span><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span>- <span class="s2">&#34;/var/run/docker.sock:/var/run/docker.sock&#34;</span><span class="w">
+</span><span class="w">    </span><span class="nt">deploy</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span><span class="nt">placement</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">constraints</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="l">node.role == manager]</span><span class="w">
+</span><span class="w">    </span><span class="nt">networks</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span>- <span class="l">webnet</span><span class="w">
+</span><span class="w">  </span><span class="nt">redis</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">redis</span><span class="w">
+</span><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span>- <span class="s2">&#34;6379:6379&#34;</span><span class="w">
+</span><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span>- <span class="s2">&#34;/home/docker/data:/data&#34;</span><span class="w">
+</span><span class="w">    </span><span class="nt">deploy</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span><span class="nt">placement</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">constraints</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="l">node.role == manager]</span><span class="w">
+</span><span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="l">redis-server --appendonly yes</span><span class="w">
+</span><span class="w">    </span><span class="nt">networks</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span>- <span class="l">webnet</span><span class="w">
+</span><span class="w"></span><span class="nt">networks</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">webnet</span><span class="p">:</span><span class="w">
+</span></code></pre></td></tr></table></div>
+</div>
+</div><p>Redis配置使用6379端口，在compose文件中，将6379端口从宿主机暴露，所以你可以通过访问Redis。</p>
+<p>最重要的是，在部署之前，有几件事关于redis持久化的事需要说明</p>
+<ul>
+<li>redis运行在manager</li>
+<li>redis存储数据的目录映射到了宿主机的/data目录</li>
+</ul>
+<p>这样，redis数据就存储在了宿主机上，而不是存储在容器内的<code>/data</code>目录，容器中的目录在容器重新部署时数据会被清除掉</p>
+<p>要做到数据持久化，必须做到：</p>
+<ul>
+<li>限制redis service必须运行在相同的宿主机上</li>
+<li>容器内的数据目录映射到了宿主机的文件系统上</li>
+</ul>
+<p>现在可以将添加了redis service的stack重新部署</p>
+</li>
+<li>
+<p>在manager上创建<code>./data</code>目录</p>
+<pre><code>docker-machine ssh myvm1 &quot;mkdir ./data&quot;
+</code></pre></li>
+<li>
+<p>确保shell配置成连接到<code>myvm1</code></p>
+</li>
+<li>
+<p>再次运行<code>docker stack deploy</code>重新部署</p>
+<pre><code>$ docker stack deploy -c docker-compose.yml getstartedlab
+</code></pre></li>
+<li>
+<p>运行<code>docker service ls</code>验证3个服务是否如期运行</p>
+<pre><code>$ docker service ls
+ID                  NAME                       MODE                REPLICAS            IMAGE                             PORTS
+x7uij6xb4foj        getstartedlab_redis        replicated          1/1                 redis:latest                      *:6379-&gt;6379/tcp
+n5rvhm52ykq7        getstartedlab_visualizer   replicated          1/1                 dockersamples/visualizer:stable   *:8080-&gt;8080/tcp
+mifd433bti1d        getstartedlab_web          replicated          5/5                 gordon/getstarted:latest    *:80-&gt;80/tcp
+</code></pre></li>
+<li>
+<p>在web页面上访问应用，你看到存储在redis中的数据</p>
+<p><img src="/Docker%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/app-in-browser-redis.png" alt="Hello World in browser with Redis"></p>
+<p>同样，检查<code>visualizer</code>是否在8080端口正常运行，同时<code>redis</code>、<code>web</code>和<code>visualizer</code>3个服务正常运行</p>
+<p><img src="/Docker%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/visualizer-with-redis.png" alt="Visualizer with redis screenshot"></p>
+</li>
+</ol>
+            </div>
+
+            
+    
+    
+        <ul class="post-copyright">
+            <li class="copyright-item author"><span class="copyright-item-text">作者</span>：<a href="https://www.wemeng.top/" class="p-author h-card" target="_blank" rel="noopener">懒癌正患者</a></li>
+            
+                
+                
+                
+                
+                <li class="copyright-item link"><span class="copyright-item-text">链接</span>：<a href="/posts/docker%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" target="_blank" rel="noopener">http://www.wemeng.top/posts/docker快速入门/</a></li>
+            
+            <li class="copyright-item license"><span class="copyright-item-text">许可</span>：<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a></li>
+            
+        </ul>
+    
+
+
+
+        </article>
+
+        
+
+        
+    <div class="updated-badge-container">
+        <span title="Updated @ 2020-12-19 21:33:29 CST" style="cursor:help">
+
+<svg xmlns="http://www.w3.org/2000/svg" width="130" height="20" class="updated-badge"><linearGradient id="b" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="a"><rect width="130" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#a)"><path class="updated-badge-left" d="M0 0h55v20H0z"/><path class="updated-badge-right" d="M55 0h75v20H55z"/><path fill="url(#b)" d="M0 0h130v20H0z"/></g><g fill="#fff" text-anchor="middle" font-size="110"><text x="285" y="150" fill="#010101" fill-opacity=".3" textLength="450" transform="scale(.1)">updated</text><text x="285" y="140" textLength="450" transform="scale(.1)">updated</text><text x="915" y="150" fill="#010101" fill-opacity=".3" textLength="650" transform="scale(.1)">2020-12-19</text><text x="915" y="140" textLength="650" transform="scale(.1)">2020-12-19</text></g></svg>
+        </span></div>
+
+
+
+        
+
+
+        <div class="post-share">
+
+        
+
+        <div class="share-items">
+
+            
+                <div class="share-item twitter">
+                    
+                    <a href="https://twitter.com/share?url=http://www.wemeng.top/posts/docker%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/&amp;text=Docker%e5%bf%ab%e9%80%9f%e5%85%a5%e9%97%a8&amp;hashtags=Docker,&amp;via=%e6%87%92%e7%99%8c%e6%ad%a3%e6%82%a3%e8%80%85" title="分享到「Twitter」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item facebook">
+                    
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=http://www.wemeng.top/posts/docker%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/&amp;hashtag=%23Docker" title="分享到「Facebook」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon facebook-icon"><path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item linkedin">
+                    
+                    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http://www.wemeng.top/posts/docker%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/&amp;title=Docker%e5%bf%ab%e9%80%9f%e5%85%a5%e9%97%a8&amp;summary=part%201:%20%e7%9b%ae%e6%a0%87%e4%b8%8e%e5%bf%ab%e9%80%9f%e5%85%a5%e9%97%a8%20%e6%ac%a2%e8%bf%8e!%e6%88%91%e4%bb%ac%e5%be%88%e9%ab%98%e5%85%b4%e4%bd%a0%e5%af%b9%e5%ad%a6%e4%b9%a0Docker%e9%82%a3%e4%b9%88%e6%84%9f%e5%85%b4%e8%b6%a3%e3%80%82%e8%bf%99%e7%af%87%e5%bf%ab%e9%80%9f%e5%85%a5%e9%97%a8%e6%95%99%e7%a8%8b%e5%8c%85%e6%8b%ac%e5%a6%82%e4%b8%8b%e5%86%85%e5%ae%b9%ef%bc%9a%0a%20%e9%85%8d%e7%bd%aeDocker%e7%8e%af%e5%a2%83%20%e5%88%9b%e5%bb%ba%e4%b8%80%e4%b8%aaDocker%e9%95%9c%e5%83%8f%e5%b9%b6%e5%9c%a8%e5%ae%b9%e5%99%a8%e4%b8%ad%e8%bf%90%e8%a1%8c%20%e6%89%a9%e5%ae%b9%e4%bd%a0%e7%9a%84%e5%ba%94%e7%94%a8%ef%bc%8c%e5%9c%a8%e5%a4%9a%e4%b8%aa%e5%ae%b9%e5%99%a8%e4%b8%ad%e8%bf%90%e8%a1%8c%20%e5%9c%a8%e9%9b%86%e7%be%a4%e4%b8%ad%e8%bf%90%e8%a1%8c%e4%bd%a0%e7%9a%84%e5%ba%94%e7%94%a8%20%e6%b7%bb%e5%8a%a0%e6%95%b0%e6%8d%ae%e5%ba%93%e7%bb%84%e6%88%90%e6%9c%8d%e5%8a%a1%e5%a0%86%e6%a0%88%20%e7%94%9f%e4%ba%a7%e7%8e%af%e5%a2%83%e9%83%a8%e7%bd%b2%e4%bd%a0%e7%9a%84%e5%ba%94%e7%94%a8%20%e2%80%a6%e2%80%a6&amp;source=%e6%87%92%e7%99%8c%e6%ad%a3%e6%82%a3%e8%80%85" title="分享到「LinkedIn」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon linkedin-icon"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item telegram">
+                    
+                    <a href="https://t.me/share/url?url=http://www.wemeng.top/posts/docker%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/&amp;text=Docker%e5%bf%ab%e9%80%9f%e5%85%a5%e9%97%a8" title="分享到「Telegram」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon telegram-icon"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm121.8 169.9l-40.7 191.8c-3 13.6-11.1 16.9-22.4 10.5l-62-45.7-29.9 28.8c-3.3 3.3-6.1 6.1-12.5 6.1l4.4-63.1 114.9-103.8c5-4.4-1.1-6.9-7.7-2.5l-142 89.4-61.2-19.1c-13.3-4.2-13.6-13.3 2.8-19.7l239.1-92.2c11.1-4 20.8 2.7 17.2 19.5z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item weibo">
+                    
+                    <a href="https://service.weibo.com/share/share.php?&amp;url=http://www.wemeng.top/posts/docker%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/&amp;title=Docker%e5%bf%ab%e9%80%9f%e5%85%a5%e9%97%a8&amp;pic=http://www.wemeng.top/Docker%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/Container.png&amp;searchPic=false" title="分享到「新浪微博」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon weibo-icon"><path d="M407 177.6c7.6-24-13.4-46.8-37.4-41.7-22 4.8-28.8-28.1-7.1-32.8 50.1-10.9 92.3 37.1 76.5 84.8-6.8 21.2-38.8 10.8-32-10.3zM214.8 446.7C108.5 446.7 0 395.3 0 310.4c0-44.3 28-95.4 76.3-143.7C176 67 279.5 65.8 249.9 161c-4 13.1 12.3 5.7 12.3 6 79.5-33.6 140.5-16.8 114 51.4-3.7 9.4 1.1 10.9 8.3 13.1 135.7 42.3 34.8 215.2-169.7 215.2zm143.7-146.3c-5.4-55.7-78.5-94-163.4-85.7-84.8 8.6-148.8 60.3-143.4 116s78.5 94 163.4 85.7c84.8-8.6 148.8-60.3 143.4-116zM347.9 35.1c-25.9 5.6-16.8 43.7 8.3 38.3 72.3-15.2 134.8 52.8 111.7 124-7.4 24.2 29.1 37 37.4 12 31.9-99.8-55.1-195.9-157.4-174.3zm-78.5 311c-17.1 38.8-66.8 60-109.1 46.3-40.8-13.1-58-53.4-40.3-89.7 17.7-35.4 63.1-55.4 103.4-45.1 42 10.8 63.1 50.2 46 88.5zm-86.3-30c-12.9-5.4-30 .3-38 12.9-8.3 12.9-4.3 28 8.6 34 13.1 6 30.8.3 39.1-12.9 8-13.1 3.7-28.3-9.7-34zm32.6-13.4c-5.1-1.7-11.4.6-14.3 5.4-2.9 5.1-1.4 10.6 3.7 12.9 5.1 2 11.7-.3 14.6-5.4 2.8-5.2 1.1-10.9-4-12.9z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item douban">
+                    
+                    <a href="https://www.douban.com/share/service?href=http://www.wemeng.top/posts/docker%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/&amp;name=Docker%e5%bf%ab%e9%80%9f%e5%85%a5%e9%97%a8&amp;text=part%201:%20%e7%9b%ae%e6%a0%87%e4%b8%8e%e5%bf%ab%e9%80%9f%e5%85%a5%e9%97%a8%20%e6%ac%a2%e8%bf%8e!%e6%88%91%e4%bb%ac%e5%be%88%e9%ab%98%e5%85%b4%e4%bd%a0%e5%af%b9%e5%ad%a6%e4%b9%a0Docker%e9%82%a3%e4%b9%88%e6%84%9f%e5%85%b4%e8%b6%a3%e3%80%82%e8%bf%99%e7%af%87%e5%bf%ab%e9%80%9f%e5%85%a5%e9%97%a8%e6%95%99%e7%a8%8b%e5%8c%85%e6%8b%ac%e5%a6%82%e4%b8%8b%e5%86%85%e5%ae%b9%ef%bc%9a%0a%20%e9%85%8d%e7%bd%aeDocker%e7%8e%af%e5%a2%83%20%e5%88%9b%e5%bb%ba%e4%b8%80%e4%b8%aaDocker%e9%95%9c%e5%83%8f%e5%b9%b6%e5%9c%a8%e5%ae%b9%e5%99%a8%e4%b8%ad%e8%bf%90%e8%a1%8c%20%e6%89%a9%e5%ae%b9%e4%bd%a0%e7%9a%84%e5%ba%94%e7%94%a8%ef%bc%8c%e5%9c%a8%e5%a4%9a%e4%b8%aa%e5%ae%b9%e5%99%a8%e4%b8%ad%e8%bf%90%e8%a1%8c%20%e5%9c%a8%e9%9b%86%e7%be%a4%e4%b8%ad%e8%bf%90%e8%a1%8c%e4%bd%a0%e7%9a%84%e5%ba%94%e7%94%a8%20%e6%b7%bb%e5%8a%a0%e6%95%b0%e6%8d%ae%e5%ba%93%e7%bb%84%e6%88%90%e6%9c%8d%e5%8a%a1%e5%a0%86%e6%a0%88%20%e7%94%9f%e4%ba%a7%e7%8e%af%e5%a2%83%e9%83%a8%e7%bd%b2%e4%bd%a0%e7%9a%84%e5%ba%94%e7%94%a8%20%e2%80%a6%e2%80%a6" title="分享到「豆瓣」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon douban-icon"><path d="M.643.92v2.412h22.714V.92H.643zm1.974 4.926v9.42h18.764v-9.42H2.617zm2.72 2.408H18.69v4.605H5.338V8.254zm1.657 7.412l-2.512.938c1.037 1.461 1.87 2.825 2.512 4.091H0v2.385h24v-2.385h-6.678c.818-1.176 1.589-2.543 2.303-4.091l-2.73-.938a29.952 29.952 0 01-2.479 5.03h-4.75c-.786-1.962-1.677-3.641-2.672-5.03Z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item qq">
+                    
+                    <a href="https://connect.qq.com/widget/shareqq/index.html?url=http://www.wemeng.top/posts/docker%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/&amp;title=Docker%e5%bf%ab%e9%80%9f%e5%85%a5%e9%97%a8&amp;summary=part%201:%20%e7%9b%ae%e6%a0%87%e4%b8%8e%e5%bf%ab%e9%80%9f%e5%85%a5%e9%97%a8%20%e6%ac%a2%e8%bf%8e!%e6%88%91%e4%bb%ac%e5%be%88%e9%ab%98%e5%85%b4%e4%bd%a0%e5%af%b9%e5%ad%a6%e4%b9%a0Docker%e9%82%a3%e4%b9%88%e6%84%9f%e5%85%b4%e8%b6%a3%e3%80%82%e8%bf%99%e7%af%87%e5%bf%ab%e9%80%9f%e5%85%a5%e9%97%a8%e6%95%99%e7%a8%8b%e5%8c%85%e6%8b%ac%e5%a6%82%e4%b8%8b%e5%86%85%e5%ae%b9%ef%bc%9a%0a%20%e9%85%8d%e7%bd%aeDocker%e7%8e%af%e5%a2%83%20%e5%88%9b%e5%bb%ba%e4%b8%80%e4%b8%aaDocker%e9%95%9c%e5%83%8f%e5%b9%b6%e5%9c%a8%e5%ae%b9%e5%99%a8%e4%b8%ad%e8%bf%90%e8%a1%8c%20%e6%89%a9%e5%ae%b9%e4%bd%a0%e7%9a%84%e5%ba%94%e7%94%a8%ef%bc%8c%e5%9c%a8%e5%a4%9a%e4%b8%aa%e5%ae%b9%e5%99%a8%e4%b8%ad%e8%bf%90%e8%a1%8c%20%e5%9c%a8%e9%9b%86%e7%be%a4%e4%b8%ad%e8%bf%90%e8%a1%8c%e4%bd%a0%e7%9a%84%e5%ba%94%e7%94%a8%20%e6%b7%bb%e5%8a%a0%e6%95%b0%e6%8d%ae%e5%ba%93%e7%bb%84%e6%88%90%e6%9c%8d%e5%8a%a1%e5%a0%86%e6%a0%88%20%e7%94%9f%e4%ba%a7%e7%8e%af%e5%a2%83%e9%83%a8%e7%bd%b2%e4%bd%a0%e7%9a%84%e5%ba%94%e7%94%a8%20%e2%80%a6%e2%80%a6&amp;pics=http://www.wemeng.top/Docker%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/Container.png&amp;site=%e6%87%92%e7%99%8c%e6%ad%a3%e6%82%a3%e8%80%85" title="分享到「QQ」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon qq-icon"><path d="M433.754 420.445c-11.526 1.393-44.86-52.741-44.86-52.741 0 31.345-16.136 72.247-51.051 101.786 16.842 5.192 54.843 19.167 45.803 34.421-7.316 12.343-125.51 7.881-159.632 4.037-34.122 3.844-152.316 8.306-159.632-4.037-9.045-15.25 28.918-29.214 45.783-34.415-34.92-29.539-51.059-70.445-51.059-101.792 0 0-33.334 54.134-44.859 52.741-5.37-.65-12.424-29.644 9.347-99.704 10.261-33.024 21.995-60.478 40.144-105.779C60.683 98.063 108.982.006 224 0c113.737.006 163.156 96.133 160.264 214.963 18.118 45.223 29.912 72.85 40.144 105.778 21.768 70.06 14.716 99.053 9.346 99.704z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item qzone">
+                    
+                    <a href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://www.wemeng.top/posts/docker%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/&amp;title=Docker%e5%bf%ab%e9%80%9f%e5%85%a5%e9%97%a8&amp;summary=part%201:%20%e7%9b%ae%e6%a0%87%e4%b8%8e%e5%bf%ab%e9%80%9f%e5%85%a5%e9%97%a8%20%e6%ac%a2%e8%bf%8e!%e6%88%91%e4%bb%ac%e5%be%88%e9%ab%98%e5%85%b4%e4%bd%a0%e5%af%b9%e5%ad%a6%e4%b9%a0Docker%e9%82%a3%e4%b9%88%e6%84%9f%e5%85%b4%e8%b6%a3%e3%80%82%e8%bf%99%e7%af%87%e5%bf%ab%e9%80%9f%e5%85%a5%e9%97%a8%e6%95%99%e7%a8%8b%e5%8c%85%e6%8b%ac%e5%a6%82%e4%b8%8b%e5%86%85%e5%ae%b9%ef%bc%9a%0a%20%e9%85%8d%e7%bd%aeDocker%e7%8e%af%e5%a2%83%20%e5%88%9b%e5%bb%ba%e4%b8%80%e4%b8%aaDocker%e9%95%9c%e5%83%8f%e5%b9%b6%e5%9c%a8%e5%ae%b9%e5%99%a8%e4%b8%ad%e8%bf%90%e8%a1%8c%20%e6%89%a9%e5%ae%b9%e4%bd%a0%e7%9a%84%e5%ba%94%e7%94%a8%ef%bc%8c%e5%9c%a8%e5%a4%9a%e4%b8%aa%e5%ae%b9%e5%99%a8%e4%b8%ad%e8%bf%90%e8%a1%8c%20%e5%9c%a8%e9%9b%86%e7%be%a4%e4%b8%ad%e8%bf%90%e8%a1%8c%e4%bd%a0%e7%9a%84%e5%ba%94%e7%94%a8%20%e6%b7%bb%e5%8a%a0%e6%95%b0%e6%8d%ae%e5%ba%93%e7%bb%84%e6%88%90%e6%9c%8d%e5%8a%a1%e5%a0%86%e6%a0%88%20%e7%94%9f%e4%ba%a7%e7%8e%af%e5%a2%83%e9%83%a8%e7%bd%b2%e4%bd%a0%e7%9a%84%e5%ba%94%e7%94%a8%20%e2%80%a6%e2%80%a6&amp;pics=http://www.wemeng.top/Docker%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/Container.png&amp;site=%e6%87%92%e7%99%8c%e6%ad%a3%e6%82%a3%e8%80%85" title="分享到「QQ 空间」" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon qzone-icon"><path d="M23.985 9.202c-.032-.099-.127-.223-.334-.258-.207-.036-7.351-1.406-7.351-1.406s-.105-.022-.198-.07c-.092-.047-.127-.167-.127-.167S12.447.956 12.349.77C12.25.583 12.104.532 12 .532c-.104 0-.251.051-.349.238-.098.186-3.626 6.531-3.626 6.531s-.035.12-.128.167c-.092.047-.197.07-.197.07S.556 8.908.348 8.943c-.208.036-.302.16-.333.258a.477.477 0 0 0 .125.449l5.362 5.49s.072.08.119.172c.016.104.005.21.005.21s-1.189 7.242-1.22 7.45.075.369.159.43c.083.062.233.106.421.013.189-.093 6.812-3.261 6.812-3.261s.098-.044.201-.061c.103-.017.201.061.201.061s6.623 3.168 6.812 3.261c.188.094.338.049.421-.013a.463.463 0 0 0 .159-.43c-.021-.14-.93-5.677-.93-5.677.876-.54 1.425-1.039 1.849-1.747-2.594.969-6.006 1.717-9.415 1.866-.915.041-2.41.097-3.473-.015-.678-.071-1.17-.144-1.243-.438-.053-.215.054-.46.545-.831a2640.5 2640.5 0 0 1 2.861-2.155c1.285-.968 3.559-2.47 3.559-2.731 0-.285-2.144-.781-4.037-.781-1.945 0-2.275.132-2.811.168-.488.034-.769.005-.804-.138-.06-.248.183-.389.588-.568.709-.314 1.86-.594 1.984-.626.194-.052 3.082-.805 5.618-.535 1.318.14 3.244.668 3.244 1.276 0 .342-1.721 1.494-3.225 2.597-1.149.843-2.217 1.561-2.217 1.688 0 .342 3.533 1.241 6.689 1.01l.003-.022c.048-.092.119-.172.119-.172l5.362-5.49a.477.477 0 0 0 .127-.449z"/></svg></a>
+                </div>
+            
+
+            
+                <div class="share-item qrcode">
+                    <div class="qrcode-container" title="通过「二维码」"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon qrcode-icon"><path d="M0 224h192V32H0v192zM64 96h64v64H64V96zm192-64v192h192V32H256zm128 128h-64V96h64v64zM0 480h192V288H0v192zm64-128h64v64H64v-64zm352-64h32v128h-96v-32h-32v96h-64V288h96v32h64v-32zm0 160h32v32h-32v-32zm-64 0h32v32h-32v-32z"/></svg><div id="qrcode-img"></div>
+                    </div>
+                    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+
+<script>
+    var typeNumber = 0;
+    var errorCorrectionLevel = 'L';
+    var qr = qrcode(typeNumber, errorCorrectionLevel);
+    qr.addData('http:\/\/www.wemeng.top\/posts\/docker%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8\/');
+    qr.make();
+    document.getElementById('qrcode-img').innerHTML = qr.createImgTag();
+</script>
+
+                </div>
+            
+
+        </div>
+
+    </div>
+
+
+
+
+        
+    
+    
+        <div class="related-posts">
+            <h2 class="related-title">相关文章：<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon related-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"/></svg></h2>
+            <ul class="related-list">
+                
+                    <li class="related-item">
+                        <a href="/posts/docker%E4%BD%BF%E7%94%A8/" class="related-link">Docker使用</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/docker%E6%90%AD%E5%BB%BAdns%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="related-link">Docker搭建dns服务器</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/docker%E9%83%A8%E7%BD%B2rocketmq/" class="related-link">Docker部署RocketMQ</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/docker-cheat-sheet/" class="related-link">Docker Cheat Sheet</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/docker%E9%83%A8%E7%BD%B2kafka%E4%B8%8E%E4%BD%BF%E7%94%A8/" class="related-link">Docker部署Kafka与使用</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
+
+
+
+        
+    
+        <div class="post-tags">
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/docker/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>Docker</a>
+                
+            
+        </div>
+    
+
+
+
+        
+
+
+        
+
+
+        
+    
+        
+        
+    
+    
+    
+    
+        <ul class="post-nav">
+            
+            
+                <li class="post-nav-next">
+                    <a href="/posts/docker%E4%BD%BF%E7%94%A8/" rel="next">Docker使用 &gt;</a>
+                </li>
+            
+        </ul>
+    
+
+
+
+        
+
+
+    </div>
+</main>
+
+
+            
+    <div id="back-to-top" class="back-to-top">
+        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon arrow-up"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg></a>
+    </div>
+
+
+            
+    <footer id="footer" class="footer">
+        <div class="footer-inner">
+            <div class="site-info">©&nbsp;2020–2020&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;懒癌正患者</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a></div>
+
+            
+    
+        <ul class="socials"><li class="socials-item">
+                    <a href="mailto:zengqiang96@gmail.com" target="_blank" rel="external noopener" title="Email"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon social-icon"><path d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="https://github.com/zengqiang96" target="_blank" rel="external noopener" title="GitHub"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="https://twitter.com/lazzyq" target="_blank" rel="external noopener" title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon social-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+                </li><li class="socials-item">
+                    <a href="https://t.me/lazzyq" target="_blank" rel="external noopener" title="Telegram"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon social-icon"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm121.8 169.9l-40.7 191.8c-3 13.6-11.1 16.9-22.4 10.5l-62-45.7-29.9 28.8c-3.3 3.3-6.1 6.1-12.5 6.1l4.4-63.1 114.9-103.8c5-4.4-1.1-6.9-7.7-2.5l-142 89.4-61.2-19.1c-13.3-4.2-13.6-13.3 2.8-19.7l239.1-92.2c11.1-4 20.8 2.7 17.2 19.5z"/></svg></a>
+                </li></ul>
+    
+
+
+
+            
+        </div>
+    </footer>
+
+
+        </div>
+        
+
+        
+
+
+    <script>
+    if (typeof MathJax === 'undefined') {
+        window.MathJax = {
+            loader: {
+                load: ['[tex]/mhchem']
+            },
+            
+            tex: {
+                inlineMath: {'[+]': [['$', '$']]},
+                tags: 'ams',
+                packages: {'[+]': ['mhchem']}
+            }
+        };
+        (function() {
+            var script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+            script.defer = true;
+            document.head.appendChild(script);
+        })();
+    } else {
+        MathJax.texReset();
+        MathJax.typeset();
+    }
+</script>
+
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.js"></script>
+
+<script>
+    mediumZoom(document.querySelectorAll('div.post-body img'), {
+        background: 'hsla(var(--color-bg-h), var(--color-bg-s), var(--color-bg-l), 0.95)'
+    })
+</script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/instant.page@5.1.0/instantpage.min.js" type="module" defer></script>
+
+
+
+
+
+
+
+    </body>
+</html>
