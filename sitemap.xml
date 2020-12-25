@@ -4,7 +4,37 @@
   
   <url>
     <loc>http://www.wemeng.top/categories/</loc>
-    <lastmod>2020-12-19T21:33:29+08:00</lastmod>
+    <lastmod>2020-12-26T00:23:45+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.wemeng.top/categories/golang/</loc>
+    <lastmod>2020-12-26T00:23:45+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.wemeng.top/tags/golang%E5%9F%BA%E7%A1%80/</loc>
+    <lastmod>2020-12-26T00:23:45+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.wemeng.top/posts/golang%E6%8C%87%E9%92%88/</loc>
+    <lastmod>2020-12-26T00:23:45+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.wemeng.top/posts/</loc>
+    <lastmod>2020-12-26T00:23:45+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.wemeng.top/tags/</loc>
+    <lastmod>2020-12-26T00:23:45+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.wemeng.top/</loc>
+    <lastmod>2020-12-26T00:23:45+08:00</lastmod>
   </url>
   
   <url>
@@ -19,21 +49,6 @@
   
   <url>
     <loc>http://www.wemeng.top/posts/docker%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/</loc>
-    <lastmod>2020-12-19T21:33:29+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://www.wemeng.top/posts/</loc>
-    <lastmod>2020-12-19T21:33:29+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://www.wemeng.top/tags/</loc>
-    <lastmod>2020-12-19T21:33:29+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://www.wemeng.top/</loc>
     <lastmod>2020-12-19T21:33:29+08:00</lastmod>
   </url>
   
@@ -65,11 +80,6 @@
   <url>
     <loc>http://www.wemeng.top/posts/%E7%90%86%E8%A7%A3go-mod/</loc>
     <lastmod>2020-12-17T19:56:15+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://www.wemeng.top/categories/golang/</loc>
-    <lastmod>2020-12-18T20:31:26+08:00</lastmod>
   </url>
   
   <url>
@@ -130,11 +140,6 @@
   <url>
     <loc>http://www.wemeng.top/posts/golang-plan9%E6%B1%87%E7%BC%96/</loc>
     <lastmod>2020-12-18T20:31:20+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://www.wemeng.top/tags/golang%E5%9F%BA%E7%A1%80/</loc>
-    <lastmod>2020-12-18T20:31:26+08:00</lastmod>
   </url>
   
   <url>
