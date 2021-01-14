@@ -23,10 +23,55 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
         
-        <lastBuildDate>Sun, 03 Jan 2021 14:39:08 &#43;0800</lastBuildDate>
+        <lastBuildDate>Thu, 14 Jan 2021 21:59:21 &#43;0800</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="http://www.wemeng.top/rss.xml" />
         
+        
+            <item>
+                <title>如何解除medium的限制</title>
+                <link>http://www.wemeng.top/posts/%E5%A6%82%E4%BD%95%E8%A7%A3%E9%99%A4medium%E7%9A%84%E9%99%90%E5%88%B6/</link>
+                <guid isPermaLink="true">http://www.wemeng.top/posts/%E5%A6%82%E4%BD%95%E8%A7%A3%E9%99%A4medium%E7%9A%84%E9%99%90%E5%88%B6/</guid>
+                <pubDate>Thu, 14 Jan 2021 21:40:23 &#43;0800</pubDate>
+                
+                    <author>zengqiang96@gmail.com (懒癌正患者)</author>
+                
+                <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
+                
+                    <description>&lt;h3 id=&#34;缘起&#34;&gt;缘起&lt;/h3&gt;
+&lt;p&gt;不知道你有没有逛过&lt;a href=&#34;https://medium.com/&#34;&gt;medium&lt;/a&gt;，应该要翻墙才能访问。我平时会在上面逛一逛，看看文章啥的。&lt;/p&gt;
+&lt;p&gt;但是&lt;a href=&#34;https://medium.com/&#34;&gt;medium&lt;/a&gt;每个月能免费看的文章数量是有限制的，所以如果超过了限制就看不了。&lt;/p&gt;
+&lt;h3 id=&#34;解除限制&#34;&gt;解除限制&lt;/h3&gt;
+&lt;p&gt;根据自己需要从&lt;a href=&#34;https://manojvivek.github.io/medium-unlimited/download/&#34;&gt;这里&lt;/a&gt;下载，然后添加浏览器中，就能愉快的浏览了。&lt;/p&gt;
+</description>
+                
+                
+                
+                
+                
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="http://www.wemeng.top/categories/%E7%BB%8F%E9%AA%8C/">经验</category>
+                                
+                            
+                        
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="http://www.wemeng.top/tags/%E5%B7%A5%E5%85%B7/">工具</category>
+                                
+                            
+                        
+                    
+                
+            </item>
         
             <item>
                 <title>exports、module.exports和export、export default到底是咋回事</title>
