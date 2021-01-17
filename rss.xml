@@ -23,10 +23,111 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
         
-        <lastBuildDate>Thu, 14 Jan 2021 21:59:21 &#43;0800</lastBuildDate>
+        <lastBuildDate>Sun, 17 Jan 2021 17:05:29 &#43;0800</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="http://www.wemeng.top/rss.xml" />
         
+        
+            <item>
+                <title>使用Kubeadm部署k8s集群</title>
+                <link>http://www.wemeng.top/posts/%E4%BD%BF%E7%94%A8kubeadm%E9%83%A8%E7%BD%B2k8s%E9%9B%86%E7%BE%A4/</link>
+                <guid isPermaLink="true">http://www.wemeng.top/posts/%E4%BD%BF%E7%94%A8kubeadm%E9%83%A8%E7%BD%B2k8s%E9%9B%86%E7%BE%A4/</guid>
+                <pubDate>Sun, 17 Jan 2021 14:32:18 &#43;0800</pubDate>
+                
+                    <author>zengqiang96@gmail.com (懒癌正患者)</author>
+                
+                <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
+                
+                    <description>&lt;h3 id=&#34;step-1-delete-swap&#34;&gt;Step 1: Delete SWAP&lt;/h3&gt;
+&lt;p&gt;在安裝 k8s 前，必須把所有 node 的 swap disable 。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ sudo swapoff -a
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;step-2-install-docker&#34;&gt;Step 2: Install docker&lt;/h3&gt;
+&lt;h3 id=&#34;step-3-install-kubectl-kubeadm-kubelet&#34;&gt;Step 3: Install Kubectl Kubeadm Kubelet&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;sudo apt-get update
+sudo apt-get install -y kubelet kubeadm kubectl
+sudo apt-mark hold kubelet kubeadm kubectl
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;step-31--在-master-中初始化-kubeadm&#34;&gt;Step 3–1 : 在 master 中初始化 kubeadm&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;$ kubeadm init
+
+...
+
+Your Kubernetes control-plane has initialized successfully!
+
+To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+Alternatively, if you are the root user, you can run:
+
+  export KUBECONFIG=/etc/kubernetes/admin.conf
+
+You should now deploy a pod network to the cluster.
+Run &amp;quot;kubectl apply -f [podnetwork].yaml&amp;quot; with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+Then you can join any number of worker nodes by running the following on each as root:
+
+kubeadm join 192.168.0.199:6443 --token u0u1ul.5idimtl8jabsecz3 \
+    --discovery-token-ca-cert-hash sha256:2b9101056e14cc406c950e570e6a05a750ea15e132317cc1d336e1c5a00fd396
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;执行下面的命令，&lt;code&gt;STATUS&lt;/code&gt;显示是&lt;code&gt;NotReady&lt;/code&gt;，因为还没安装CNI&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl get nodes
+NAME                    STATUS     ROLES                  AGE     VERSION
+zengqiang96-pc-server   NotReady   control-plane,master   4m41s   v1.20.2
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;看一下目前現有的 pods 有哪些。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl -n kube-system get pods
+
+NAME                                            READY   STATUS    RESTARTS   AGE
+coredns-74ff55c5b-7pknl                         0/1     Pending   0          5m23s
+coredns-74ff55c5b-zjr8w                         0/1     Pending   0          5m23s
+etcd-zengqiang96-pc-server                      1/1     Running   0          5m21s
+kube-apiserver-zengqiang96-pc-server            1/1     Running   0          5m21s
+kube-controller-manager-zengqiang96-pc-server   1/1     Running   0          5m21s
+kube-proxy-5pntf                                1/1     Running   0          5m23s
+kube-scheduler-zengqiang96-pc-server            1/1     Running   0          5m21s
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;step-4-install-cni&#34;&gt;Step 4: Install CNI&lt;/h3&gt;
+&lt;p&gt;接著安裝 CNI ，我所使用的是 Calico 因為這是官方建議的&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ curl https://docs.projectcalico.org/manifests/calico.yaml -O
+$ kubectl apply -f calico.yaml
+$ kubectl -n kube-system get pod -w
+$ kubectl get  nodes
+NAME                    STATUS   ROLES                  AGE   VERSION
+zengqiang96-pc-server   Ready    control-plane,master   28m   v1.20.2
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;刪除-kubenetes-cluster&#34;&gt;刪除 Kubenetes cluster&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;$ kubeadm reset
+$ sudo apt-get purge kubeadm kubectl kubelet kubernetes-cni kube*   
+$ sudo apt-get autoremove  
+$ sudo rm -rf ~/.kube
+&lt;/code&gt;&lt;/pre&gt;</description>
+                
+                
+                
+                
+                
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="http://www.wemeng.top/categories/k8s/">k8s</category>
+                                
+                            
+                        
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="http://www.wemeng.top/tags/k8s/">k8s</category>
+                                
+                            
+                        
+                    
+                
+            </item>
         
             <item>
                 <title>如何解除medium的限制</title>
@@ -2411,7 +2512,29 @@ Error creating machine: Error in driver during machine creation: This computer d
 &lt;h3 id=&#34;docker命令&#34;&gt;Docker命令&lt;/h3&gt;
 &lt;h4 id=&#34;批量删除docker镜像&#34;&gt;批量删除Docker镜像&lt;/h4&gt;
 &lt;p&gt;在使用一段时间Docker后，会有很多我们不再需要的镜像，我们通过&lt;code&gt;docker image rm&lt;/code&gt;可以逐个删除，但是效率很低，有没有批量删除的方法呢？&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;docker rmi `docker images | grep xxxx | awk &#39;{print $3}&#39;`&lt;/code&gt;&lt;/pre&gt;</description>
+&lt;pre&gt;&lt;code&gt;docker rmi `docker images | grep xxxx | awk &#39;{print $3}&#39;`
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;配置proxy&#34;&gt;配置Proxy&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;创建目录&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code&gt;mkdir /etc/systemd/system/docker.service.d
+&lt;/code&gt;&lt;/pre&gt;&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;创建&lt;code&gt;/etc/systemd/system/docker.service.d/http-proxy.conf&lt;/code&gt;文件&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code&gt;$ cat /etc/systemd/system/docker.service.d/http-proxy.conf
+[Service]
+Environment=&amp;quot;HTTP_PROXY=http://127.0.0.1:1086&amp;quot;
+Environment=&amp;quot;HTTPS_PROXY=http://127.0.0.1:1086&amp;quot;
+Environment=&amp;quot;NO_PROXY=localhost,127.0.0.1&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;Flush changes:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code&gt;$ systemctl daemon-reload
+&lt;/code&gt;&lt;/pre&gt;&lt;ol start=&#34;4&#34;&gt;
+&lt;li&gt;Restart Docker&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code&gt;$ systemctl restart docker
+&lt;/code&gt;&lt;/pre&gt;</description>
                 
                 
                 

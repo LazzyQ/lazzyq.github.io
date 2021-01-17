@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-CN">
     <title type="text">懒癌正患者</title>
     <subtitle type="html">MemE 是一个强大且可高度定制的 GoHugo 博客主题，专为个人博客设计。</subtitle>
-    <updated>2021-01-14T21:59:21&#43;08:00</updated>
+    <updated>2021-01-17T17:05:29&#43;08:00</updated>
     <id>http://www.wemeng.top/</id>
     <link rel="alternate" type="text/html" href="http://www.wemeng.top/" />
     <link rel="self" type="application/atom&#43;xml" href="http://www.wemeng.top/atom.xml" />
@@ -16,6 +16,118 @@
             </author>
     <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights>
     <generator uri="https://gohugo.io/" version="0.76.4">Hugo</generator>
+        <entry>
+            <title type="text">使用Kubeadm部署k8s集群</title>
+            <link rel="alternate" type="text/html" href="http://www.wemeng.top/posts/%E4%BD%BF%E7%94%A8kubeadm%E9%83%A8%E7%BD%B2k8s%E9%9B%86%E7%BE%A4/" />
+            <id>http://www.wemeng.top/posts/%E4%BD%BF%E7%94%A8kubeadm%E9%83%A8%E7%BD%B2k8s%E9%9B%86%E7%BE%A4/</id>
+            <updated>2021-01-17T17:04:28&#43;08:00</updated>
+            <published>2021-01-17T14:32:18&#43;08:00</published>
+            <author>
+                    <name>懒癌正患者</name>
+                    <uri>https://www.wemeng.top/</uri>
+                    <email>zengqiang96@gmail.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><summary type="html">&lt;h3 id=&#34;step-1-delete-swap&#34;&gt;Step 1: Delete SWAP&lt;/h3&gt;
+&lt;p&gt;在安裝 k8s 前，必須把所有 node 的 swap disable 。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ sudo swapoff -a
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;step-2-install-docker&#34;&gt;Step 2: Install docker&lt;/h3&gt;
+&lt;h3 id=&#34;step-3-install-kubectl-kubeadm-kubelet&#34;&gt;Step 3: Install Kubectl Kubeadm Kubelet&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;sudo apt-get update
+sudo apt-get install -y kubelet kubeadm kubectl
+sudo apt-mark hold kubelet kubeadm kubectl
+&lt;/code&gt;&lt;/pre&gt;……</summary>
+            
+                <content type="html">&lt;h3 id=&#34;step-1-delete-swap&#34;&gt;Step 1: Delete SWAP&lt;/h3&gt;
+&lt;p&gt;在安裝 k8s 前，必須把所有 node 的 swap disable 。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ sudo swapoff -a
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;step-2-install-docker&#34;&gt;Step 2: Install docker&lt;/h3&gt;
+&lt;h3 id=&#34;step-3-install-kubectl-kubeadm-kubelet&#34;&gt;Step 3: Install Kubectl Kubeadm Kubelet&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;sudo apt-get update
+sudo apt-get install -y kubelet kubeadm kubectl
+sudo apt-mark hold kubelet kubeadm kubectl
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;step-31--在-master-中初始化-kubeadm&#34;&gt;Step 3–1 : 在 master 中初始化 kubeadm&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;$ kubeadm init
+
+...
+
+Your Kubernetes control-plane has initialized successfully!
+
+To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+Alternatively, if you are the root user, you can run:
+
+  export KUBECONFIG=/etc/kubernetes/admin.conf
+
+You should now deploy a pod network to the cluster.
+Run &amp;quot;kubectl apply -f [podnetwork].yaml&amp;quot; with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+Then you can join any number of worker nodes by running the following on each as root:
+
+kubeadm join 192.168.0.199:6443 --token u0u1ul.5idimtl8jabsecz3 \
+    --discovery-token-ca-cert-hash sha256:2b9101056e14cc406c950e570e6a05a750ea15e132317cc1d336e1c5a00fd396
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;执行下面的命令，&lt;code&gt;STATUS&lt;/code&gt;显示是&lt;code&gt;NotReady&lt;/code&gt;，因为还没安装CNI&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl get nodes
+NAME                    STATUS     ROLES                  AGE     VERSION
+zengqiang96-pc-server   NotReady   control-plane,master   4m41s   v1.20.2
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;看一下目前現有的 pods 有哪些。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl -n kube-system get pods
+
+NAME                                            READY   STATUS    RESTARTS   AGE
+coredns-74ff55c5b-7pknl                         0/1     Pending   0          5m23s
+coredns-74ff55c5b-zjr8w                         0/1     Pending   0          5m23s
+etcd-zengqiang96-pc-server                      1/1     Running   0          5m21s
+kube-apiserver-zengqiang96-pc-server            1/1     Running   0          5m21s
+kube-controller-manager-zengqiang96-pc-server   1/1     Running   0          5m21s
+kube-proxy-5pntf                                1/1     Running   0          5m23s
+kube-scheduler-zengqiang96-pc-server            1/1     Running   0          5m21s
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;step-4-install-cni&#34;&gt;Step 4: Install CNI&lt;/h3&gt;
+&lt;p&gt;接著安裝 CNI ，我所使用的是 Calico 因為這是官方建議的&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ curl https://docs.projectcalico.org/manifests/calico.yaml -O
+$ kubectl apply -f calico.yaml
+$ kubectl -n kube-system get pod -w
+$ kubectl get  nodes
+NAME                    STATUS   ROLES                  AGE   VERSION
+zengqiang96-pc-server   Ready    control-plane,master   28m   v1.20.2
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;刪除-kubenetes-cluster&#34;&gt;刪除 Kubenetes cluster&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;$ kubeadm reset
+$ sudo apt-get purge kubeadm kubectl kubelet kubernetes-cni kube*   
+$ sudo apt-get autoremove  
+$ sudo rm -rf ~/.kube
+&lt;/code&gt;&lt;/pre&gt;</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="http://www.wemeng.top/categories/k8s/" term="k8s" label="k8s" />
+                            
+                        
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="http://www.wemeng.top/tags/k8s/" term="k8s" label="k8s" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
         <entry>
             <title type="text">如何解除medium的限制</title>
             <link rel="alternate" type="text/html" href="http://www.wemeng.top/posts/%E5%A6%82%E4%BD%95%E8%A7%A3%E9%99%A4medium%E7%9A%84%E9%99%90%E5%88%B6/" />
@@ -2411,7 +2523,7 @@ mifd433bti1d        getstartedlab_web          replicated          5/5          
             <title type="text">Docker使用</title>
             <link rel="alternate" type="text/html" href="http://www.wemeng.top/posts/docker%E4%BD%BF%E7%94%A8/" />
             <id>http://www.wemeng.top/posts/docker%E4%BD%BF%E7%94%A8/</id>
-            <updated>2020-12-19T21:28:07&#43;08:00</updated>
+            <updated>2021-01-17T15:44:32&#43;08:00</updated>
             <published>2020-12-19T21:24:14&#43;08:00</published>
             <author>
                     <name>懒癌正患者</name>
@@ -2551,7 +2663,29 @@ Error creating machine: Error in driver during machine creation: This computer d
 &lt;h3 id=&#34;docker命令&#34;&gt;Docker命令&lt;/h3&gt;
 &lt;h4 id=&#34;批量删除docker镜像&#34;&gt;批量删除Docker镜像&lt;/h4&gt;
 &lt;p&gt;在使用一段时间Docker后，会有很多我们不再需要的镜像，我们通过&lt;code&gt;docker image rm&lt;/code&gt;可以逐个删除，但是效率很低，有没有批量删除的方法呢？&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;docker rmi `docker images | grep xxxx | awk &#39;{print $3}&#39;`&lt;/code&gt;&lt;/pre&gt;</content>
+&lt;pre&gt;&lt;code&gt;docker rmi `docker images | grep xxxx | awk &#39;{print $3}&#39;`
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;配置proxy&#34;&gt;配置Proxy&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;创建目录&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code&gt;mkdir /etc/systemd/system/docker.service.d
+&lt;/code&gt;&lt;/pre&gt;&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;创建&lt;code&gt;/etc/systemd/system/docker.service.d/http-proxy.conf&lt;/code&gt;文件&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code&gt;$ cat /etc/systemd/system/docker.service.d/http-proxy.conf
+[Service]
+Environment=&amp;quot;HTTP_PROXY=http://127.0.0.1:1086&amp;quot;
+Environment=&amp;quot;HTTPS_PROXY=http://127.0.0.1:1086&amp;quot;
+Environment=&amp;quot;NO_PROXY=localhost,127.0.0.1&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;Flush changes:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code&gt;$ systemctl daemon-reload
+&lt;/code&gt;&lt;/pre&gt;&lt;ol start=&#34;4&#34;&gt;
+&lt;li&gt;Restart Docker&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code&gt;$ systemctl restart docker
+&lt;/code&gt;&lt;/pre&gt;</content>
             
             
             
@@ -11878,7 +12012,7 @@ docker run --rm -ti -v &lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;
             <title type="text">Uber Go语言编码规范</title>
             <link rel="alternate" type="text/html" href="http://www.wemeng.top/posts/uber-go%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" />
             <id>http://www.wemeng.top/posts/uber-go%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/</id>
-            <updated>2020-11-29T00:46:00&#43;08:00</updated>
+            <updated>2021-01-17T17:02:14&#43;08:00</updated>
             <published>2020-11-29T00:44:23&#43;08:00</published>
             
             <summary type="html">Uber是世界领先的生活出行服务提供商，也是Go语言的早期adopter，根据Uber工程博客的内容，大致可以判断出Go语言在Uber内部扮演了十分重要的角色。Uber内部的Go语言工程实践也是硕果累累，有大量Go实现的内部工具被Uber开源到github上，诸如被Gopher圈熟知的zap、jaeger等。2018年年末Uber将内部的Go风格规范开源到github，经过一年的积累和更新，该规范已经初具规模，并受到广大Gopher的关注。本文是该规范的中文版本，并”夹带“了部分笔者的点评，希望……</summary>
