@@ -226,3 +226,31 @@ http://f1361db2.m.daocloud.io
 
 ```
 docker rmi `docker images | grep xxxx | awk '{print $3}'`
+```
+
+### 配置Proxy
+
+1. 创建目录
+```
+mkdir /etc/systemd/system/docker.service.d
+```
+2. 创建`/etc/systemd/system/docker.service.d/http-proxy.conf`文件
+
+```
+$ cat /etc/systemd/system/docker.service.d/http-proxy.conf
+[Service]
+Environment="HTTP_PROXY=http://127.0.0.1:1086"
+Environment="HTTPS_PROXY=http://127.0.0.1:1086"
+Environment="NO_PROXY=localhost,127.0.0.1"
+```
+
+3. Flush changes:
+```
+$ systemctl daemon-reload
+```
+
+4. Restart Docker
+
+```
+$ systemctl restart docker
+```

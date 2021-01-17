@@ -3,7 +3,6 @@ title: "Uber Go语言编码规范"
 date: 2020-11-29T00:44:23+08:00
 draft: false
 original: false
-displayCopyright: false
 categories: 
   - Golang
 tags: 
