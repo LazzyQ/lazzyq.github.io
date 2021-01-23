@@ -23,10 +23,197 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
         
-        <lastBuildDate>Sun, 17 Jan 2021 17:05:29 &#43;0800</lastBuildDate>
+        <lastBuildDate>Sat, 23 Jan 2021 15:21:02 &#43;0800</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="http://www.wemeng.top/rss.xml" />
         
+        
+            <item>
+                <title>Linux常用工具使用</title>
+                <link>http://www.wemeng.top/posts/linux%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/</link>
+                <guid isPermaLink="true">http://www.wemeng.top/posts/linux%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/</guid>
+                <pubDate>Sat, 23 Jan 2021 15:18:31 &#43;0800</pubDate>
+                
+                    <author>zengqiang96@gmail.com (懒癌正患者)</author>
+                
+                <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
+                
+                    <description>&lt;h3 id=&#34;ssh-无密码登陆&#34;&gt;SSH 无密码登陆&lt;/h3&gt;
+&lt;p&gt;首先在自己的本地机器生成ssh key&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;ssh-keygen -t rsa
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;SSH密钥会保存在home目录下的**.ssh/id_rsa**文件中．SSH公钥保存在**.ssh/id_rsa.pub**文件中．&lt;/p&gt;
+&lt;p&gt;然后将SSH公钥上传到Linux服务器&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;ssh-copy-id username@remote-server
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;输入远程用户的密码后，SSH公钥就会自动上传了．SSH公钥保存在远程Linux服务器的**.ssh/authorized_keys**文件中。&lt;/p&gt;
+&lt;h3 id=&#34;服务启动&#34;&gt;服务启动&lt;/h3&gt;
+&lt;p&gt;ubuntu中，服务可以通过systemctl来管理&lt;/p&gt;
+&lt;p&gt;比如安装完mysql之后就会有mysql.service这个服务&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;启动服务&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;systemctl start mysql.service
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;关闭服务&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;systemctl stop mysql.service
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;重启服务&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;systemctl restart mysql.service
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;显示服务的状态&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;systemctl status mysql.service
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;在开机时启用服务&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;systemctl enable mysql.service
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;在开机时禁用服务&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;systemctl disable mysql.service
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;查看服务是否开机启动&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;systemctl is-enabled mysql.service
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;查看已启动的服务列表&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;systemctl list-unit-files|grep enabled
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;判断终端是否走了代理服务器&#34;&gt;判断终端是否走了代理服务器&lt;/h3&gt;
+&lt;p&gt;一行命令搞定：&lt;/p&gt;
+&lt;p&gt;已翻墙&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ curl cip.cc
+IP	: 149.129.75.xxx
+地址	: 中国  香港  阿里云
+
+数据二	: 香港 | 阿里云
+
+数据三	: 中国香港 | 阿里云
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;未翻墙&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ curl cip.cc
+IP	: 222.209.33.xxx
+地址	: 中国  四川  成都
+运营商	: 电信
+
+数据二	: 四川省成都市 | 电信
+
+数据三	: 中国四川省成都市 | 电信
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;合并视频和音频&#34;&gt;合并视频和音频&lt;/h3&gt;
+&lt;p&gt;最近下载了Youtube上面的视频&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;format code  extension  resolution note
+249          webm       audio only tiny   54k , opus @ 50k (48000Hz), 12.73MiB
+250          webm       audio only tiny   69k , opus @ 70k (48000Hz), 16.60MiB
+140          m4a        audio only tiny  129k , m4a_dash container, mp4a.40.2@128k (44100Hz), 33.56MiB
+251          webm       audio only tiny  132k , opus @160k (48000Hz), 32.78MiB
+160          mp4        256x144    144p   64k , avc1.4d400c, 24fps, video only, 11.00MiB
+278          webm       256x144    144p   96k , webm container, vp9, 24fps, video only, 23.29MiB
+133          mp4        426x240    240p  124k , avc1.4d4015, 24fps, video only, 19.61MiB
+242          webm       426x240    240p  188k , vp9, 24fps, video only, 35.61MiB
+243          webm       640x360    360p  373k , vp9, 24fps, video only, 63.51MiB
+134          mp4        640x360    360p  503k , avc1.4d401e, 24fps, video only, 47.47MiB
+244          webm       854x480    480p  758k , vp9, 24fps, video only, 105.52MiB
+135          mp4        854x480    480p 1185k , avc1.4d401e, 24fps, video only, 92.02MiB
+247          webm       1280x720   720p 1751k , vp9, 24fps, video only, 207.76MiB
+136          mp4        1280x720   720p 2872k , avc1.4d401f, 24fps, video only, 174.77MiB
+248          webm       1920x1080  1080p 3076k , vp9, 24fps, video only, 394.94MiB
+137          mp4        1920x1080  1080p 6553k , avc1.640028, 24fps, video only, 349.89MiB
+18           mp4        640x360    360p  411k , avc1.42001E, 24fps, mp4a.40.2@ 96k (44100Hz), 108.63MiB
+22           mp4        1280x720   720p  788k , avc1.64001F, 24fps, mp4a.40.2@192k (44100Hz) (best)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;可以看到，youtube的一个视频提供了很多格式，我当然是下载质量最好的是吧，于是把format是137的视频下载下来，然而发现没有声音，这才发现137是&lt;code&gt;video only&lt;/code&gt;，没办法再把音频文件140下载现在。然后要做的就是合并这2个文件。
+我首先想到的就是pr，于是pr走起，导入视频、音频素材，然后开始导出，发现导出的最终视频2G，原视频才350MB，音频33MB，可能是pr导出时参数设置的问题，无奈我不是很懂，于是想到之前搞过ffmpeg，于是尝试了以下，果然真香&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;ffmpeg -i audio.mp4 -i video.mp4 -acodec copy -vcodec copy output.mp4
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;最终导出的视频400MB，而且速度贼开，2s不到吧&lt;/p&gt;
+&lt;h3 id=&#34;youtube-dl下载视频&#34;&gt;youtube-dl下载视频&lt;/h3&gt;
+&lt;p&gt;下载所有的字幕和最好的视频&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;youtube-dl --proxy &#39;socks5://127.0.0.1:1080&#39; --all-subs -f best
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;--proxy 指定代理&lt;/li&gt;
+&lt;li&gt;--all-subs 下载所有的字幕&lt;/li&gt;
+&lt;li&gt;-f 指定下载视频的格式，可以通过-F来查看所有的格式&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;查看视频格式&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;youtube-dl --proxy &#39;socks5://127.0.0.1:1080&#39; -F 
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;下载播放列表&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;youtube-dl --proxy &#39;socks5://127.0.0.1:1080&#39; --yes-playlist -f best
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;下载超过100个视频的播放列表&lt;/p&gt;
+&lt;p&gt;由于目前youtube-dl对于超过100个视频的播放列表会报错&lt;a href=&#34;https://github.com/ytdl-org/youtube-dl/issues/25768&#34;&gt;issues 25768&lt;/a&gt; &lt;a href=&#34;https://github.com/ytdl-org/youtube-dl/issues/14076&#34;&gt;issues 14076&lt;/a&gt;，只能通过指定下载列表的[start,end]进行下载&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;youtube-dl --proxy &#39;socks5://127.0.0.1:1080&#39; --yes-playlist --playlist-start 1 --playlist-end 100 -f best
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;选择最好的格式下载&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ youtube-dl --proxy &#39;socks5://127.0.0.1:1080&#39; -f bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio --merge-output-format mp4 
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;brew&#34;&gt;brew&lt;/h3&gt;
+&lt;h4 id=&#34;执行brew命令出现一堆-warning-cask-xxx-is-unreadable-undefined-method-method_missing_message-for-utilsmodule&#34;&gt;执行brew命令出现一堆 Warning: Cask &#39;xxx&#39; is unreadable: undefined method `method_missing_message&#39; for Utils:Module&lt;/h4&gt;
+&lt;p&gt;Firstly, update the local formula repositories to the latest state. Cause reading issues on GitHub repo Hombrew-cask, the error may be introduced by typos in formula definitions.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# enable --verbose to get more info&lt;/span&gt;
+brew update --verbose
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Then try &lt;code&gt;brew search metabase&lt;/code&gt; again.&lt;/p&gt;
+&lt;p&gt;If the above command doesn&#39;t fix your problem, go into local repository of Homebrew-cask and reset it.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;brew --repo homebrew/cask&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;
+git clean -dfx
+
+git reset --hard origin/master
+git pull origin master
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;参考&lt;a href=&#34;https://apple.stackexchange.com/questions/371785/warning-cask-xxx-is-unreadable-undefined-method-method-missing-message-for&#34;&gt;原回答&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;apt源中有一些google的源导致-apt-get-update无法连接&#34;&gt;apt源中有一些google的源，导致 apt-get update无法连接&lt;/h3&gt;
+&lt;p&gt;可以给apt-get设置代理&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;sudo apt-get -o Acquire::http::proxy=&amp;quot;http://127.0.0.1:8086&amp;quot; update
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;mac无线鼠标移动慢&#34;&gt;mac无线鼠标移动慢&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;鼠标双击阈值：defaults read -g com.apple.mouse.doubleClickThreshold&lt;/li&gt;
+&lt;li&gt;鼠标加速度：defaults read -g com.apple.mouse.scaling&lt;/li&gt;
+&lt;li&gt;滚动速度：defaults read -g com.apple.scrollwheel.scaling&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如果鼠标使用有异常，可以再终端中读以上三个参数，并根据自己的需要适当调高调低&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;鼠标双击阈值：defaults write -g com.apple.mouse.doubleClickThreshold 0.75&lt;/li&gt;
+&lt;li&gt;鼠标加速度：defaults write -g com.apple.mouse.scaling 5&lt;/li&gt;
+&lt;li&gt;滚动速度：defaults write -g com.apple.scrollwheel.scaling 0.75&lt;/li&gt;
+&lt;/ul&gt;</description>
+                
+                
+                
+                
+                
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="http://www.wemeng.top/categories/%E7%BB%8F%E9%AA%8C/">经验</category>
+                                
+                            
+                        
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="http://www.wemeng.top/tags/%E5%B7%A5%E5%85%B7/">工具</category>
+                                
+                            
+                        
+                    
+                
+            </item>
         
             <item>
                 <title>使用Kubeadm部署k8s集群</title>
