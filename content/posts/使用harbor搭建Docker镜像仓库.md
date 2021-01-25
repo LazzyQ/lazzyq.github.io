@@ -1,10 +1,12 @@
 ---
 title: "使用harbor搭建Docker镜像仓库"
 date: 2021-01-24T15:01:54+08:00
-draft: true
+draft: false
 original: true
 categories: 
+  - Docker
 tags: 
+  - Docker
 ---
 
 ### 下载harbar的安装器
