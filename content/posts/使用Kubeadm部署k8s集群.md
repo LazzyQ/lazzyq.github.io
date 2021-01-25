@@ -105,3 +105,14 @@ $ sudo rm -rf ~/.kube
 ```
 
 
+### 遇到的问题
+
+1. 安装完k8s后，重启机器后，k8s启动失败
+
+因为安装的时候使用`swapoff -a`关闭的SWAP，所以重启的时候SWAP又挂载了，需要将SWAP的自动挂载去掉
+
+```
+vim  /etc/fstab 
+
+注释掉 SWAP 的自动挂载
+```
