@@ -23,7 +23,7 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
         
-        <lastBuildDate>Sat, 23 Jan 2021 15:21:02 &#43;0800</lastBuildDate>
+        <lastBuildDate>Mon, 25 Jan 2021 22:28:30 &#43;0800</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="http://www.wemeng.top/rss.xml" />
         
@@ -286,6 +286,14 @@ zengqiang96-pc-server   Ready    control-plane,master   28m   v1.20.2
 $ sudo apt-get purge kubeadm kubectl kubelet kubernetes-cni kube*   
 $ sudo apt-get autoremove  
 $ sudo rm -rf ~/.kube
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;遇到的问题&#34;&gt;遇到的问题&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;安装完k8s后，重启机器后，k8s启动失败&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;因为安装的时候使用&lt;code&gt;swapoff -a&lt;/code&gt;关闭的SWAP，所以重启的时候SWAP又挂载了，需要将SWAP的自动挂载去掉&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;vim  /etc/fstab 
+
+注释掉 SWAP 的自动挂载
 &lt;/code&gt;&lt;/pre&gt;</description>
                 
                 
