@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-CN">
     <title type="text">懒癌正患者</title>
     <subtitle type="html">MemE 是一个强大且可高度定制的 GoHugo 博客主题，专为个人博客设计。</subtitle>
-    <updated>2021-01-30T15:34:00&#43;08:00</updated>
+    <updated>2021-02-25T21:48:30&#43;08:00</updated>
     <id>http://www.wemeng.top/</id>
     <link rel="alternate" type="text/html" href="http://www.wemeng.top/" />
     <link rel="self" type="application/atom&#43;xml" href="http://www.wemeng.top/atom.xml" />
@@ -15,7 +15,356 @@
                 <email>zengqiang96@gmail.com</email>
             </author>
     <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights>
-    <generator uri="https://gohugo.io/" version="0.76.4">Hugo</generator>
+    <generator uri="https://gohugo.io/" version="0.80.0">Hugo</generator>
+        <entry>
+            <title type="text">Golang Project Structure</title>
+            <link rel="alternate" type="text/html" href="http://www.wemeng.top/posts/golang-project-structure/" />
+            <id>http://www.wemeng.top/posts/golang-project-structure/</id>
+            <updated>2021-01-30T16:46:30&#43;08:00</updated>
+            <published>2021-01-30T15:31:28&#43;08:00</published>
+            <author>
+                    <name>懒癌正患者</name>
+                    <uri>https://www.wemeng.top/</uri>
+                    <email>zengqiang96@gmail.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><summary type="html">&lt;p&gt;&lt;a href=&#34;https://www.youtube.com/watch?v=oL6JBUk6tj0&#34;&gt;https://www.youtube.com/watch?v=oL6JBUk6tj0&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;demo-project-a-beer-reviewing-service&#34;&gt;Demo Project: A Beer Reviewing Service&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Users can add a beer&lt;/li&gt;
+&lt;li&gt;Users  can add a  review for a  beer&lt;/li&gt;
+&lt;li&gt;Users can list  all beers&lt;/li&gt;
+&lt;li&gt;User  can list all reviews for  a given beer&lt;/li&gt;
+&lt;li&gt;Option to  store data either in  memory or  in a JSON file&lt;/li&gt;
+&lt;li&gt;Ability to  add  some sample data&lt;/li&gt;
+&lt;/ul&gt;……</summary>
+            
+                <content type="html">&lt;p&gt;&lt;a href=&#34;https://www.youtube.com/watch?v=oL6JBUk6tj0&#34;&gt;https://www.youtube.com/watch?v=oL6JBUk6tj0&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;demo-project-a-beer-reviewing-service&#34;&gt;Demo Project: A Beer Reviewing Service&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Users can add a beer&lt;/li&gt;
+&lt;li&gt;Users  can add a  review for a  beer&lt;/li&gt;
+&lt;li&gt;Users can list  all beers&lt;/li&gt;
+&lt;li&gt;User  can list all reviews for  a given beer&lt;/li&gt;
+&lt;li&gt;Option to  store data either in  memory or  in a JSON file&lt;/li&gt;
+&lt;li&gt;Ability to  add  some sample data&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;flat-structure&#34;&gt;Flat Structure&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-jsx&#34; data-lang=&#34;jsx&#34;&gt;&lt;span class=&#34;nx&#34;&gt;flat&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;handlers&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;handlers_test&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;model&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;storage&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;storage_json&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;storage_json_test&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;storage_mem&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;storage_mem_test&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;└──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;storage_test&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;优点&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;结构简单，适合不太复杂的项目或者库&lt;/li&gt;
+&lt;li&gt;避免了循环依赖的问题，因为都在main包&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;缺点&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;全局作用域，无法做到访问控制&lt;/li&gt;
+&lt;li&gt;欠缺表达，只看文件名，无法知道项目的功能，必须看里面的逻辑才知道&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;group-by-functionlayered-architecture&#34;&gt;Group By Function(Layered Architecture)&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;presentation/user interface&lt;/li&gt;
+&lt;li&gt;business logic&lt;/li&gt;
+&lt;li&gt;external dependencies/infrastructure&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;可以按照分层将代码放到不同层级的包下，换一些词比如controllers,models,views,daos这些在其他语言中经常出现的术语&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-jsx&#34; data-lang=&#34;jsx&#34;&gt;&lt;span class=&#34;nx&#34;&gt;layered&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;handlers&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;   &lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;beers&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;   &lt;span class=&#34;err&#34;&gt;└──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;reviews&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;models&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;   &lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;beer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;   &lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;review&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;   &lt;span class=&#34;err&#34;&gt;└──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;storage&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;└──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;storage&lt;/span&gt;
+    &lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;json&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+    &lt;span class=&#34;err&#34;&gt;└──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;memory&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;优点&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;明确代码应该写在哪&lt;/li&gt;
+&lt;li&gt;访问控制，功能相同的放到同一包下&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;缺点&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;包之间共享变量不明确位置&lt;/li&gt;
+&lt;li&gt;main初始化storage然后传递给每个model，还是每个model初始化依赖的storage&lt;/li&gt;
+&lt;li&gt;在这个例子，我们是用beers.go处理所有和beer相关的逻辑；还是用single_beer.go处理单个beer的逻辑，multi_beer.go处理多个beer的逻辑&lt;/li&gt;
+&lt;li&gt;开发者不友好，在这个例子，只定义了一个beer，也就意味着要把这个beer定义用在不同的场景，比如添加beer时，beer结构里面有个Id字段，但是当添加的时候你没有Id，当获取beer时才会有Id，所以作为一个使用者你不知道是否需要指定Id&lt;/li&gt;
+&lt;li&gt;循环引用，当编译这个项目的时候，会发现storage包依赖来model包中的定义，model包依赖storage包调用database&lt;/li&gt;
+&lt;li&gt;当项目更复杂之后，可能会导致可维护性降低&lt;/li&gt;
+&lt;li&gt;欠缺表达，这样的结构也没有很好的表达应用的功能&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;group-by-module&#34;&gt;Group By Module&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-jsx&#34; data-lang=&#34;jsx&#34;&gt;&lt;span class=&#34;nx&#34;&gt;modular&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;beers&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;   &lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;beer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;   &lt;span class=&#34;err&#34;&gt;└──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;handler&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;reviews&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;   &lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;handler&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;   &lt;span class=&#34;err&#34;&gt;└──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;review&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;└──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;storage&lt;/span&gt;
+    &lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+    &lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;json&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+    &lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;memory&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+    &lt;span class=&#34;err&#34;&gt;└──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;storage&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;优点&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;按逻辑分组&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;缺点&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;仍然很难确定代码写在哪，比如beer review是 放到 beer包还是rerview包或者是beer_review包&lt;/li&gt;
+&lt;li&gt;命名很糟糕，因为出现了beers/beer 这样的命名&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;group-by-context&#34;&gt;Group By Context&lt;/h3&gt;
+&lt;p&gt;按照DDD的方式组织&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Context: beer tasting&lt;/li&gt;
+&lt;li&gt;Language: beer,review,storage,...&lt;/li&gt;
+&lt;li&gt;Entities: Beer,Review,...&lt;/li&gt;
+&lt;li&gt;Value Objects: Brewery,Author,...&lt;/li&gt;
+&lt;li&gt;Aggregates: BeerReview&lt;/li&gt;
+&lt;li&gt;Service: Beer adder/adding, Review adder,Beer lister/listing,Review lister&lt;/li&gt;
+&lt;li&gt;Events: Beer added,Review added,Beer  already exists,Beer  not found,...&lt;/li&gt;
+&lt;li&gt;Repository: Beer repository,Review repository&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-jsx&#34; data-lang=&#34;jsx&#34;&gt;&lt;span class=&#34;nx&#34;&gt;domain&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;adding&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;   &lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;endpoint&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;   &lt;span class=&#34;err&#34;&gt;└──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;service&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;beers&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;   &lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;beer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;   &lt;span class=&#34;err&#34;&gt;└──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;sample_beers&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;listing&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;   &lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;endpoint&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;   &lt;span class=&#34;err&#34;&gt;└──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;service&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;reviewing&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;   &lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;endpoint&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;   &lt;span class=&#34;err&#34;&gt;└──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;service&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;reviews&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;   &lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;review&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;   &lt;span class=&#34;err&#34;&gt;└──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;sample_reviews&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;└──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;storage&lt;/span&gt;
+    &lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;json&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+    &lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;memory&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+    &lt;span class=&#34;err&#34;&gt;└──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;优点&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;避免了循环依赖 service→stoage→model&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;缺点&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;sample data和程序耦合，不能单独运行&lt;/li&gt;
+&lt;li&gt;添加非http的endpoint会很奇怪&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;hexagonal--architecture&#34;&gt;Hexagonal  Architecture&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;29
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;30
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;31
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;32
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;33
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;34
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;35
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-jsx&#34; data-lang=&#34;jsx&#34;&gt;&lt;span class=&#34;nx&#34;&gt;domain&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;hex&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;cmd&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;   &lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;beer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;server&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;   &lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;   &lt;span class=&#34;err&#34;&gt;└──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;   &lt;span class=&#34;err&#34;&gt;└──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;sample&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;data&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;       &lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;       &lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;sample&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;data&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;       &lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;sample_beers&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;       &lt;span class=&#34;err&#34;&gt;└──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;sample_reviews&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;└──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;pkg&lt;/span&gt;
+    &lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;adding&lt;/span&gt;
+    &lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;   &lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;beer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+    &lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;   &lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;service&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+    &lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;   &lt;span class=&#34;err&#34;&gt;└──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;service_test&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+    &lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;http&lt;/span&gt;
+    &lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;   &lt;span class=&#34;err&#34;&gt;└──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;rest&lt;/span&gt;
+    &lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;       &lt;span class=&#34;err&#34;&gt;└──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;handler&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+    &lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;listing&lt;/span&gt;
+    &lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;   &lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;beer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+    &lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;   &lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;review&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+    &lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;   &lt;span class=&#34;err&#34;&gt;└──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;service&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+    &lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;reviewing&lt;/span&gt;
+    &lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;   &lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;review&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+    &lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;   &lt;span class=&#34;err&#34;&gt;└──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;service&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+    &lt;span class=&#34;err&#34;&gt;└──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;storage&lt;/span&gt;
+        &lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;idgen&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+        &lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;idgen_test&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+        &lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;json&lt;/span&gt;
+        &lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;   &lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;beer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+        &lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;   &lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;repository&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+        &lt;span class=&#34;err&#34;&gt;│&lt;/span&gt;   &lt;span class=&#34;err&#34;&gt;└──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;review&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+        &lt;span class=&#34;err&#34;&gt;└──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;memory&lt;/span&gt;
+            &lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;beer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+            &lt;span class=&#34;err&#34;&gt;├──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;repository&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+            &lt;span class=&#34;err&#34;&gt;└──&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;review&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;go&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;优点&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;表达清楚，看目录结构和文件名就知道功能&lt;/li&gt;
+&lt;li&gt;二进制和逻辑分开&lt;/li&gt;
+&lt;/ul&gt;</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="http://www.wemeng.top/categories/golang/" term="Golang" label="Golang" />
+                            
+                        
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="http://www.wemeng.top/tags/golang%E5%9F%BA%E7%A1%80/" term="Golang基础" label="Golang基础" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
         <entry>
             <title type="text">使用harbor搭建Docker镜像仓库</title>
             <link rel="alternate" type="text/html" href="http://www.wemeng.top/posts/%E4%BD%BF%E7%94%A8harbor%E6%90%AD%E5%BB%BAdocker%E9%95%9C%E5%83%8F%E4%BB%93%E5%BA%93/" />
@@ -7325,7 +7674,7 @@ Uploaded: http://localhost:8081/repository/maven-snapshots/com/cjf/Chapter1/mave
             <title type="text">Golang Plan9汇编</title>
             <link rel="alternate" type="text/html" href="http://www.wemeng.top/posts/golang-plan9%E6%B1%87%E7%BC%96/" />
             <id>http://www.wemeng.top/posts/golang-plan9%E6%B1%87%E7%BC%96/</id>
-            <updated>2020-12-18T20:31:20&#43;08:00</updated>
+            <updated>2021-02-25T21:47:50&#43;08:00</updated>
             <published>2020-12-14T21:45:17&#43;08:00</published>
             <author>
                     <name>懒癌正患者</name>
@@ -7584,6 +7933,7 @@ Uploaded: http://localhost:8081/repository/maven-snapshots/com/cjf/Chapter1/mave
 &lt;li&gt;&lt;a href=&#34;https://blog.csdn.net/qq_31930499/article/details/100881461&#34;&gt;Go语言汇编入门&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/cch123/golang-notes/blob/master/assembly.md&#34;&gt;曹大 plan9 assembly 完全解析&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://segmentfault.com/a/1190000019753885&#34;&gt;Go 函数调用 ━ 栈和寄存器视角&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://colobu.com/goasm/&#34;&gt;Go Assembly 示例&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</content>
             
             
@@ -10120,7 +10470,7 @@ v, ok := hash[key] // =&amp;gt; v, ok := mapaccess2(maptype, hash, &amp;amp;key)
             <title type="text">Golang string探险</title>
             <link rel="alternate" type="text/html" href="http://www.wemeng.top/posts/golang-string%E6%8E%A2%E9%99%A9/" />
             <id>http://www.wemeng.top/posts/golang-string%E6%8E%A2%E9%99%A9/</id>
-            <updated>2020-12-18T20:31:26&#43;08:00</updated>
+            <updated>2021-02-25T21:46:54&#43;08:00</updated>
             <published>2020-11-29T13:52:24&#43;08:00</published>
             <author>
                     <name>懒癌正患者</name>
@@ -10558,7 +10908,11 @@ runtime.goexit()
 	/usr/local/Cellar/go/1.15.2/libexec/src/runtime/asm_amd64.s:1374 +0x1 fp=0xc000098fe8 sp=0xc000098fe0 pc=0x1062661
 exit status 2
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;可以看到转换是正常的，但是在对转换后的&lt;code&gt;slice&lt;/code&gt;做出修改后，出现了异常。由于&lt;code&gt;string&lt;/code&gt;底层对应的数组是只读的，通过&lt;code&gt;StringToSliceByte&lt;/code&gt;方法我们重用了这部分数据，所以就不能对转换后的slice进行修改&lt;/p&gt;
-&lt;p&gt;最后使用这种奇巧淫技的时候三思而后行啊&lt;/p&gt;</content>
+&lt;p&gt;最后使用这种奇巧淫技的时候三思而后行啊&lt;/p&gt;
+&lt;h3 id=&#34;参考资料&#34;&gt;参考资料&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/golang-design/Go-Questions/issues/7&#34;&gt;零拷贝实现string 和bytes的转换疑问&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content>
             
             
             
