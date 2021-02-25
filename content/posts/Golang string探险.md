@@ -303,3 +303,7 @@ exit status 2
 可以看到转换是正常的，但是在对转换后的`slice`做出修改后，出现了异常。由于`string`底层对应的数组是只读的，通过`StringToSliceByte`方法我们重用了这部分数据，所以就不能对转换后的slice进行修改
 
 最后使用这种奇巧淫技的时候三思而后行啊
+
+### 参考资料
+
+* [零拷贝实现string 和bytes的转换疑问](https://github.com/golang-design/Go-Questions/issues/7) 

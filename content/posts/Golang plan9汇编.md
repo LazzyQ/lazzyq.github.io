@@ -198,3 +198,4 @@ func main() {
 * [Go语言汇编入门](https://blog.csdn.net/qq_31930499/article/details/100881461)
 * [曹大 plan9 assembly 完全解析](https://github.com/cch123/golang-notes/blob/master/assembly.md)
 * [Go 函数调用 ━ 栈和寄存器视角](https://segmentfault.com/a/1190000019753885)
+* [Go Assembly 示例](https://colobu.com/goasm/)

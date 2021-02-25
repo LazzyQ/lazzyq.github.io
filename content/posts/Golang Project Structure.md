@@ -1,7 +1,7 @@
 ---
 title: "Golang Project Structure"
 date: 2021-01-30T15:31:28+08:00
-draft: true
+draft: false
 original: true
 categories: 
   - Golang
