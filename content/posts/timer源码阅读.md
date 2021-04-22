@@ -9,8 +9,6 @@ tags:
   - Golang基础
 ---
 
-# timer源码阅读
-
 根据[6.3 计时器](https://draveness.me/golang/docs/part3-runtime/ch06-concurrency/golang-timer/)中的描述，Golang Timer的设计经历了如下阶段：
 
 1. Go 1.9 版本之前，所有的计时器由全局唯一的四叉堆维护；
