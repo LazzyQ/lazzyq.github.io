@@ -4,6 +4,8 @@ date: {{ .Date }}
 draft: true
 original: true
 categories: 
+  - 
 tags: 
+  - 
 ---
 

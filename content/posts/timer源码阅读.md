@@ -3,8 +3,10 @@ title: "Timer源码阅读"
 date: 2021-04-22T22:50:29+08:00
 draft: false
 original: true
-categories: Golang
-tags: Golang基础
+categories: 
+  - Golang
+tags: 
+  - Golang基础
 ---
 
 # timer源码阅读
@@ -20,6 +22,8 @@ tags: Golang基础
 - Go 1.14 版本后每个P管理计时器四叉堆，由网络轮询器和调度器进行触发
 
 我使用的是Go 1.16的版本进行分析
+
+<!--more-->
 
 # timer包的使用
 
