@@ -27,6 +27,7 @@ tags:
 
 如果pod重启，ip会发生变化，所以需要另外一个组件service
 
+<!--more-->
 ## Service&Ingress
 
 ![](/k8s教程学习/Untitled01.png)
@@ -36,6 +37,7 @@ tags:
     - Pod和Service的生命周期不是关联的；Pod挂掉后，Service地址仍然存在；
 - Ingress：
     - 对外提供访问能力；
+
 
 ## ConfigMap&Secret
 
