@@ -23,10 +23,73 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
         
-        <lastBuildDate>Sun, 13 Jun 2021 20:21:37 &#43;0800</lastBuildDate>
+        <lastBuildDate>Mon, 21 Jun 2021 01:28:18 &#43;0800</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="http://www.wemeng.top/rss.xml" />
         
+        
+            <item>
+                <title>非暴力沟通模式</title>
+                <link>http://www.wemeng.top/posts/%E9%9D%9E%E6%9A%B4%E5%8A%9B%E6%B2%9F%E9%80%9A%E6%A8%A1%E5%BC%8F/</link>
+                <guid isPermaLink="true">http://www.wemeng.top/posts/%E9%9D%9E%E6%9A%B4%E5%8A%9B%E6%B2%9F%E9%80%9A%E6%A8%A1%E5%BC%8F/</guid>
+                <pubDate>Mon, 21 Jun 2021 01:19:40 &#43;0800</pubDate>
+                
+                
+                
+                    <description>&lt;h1 id=&#34;诚实地表达自己而不批评指责&#34;&gt;诚实地表达自己，而不批评、指责&lt;/h1&gt;
+&lt;p&gt;（1）观察&lt;/p&gt;
+&lt;p&gt;我所观察（看、听、回忆、想）到的有助于（或无助于）我的福祉的具体行为：&lt;/p&gt;
+&lt;p&gt;当我（看、听、想到我看到的／听到的）……&lt;/p&gt;
+&lt;p&gt;（2）感受&lt;/p&gt;
+&lt;p&gt;对于这些行为，我有什么样的感受（情感而非思想）：&lt;/p&gt;
+&lt;p&gt;我感到……&lt;/p&gt;
+&lt;p&gt;（3）需要&lt;/p&gt;
+&lt;p&gt;什么样的需要或价值（而非偏好或某种具体的行为）导致我那样的感受：&lt;/p&gt;
+&lt;p&gt;因为我需要／看重……&lt;/p&gt;
+&lt;p&gt;（4）请求&lt;/p&gt;
+&lt;p&gt;清楚地请求（而非命令）那些能丰富我生命的具体行为：&lt;/p&gt;
+&lt;p&gt;你是否原因……？&lt;/p&gt;
+&lt;h1 id=&#34;关切地倾听他人而不解读为批评或指责&#34;&gt;关切地倾听他人，而不解读为批评或指责&lt;/h1&gt;
+&lt;p&gt;你所观察（看、听、回忆、想）到的有助于（或无助于）你的福祉的具体行为：&lt;/p&gt;
+&lt;p&gt;（1）观察&lt;/p&gt;
+&lt;p&gt;当你看、听、想到我看到的／听到的）……&lt;/p&gt;
+&lt;p&gt;（2）感受&lt;/p&gt;
+&lt;p&gt;对于这些行为，你有什么样的感受（情感而非思想）：&lt;/p&gt;
+&lt;p&gt;你感到……吗？&lt;/p&gt;
+&lt;p&gt;（3）需要&lt;/p&gt;
+&lt;p&gt;什么样的需要或价值（而非偏好或某种具体的行为）导致你 那样的感受：&lt;/p&gt;
+&lt;p&gt;因为你需要／看重……&lt;/p&gt;
+&lt;p&gt;（4）请求&lt;/p&gt;
+&lt;p&gt;关切地倾听那些能丰富你生命的具体行为，而不解读为命令：&lt;/p&gt;
+&lt;p&gt;所以，你想……？&lt;/p&gt;</description>
+                
+                
+                
+                
+                
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="http://www.wemeng.top/categories/%E7%A4%BE%E4%BC%9A%E7%A7%91%E5%AD%A6/">社会科学</category>
+                                
+                            
+                        
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="http://www.wemeng.top/tags/%E7%A4%BE%E4%BC%9A%E7%A7%91%E5%AD%A6/">社会科学</category>
+                                
+                            
+                        
+                    
+                
+            </item>
         
             <item>
                 <title>MergeTree原理解析</title>
